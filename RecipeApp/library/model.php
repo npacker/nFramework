@@ -1,8 +1,8 @@
 <?php
 
-interface Model {
+abstract class Model {
 
-	protected $connection;
+	protected $connection = MySqlConnection::getConnection;
 
 	abstract public function view();
 
