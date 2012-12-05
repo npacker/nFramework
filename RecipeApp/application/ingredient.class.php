@@ -18,4 +18,12 @@ class Ingredient {
 		return $this->quantity;
 	}
 
+	public function setName($name) {
+		$this->name = $name;
+	}
+
+	public function setQuantity($quantity) {
+		$this->quantity = $quantity;
+	}
+
 }
