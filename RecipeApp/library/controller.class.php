@@ -12,6 +12,4 @@ abstract class Controller {
 		$this->id = $id;
 	}
 
-	// It doesn't do anything.
-
 }
