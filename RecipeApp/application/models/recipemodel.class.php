@@ -17,6 +17,12 @@ class RecipeModel extends Model {
 
 	public function viewAll() {}
 
+	public function create($id) {}
+
+	public function update($id) {}
+
+	public function delete($id) {}
+
 	protected function getIngredients($id) {
 		try {
 			$ingredientModel = new ingredientModel();
