@@ -1,6 +1,6 @@
 <?php
 
-class IngredientModel extends BaseModel {
+class IngredientModel extends Model {
 
 	public function view($id) {
 		$query = 'SELECT name, quantity FROM ingredients WHERE id = :id';
