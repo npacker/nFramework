@@ -1,7 +1,7 @@
 <?php
 
-require_once (DS . 'config' . DS . 'config.php');
-require_once (DS . 'library' . DS . 'autoload.php');
+require_once (ROOT . DS . 'config' . DS . 'config.php');
+require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $uri = $_SERVER['REQUEST_URI'];
 
