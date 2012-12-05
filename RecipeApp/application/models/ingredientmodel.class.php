@@ -16,12 +16,12 @@ class IngredientModel extends Model {
 		$query = 'SELECT name, quantity FROM ingredients WHERE recipe_id = :recipe_id';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':recipe_id', $recipeId);
-		$statement->execute();
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
+		$statement->execute();
 		$ingredients = array();
 
-		while ($result = $statement->fetch()) {
-			array_push($ingredients, $result);
+		foreach ($statement as $row) {
+			array_push($ingredients, $row);
 		}
 
 		return $ingredients;
