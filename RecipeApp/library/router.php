@@ -16,7 +16,7 @@ function routeRequest($name, $action, $id) {
 		$model = new $modelName();
 		$controller = new $controllerName($model, $action, $id);
 	} catch (Exception $e) {
-		returnFrontPage();
+		echo $e->getMessage();
 	}
 
 }
