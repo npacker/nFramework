@@ -22,7 +22,7 @@ function routeRequest($name, $action, $id) {
 }
 
 function returnFrontPage() {
-	$name = 'all';
+	$name = 'recipe';
 	$action = 'view';
 	$id = null;
 	routeRequest($name, $action, $id);
