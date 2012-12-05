@@ -9,7 +9,6 @@ class MySqlConnection {
 			$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
-			exit();
 		}
 
 		return $connection;
