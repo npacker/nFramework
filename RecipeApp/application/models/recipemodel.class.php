@@ -1,6 +1,6 @@
 <?php
 
-class RecipeModel extends Model {
+class RecipeModel extends BaseModel {
 
 	public function view($id) {
 		try {

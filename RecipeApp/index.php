@@ -1,6 +1,6 @@
 <?php
 
 define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', $_SERVER['DOCUMENT_ROOT']);
+define('ROOT', getcwd());
 
 require_once (ROOT . DS . 'library' . DS . 'bootstrap.php');
