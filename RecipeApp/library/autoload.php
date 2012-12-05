@@ -14,4 +14,4 @@ function __include_file($filename) {
 	}
 }
 
-spl_register_autoloader('__include_file');
+spl_autoload_register('__include_file');
