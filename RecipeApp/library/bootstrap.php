@@ -7,6 +7,10 @@ $uri = $_SERVER['REQUEST_URI'];
 
 list($type, $action, $id) = explode('/', $uri);
 
+echo $type;
+echo $action;
+echo $id;
+
 if (!empty($type) && !empty($action) && !empty($id)) {
 	$controllerName = $type . 'Controller';
 	$modelName = $type . 'Model';
