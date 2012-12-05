@@ -12,4 +12,10 @@ class IngredientModel extends Model {
 		return $result;
 	}
 
+	public function create($id) {}
+
+	public function update($id) {}
+
+	public function delete($id) {}
+
 }

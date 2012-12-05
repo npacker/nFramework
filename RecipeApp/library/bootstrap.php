@@ -4,12 +4,7 @@ require_once (ROOT . DS . 'config' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $uri = $_SERVER['REQUEST_URI'];
-
-list($type, $action, $id) = explode('/', $uri);
-
-echo $type;
-echo $action;
-echo $id;
+list($type, $action, $id) = explode('/', ltrim($uri, '/'));
 
 if (!empty($type) && !empty($action) && !empty($id)) {
 	$controllerName = $type . 'Controller';
