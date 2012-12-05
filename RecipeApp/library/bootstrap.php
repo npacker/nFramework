@@ -7,17 +7,19 @@ $uri = $_SERVER['REQUEST_URI'];
 
 list($type, $action, $id) = explode('/', $uri);
 
-$controllerName = $type . 'Controller';
-$modelName = $type . 'Model';
+if (isset($type) && isset($action) && isset($id)) {
+	$controllerName = $type . 'Controller';
+	$modelName = $type . 'Model';
 
-try {
-	$model = new $modelName();
-} catch (Exception $e) {
-	echo $e->getMessage();
-}
+	try {
+		$model = new $modelName();
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
 
-try {
-	$controller = new $controllerName($model, $action, $id);
-} catch (Exception $e) {
-	echo $e->getMessage();
+	try {
+		$controller = new $controllerName($model, $action, $id);
+	} catch (Exception $e) {
+		echo $e->getMessage();
+	}
 }
