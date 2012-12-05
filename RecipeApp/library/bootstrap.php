@@ -4,8 +4,9 @@ require_once (ROOT . DS . 'config' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $uri = $_SERVER['REQUEST_URI'];
-$params = explode('/', $uri);
-list($type, $action, $id) = array_slice($params, 0, 3);
+
+list($type, $action, $id) = explode('/', $uri);
+
 $controllerName = $type . 'Controller';
 $modelName = $type . 'Model';
 
