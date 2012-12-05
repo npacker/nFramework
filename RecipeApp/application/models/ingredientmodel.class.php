@@ -7,15 +7,29 @@ class IngredientModel extends Model {
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':id', $id);
 		$statement->execute();
-  	$result = $statement->fetch(PDO::FETCH_CLASS, 'Ingredient');
+  	$ingredient = $statement->fetch(PDO::FETCH_CLASS, 'Ingredient');
 
-		return $result;
+		return $ingredient;
 	}
 
-	public function viewAll($recipeId) {
+	public function viewSet($recipeId) {
 		$query = 'SELECT name, quantity FROM ingredients WHERE recipe_id = :recipe_id';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':recipe_id', $recipeId);
+		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
+		$statement->execute();
+		$ingredients = array();
+
+		foreach ($statement as $row) {
+			array_push($ingredients, $row);
+		}
+
+		return $ingredients;
+	}
+
+	public function viewAll() {
+		$query = 'SELECT name, quantity FROM ingredients';
+		$statement = $this->connection->prepare($query);
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 		$statement->execute();
 		$ingredients = array();

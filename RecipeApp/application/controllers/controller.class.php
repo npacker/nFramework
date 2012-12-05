@@ -7,7 +7,7 @@ abstract class Controller {
 	protected $id;
 	protected $template;
 
-	public function __construct(Model $model, $action, $id) {
+	public function __construct(Model $model, $action, $id=null) {
 		$this->model = $model;
 		$this->action = $action;
 		$this->id = $id;

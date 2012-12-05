@@ -15,6 +15,8 @@ class RecipeModel extends Model {
 		return $recipe;
 	}
 
+	public function viewAll() {}
+
 	protected function getIngredients($id) {
 		try {
 			$ingredientModel = new ingredientModel();
@@ -22,7 +24,7 @@ class RecipeModel extends Model {
 			echo $e->getMessage();
 		}
 
-		return $ingredientModel->viewAll($id);
+		return $ingredientModel->viewSet($id);
 	}
 
 }
