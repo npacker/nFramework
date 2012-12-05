@@ -3,13 +3,11 @@
 class Recipe {
 
 	protected $name;
-	protected $ingredients;
-	protected $steps;
+	protected $ingredients = array();
 
-	public function __construct($name, Array $ingredients, Array $steps) {
+	public function __construct($name, Array $ingredients) {
 		$this->name = $name;
 		$this->ingredients = $ingredients;
-		$this->steps = $steps;
 	}
 
 	public function name() {
@@ -18,10 +16,6 @@ class Recipe {
 
 	public function ingredients() {
 		return $this->ingredients;
-	}
-
-	public function steps() {
-		return $this->steps;
 	}
 
 }

@@ -14,11 +14,6 @@ function routeRequest($name, $action, $id) {
 
 	try {
 		$model = new $modelName();
-	} catch (Exception $e) {
-		returnFrontPage();
-	}
-
-	try {
 		$controller = new $controllerName($model, $action, $id);
 	} catch (Exception $e) {
 		returnFrontPage();
