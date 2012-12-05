@@ -6,14 +6,12 @@ abstract class Controller {
 	protected $action;
 	protected $id;
 
-	public function __construct($model, $action, $id) {
+	public function __construct(Model $model, $action, $id) {
 		$this->model = $model;
 		$this->action = $action;
 		$this->id = $id;
 	}
 
-	public function __destruct() {
-
-	}
+	// It doesn't do anything.
 
 }

@@ -4,12 +4,12 @@ abstract class Model {
 
 	protected $connection = MySqlConnection::getConnection;
 
-	abstract public function view();
+	abstract public function view($id);
 
-	abstract public function create();
+	abstract public function create($id);
 
-	abstract public function update();
+	abstract public function update($id);
 
-	abstract public function delete();
+	abstract public function delete($id);
 
 }

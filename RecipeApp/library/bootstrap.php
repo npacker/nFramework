@@ -11,15 +11,13 @@ $controllerName = $type . 'Controller';
 $modelName = $type . 'Model';
 
 try {
-	$model - new $modelName();
+	$model = new $modelName();
 } catch (Exception $e) {
 	echo $e->getMessage();
-	exit();
 }
 
 try {
 	$controller = new $controllerName($model, $action, $id);
 } catch (Exception $e) {
 	echo $e->getMessage();
-	exit();
 }
