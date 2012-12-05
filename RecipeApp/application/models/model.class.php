@@ -2,7 +2,11 @@
 
 abstract class Model {
 
-	protected $connection = MySqlConnection::getConnection();
+	protected $connection;
+
+	public function __construct() {
+		$this->connection = MySqlConnection::getConnection();
+	}
 
 	abstract public function view($id);
 
