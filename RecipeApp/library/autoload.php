@@ -5,10 +5,8 @@ function __include_file($filename) {
 
 	if (file_exists(ROOT . DS . 'library' . DS . $filename . '.class.php')) {
 		require_once ROOT . DS . 'library' . DS . $filename . '.class.php';
-	} else if (file_exists(ROOT . DS . 'application' . DS . $filename . '.class.php')) {
-		require_once ROOT . DS . 'application' . DS . $filename . '.class.php';
-	} else if (file_exists(ROOT . DS . 'application' . DS . 'models' . DS . $filename . '.class.php')) {
-		require_once ROOT . DS . 'application' . DS . 'models' . DS . $filename . '.class.php';
+	} else if (file_exists(ROOT . DS . 'include' . DS . $filename . '.class.php')) {
+		require_once ROOT . DS . 'include' . DS . $filename . '.class.php';
 	} else {
 		throw new Exception("Could not load $filename.");
 	}
