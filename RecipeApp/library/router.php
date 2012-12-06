@@ -20,7 +20,6 @@ function routeRequest($name, $action, $id) {
 	} catch (Exception $e) {
 		echo $e->getMessage();
 	}
-
 }
 
 function returnFrontPage() {
