@@ -12,7 +12,7 @@ class Controller {
 		$this->action = $action;
 
 		if (isset($id)) {
-			if (is_inst($id)) $this->id = $id;
+			if (is_int($id)) $this->id = $id;
 			else throw new InvalidArgumentException();
 		}
 
