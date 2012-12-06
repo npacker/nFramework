@@ -7,7 +7,7 @@ class Recipe {
 
 	public function __construct($name=null, Array $ingredients=null) {
 
-		echo 'Called ' . __METHOD__ . "\n";
+		echo 'Called ' . __METHOD__ . "<br />";
 
 		if (isset($name)) $this->name = $name;
 		if (isset($ingredients)) $this->ingredients = $ingredients;
@@ -23,7 +23,7 @@ class Recipe {
 
 	public function setIngredients(Array $ingredients) {
 
-		echo 'Called ' . __METHOD__ . "\n";
+		echo 'Called ' . __METHOD__ . "<br />";
 
 		$this->ingredients = $ingredients;
 	}

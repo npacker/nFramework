@@ -4,14 +4,14 @@ class RecipeModel extends Model {
 
 	public function __construct() {
 
-		echo 'Called ' . __METHOD__ . "\n";
+		echo 'Called ' . __METHOD__ . "<br />";
 
 		parent::__construct();
 	}
 
 	public function view($id) {
 
-		echo 'Called ' . __METHOD__ . "\n";
+		echo 'Called ' . __METHOD__ . "<br />";
 
 		$query = 'SELECT name FROM recipes WHERE id = :id';
 		$statement = $this->connection->prepare($query);
@@ -37,7 +37,7 @@ class RecipeModel extends Model {
 
 	protected function getIngredients($id) {
 
-		echo 'Called ' . __METHOD__ . "\n";
+		echo 'Called ' . __METHOD__ . "<br />";
 
 		try {
 			$ingredientModel = new ingredientModel();
