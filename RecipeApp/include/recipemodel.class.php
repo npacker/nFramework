@@ -12,8 +12,6 @@ class RecipeModel extends Model {
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
-		echo $connection->errorInfo();
-
 		return $recipe;
 	}
 
