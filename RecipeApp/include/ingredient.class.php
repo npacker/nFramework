@@ -5,7 +5,7 @@ class Ingredient extends Node {
 	protected $name;
 	protected $quantity;
 
-	public function __construct($name, $quantity) {
+	public function __construct($name=null, $quantity=null) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
