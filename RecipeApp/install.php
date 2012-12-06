@@ -3,7 +3,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 
-require_once(ROOT . DS . 'library' . DS . 'autoload.php');
+require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $query = 'DROP DATABASE recipesdb;
 					CREATE DATABASE recipesdb;
@@ -22,4 +22,9 @@ $query = 'DROP DATABASE recipesdb;
 					);';
 $connection = MySqlConnection::getConnection();
 $statement = $connection->prepare($query);
-$statement->execute();
+try {
+	$statement->execute();
+} catch (Exception $e) {
+	echo $e->getMessage();
+	exit();
+}
