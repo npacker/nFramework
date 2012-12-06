@@ -9,7 +9,7 @@ class Controller {
 
 	public function __construct(Model $model, $action, $id=null) {
 
-		echo 'Controller constructor.';
+		echo 'Called' . __METHOD__;
 
 		$this->model = $model;
 		$this->action = $action;
@@ -26,10 +26,16 @@ class Controller {
 	}
 
 	public function __destruct() {
+
+		echo 'Called' . __METHOD__;
+
 		$this->template->render();
 	}
 
 	protected function getProperties(Object $object) {
+
+		echo 'Called' . __METHOD__;
+
 		$vars = get_object_vars($object);
 
 		foreach ($vars as $key => $value) {
@@ -38,6 +44,9 @@ class Controller {
 	}
 
 	protected function set($key, $value) {
+
+		echo 'Called' . __METHOD__;
+
 		$this->template->set($key, $value);
 	}
 

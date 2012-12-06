@@ -3,12 +3,15 @@
 class RecipeModel extends Model {
 
 	public function __construct() {
+
+		echo 'Called' . __METHOD__;
+
 		parent::__construct();
 	}
 
 	public function view($id) {
 
-		echo 'Called view from recipe model.';
+		echo 'Called' . __METHOD__;
 
 		$recipe = new Recipe();
 		$query = 'SELECT name FROM recipes WHERE id = :id';
@@ -31,6 +34,9 @@ class RecipeModel extends Model {
 	public function delete($id) {}
 
 	protected function getIngredients($id) {
+
+		echo 'Called' . __METHOD__;
+
 		try {
 			$ingredientModel = new ingredientModel();
 		} catch (Exception $e) {
