@@ -1,6 +1,6 @@
 <?php
 
-class Ingredient {
+class Ingredient extends Node {
 
 	protected $name;
 	protected $quantity;

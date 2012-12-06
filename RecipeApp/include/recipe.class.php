@@ -1,6 +1,6 @@
 <?php
 
-class Recipe {
+class Recipe extends Node {
 
 	protected $name;
 	protected $ingredients = array();

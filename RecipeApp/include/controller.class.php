@@ -27,7 +27,7 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function getProperties(Model $model) {
+	protected function getProperties(Node $model) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
