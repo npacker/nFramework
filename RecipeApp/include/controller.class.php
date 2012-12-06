@@ -10,7 +10,11 @@ class Controller {
 	public function __construct(Model $model, $action, $id=null) {
 		$this->model = $model;
 		$this->action = $action;
-		$this->id = $id;
+		if (isset($id)) {
+			if (is_inst($id)) $this->id = $id;
+			else throw new InvalidArgumentException();
+		}
+
 		$this->template = new Template();
 
 		if (isset($id)) {
