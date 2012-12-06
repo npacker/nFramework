@@ -22,7 +22,7 @@ class RecipeModel extends Model {
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
-		echo 'Recipe Name: ' . $recipe->name();
+		echo 'Recipe Name: ' . $recipe->name() . "<br />";
 
 		return $recipe;
 	}
