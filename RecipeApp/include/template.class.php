@@ -22,7 +22,7 @@ class Template {
 
 		echo 'Called ' . __METHOD__;
 
-		print_r($vars);
+		print_r($this->vars);
 		echo 'Called render.';
 	}
 
