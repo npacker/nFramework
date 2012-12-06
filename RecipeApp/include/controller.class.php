@@ -13,12 +13,7 @@ class Controller {
 
 		$this->model = $model;
 		$this->action = $action;
-
-		if (isset($id)) {
-			if (is_int($id)) $this->id = $id;
-			else throw new InvalidArgumentException();
-		}
-
+		$this->id = $id;
 		$this->template = new Template();
 
 		if (isset($id)) $this->getProperties($this->model->$action($id));

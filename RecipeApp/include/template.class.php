@@ -2,7 +2,14 @@
 
 class Template {
 
-	protected $vars = array();
+	protected $vars;
+
+	public function __construct() {
+		$this->vars = array();
+
+		echo 'Called' . __METHOD__;
+
+	}
 
 	public function set($key, $value) {
 
