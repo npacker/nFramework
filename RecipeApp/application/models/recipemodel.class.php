@@ -15,8 +15,6 @@ class RecipeModel extends Model {
 		return $recipe;
 	}
 
-	public function viewAll() {}
-
 	public function create($id) {}
 
 	public function update($id) {}

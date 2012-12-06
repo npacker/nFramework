@@ -1,6 +1,6 @@
 <?php
 
-abstract class Controller {
+class Controller {
 
 	protected $model;
 	protected $action;
@@ -12,6 +12,7 @@ abstract class Controller {
 		$this->action = $action;
 		$this->id = $id;
 		$this->template = new Template();
+		if (isset($id)) $this->getProperties($this->model->$action($id));
 	}
 
 	protected function getProperties(Object $object) {

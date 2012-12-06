@@ -9,12 +9,11 @@ function pathInitialize() {
 }
 
 function routeRequest($name, $action, $id) {
-	$controllerName = $name . 'Controller';
 	$modelName = $name . 'Model';
 
 	try {
 		$model = new $modelName();
-		$controller = new $controllerName($model, $action, $id);
+		$controller = new Controller($model, $action, $id);
 	} catch (Exception $e) {
 		echo $e->getMessage();
 	}
