@@ -1,6 +1,6 @@
 <?php
 
-function pathInitialize() {
+function pathInit() {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
