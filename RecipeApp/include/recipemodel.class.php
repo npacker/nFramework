@@ -13,13 +13,12 @@ class RecipeModel extends Model {
 
 		echo 'Called ' . __METHOD__ . "\n";
 
-		$recipe = new Recipe();
 		$query = 'SELECT name FROM recipes WHERE id = :id';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':id', $id);
-		$statement->setFetchMode(PDO::FETCH_INTO, $recipe);
+		$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
 		$statement->execute();
-		$statement->fetch();
+		$recipe = $statement->fetch();
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
