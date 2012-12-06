@@ -2,7 +2,7 @@
 
 function pathInitialize() {
 
-	echo 'Called ' . __FUNCTION__;
+	echo 'Called ' . __FUNCTION__ . '<br />';
 
 	$uri = $_SERVER['REQUEST_URI'];
 	$params = explode('/', ltrim($uri, '/'));
@@ -16,7 +16,7 @@ function pathInitialize() {
 
 function routeRequest($name, $action, $id) {
 
-	echo 'Called ' . __FUNCTION__;
+	echo 'Called ' . __FUNCTION__ . '<br />';
 
 	$modelName = $name . 'Model';
 
@@ -30,7 +30,7 @@ function routeRequest($name, $action, $id) {
 
 function returnFrontPage() {
 
-	echo 'Called ' . __FUNCTION__;
+	echo 'Called ' . __FUNCTION__ . '<br />';
 
 	$name = 'recipe';
 	$action = 'view';
