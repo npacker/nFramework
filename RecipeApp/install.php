@@ -15,5 +15,6 @@ $query = 'DROP DATABASE recipesdb;
 						name VARCHAR(255) NOT NULL,
 						quantity INT NOT NULL
 					);';
-$statement = $this->connection->prepare($query);
+$connection = MySqlConnection::getConnection();
+$statement = $connection->prepare($query);
 $statement->execute();
