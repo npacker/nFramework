@@ -8,7 +8,7 @@ require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $query = 'CREATE TABLE recipes
 					(
-						id INT PRIMARY_KEY AUTO_INCREMENT NOT NULL,
+						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
 					);';
 
