@@ -16,8 +16,8 @@ class Controller {
 		$this->id = $id;
 		$this->template = new Template();
 
-		if (isset($id)) $this->getProperties((object) $this->model->$action($id));
-		else $this->getProperties((object) $this->model->$action());
+		if (isset($id)) $this->getProperties($this->model->$action($id));
+		else $this->getProperties($this->model->$action());
 	}
 
 	public function __destruct() {
@@ -27,7 +27,7 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function getProperties(Object $object) {
+	protected function getProperties($object) {
 
 		echo 'Called ' . __METHOD__;
 
