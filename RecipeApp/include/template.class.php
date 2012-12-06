@@ -10,6 +10,7 @@ class Template {
 
 	public function render() {
 		print_r($vars);
+		echo 'Called render.';
 	}
 
 }
