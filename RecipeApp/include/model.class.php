@@ -10,6 +10,8 @@ abstract class Model {
 
 	abstract public function view($id);
 
+	abstract public function edit($id);
+
 	abstract public function create($id);
 
 	abstract public function update($id);
