@@ -36,4 +36,6 @@ try {
 	exit();
 }
 
-echo 'complete.';
+$query = 'SHOW TABLES;';
+$statement = $connection->prepare($query);
+$statement->execute();
