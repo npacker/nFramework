@@ -13,6 +13,7 @@ class Controller {
 		$this->id = $id;
 		$this->template = new Template();
 		if (isset($id)) $this->getProperties($this->model->$action($id));
+		else $this->getProperties($this->model->$action());
 	}
 
 	protected function getProperties(Object $object) {
