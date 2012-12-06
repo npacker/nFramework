@@ -9,7 +9,7 @@ class Controller {
 
 	public function __construct(Model $model, $action, $id=null) {
 
-		echo 'Controller constructor.\n';
+		echo 'Controller constructor.';
 
 		$this->model = $model;
 		$this->action = $action;

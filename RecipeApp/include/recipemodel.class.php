@@ -2,9 +2,13 @@
 
 class RecipeModel extends Model {
 
+	public function __construct() {
+		parent::__construct();
+	}
+
 	public function view($id) {
 
-		echo 'Called view from recipe model.\n';
+		echo 'Called view from recipe model.';
 
 		$recipe = new Recipe();
 		$query = 'SELECT name FROM recipes WHERE id = :id';

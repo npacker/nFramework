@@ -5,6 +5,9 @@ abstract class Model {
 	protected $connection;
 
 	public function __construct() {
+
+		echo 'Called model constructor.';
+
 		$this->connection = MySqlConnection::getConnection();
 	}
 
