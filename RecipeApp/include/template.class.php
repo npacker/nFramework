@@ -8,4 +8,8 @@ class Template {
 		$this->vars['$key'] = $value;
 	}
 
+	public function render() {
+		echo $vars;
+	}
+
 }

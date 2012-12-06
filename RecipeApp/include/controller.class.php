@@ -33,6 +33,10 @@ class Controller {
 		}
 	}
 
+	public function __destruct() {
+		$this->template->render();
+	}
+
 	protected function getProperties(Object $object) {
 		$vars = get_object_vars($object);
 
