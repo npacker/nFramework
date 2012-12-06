@@ -11,6 +11,18 @@ $query = 'DROP TABLE IF EXISTS recipes;
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
+					);
+					DROP TABLE IF EXISTS ingredients;
+					CREATE TABLE ingredients
+					(
+						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+						name VARCHAR(255) NOT NULL,
+						quantity INT NOT NULL,
+						recipe_id INT NOT NULL,
+						FOREIGN KEY (recipe_id)
+							REFERENCES recipes(id)
+							ON UPDATE CASCADE
+							ON DELETE CASCADE
 					);';
 
 $connection = MySqlConnection::getConnection();
