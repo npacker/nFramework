@@ -28,12 +28,14 @@ try {
 	$statement = $connection->prepare($query);
 } catch (Exception $e) {
 	echo $e->getMessage();
+	exit();
 }
 
 try {
 	$statement->execute();
 } catch (Exception $e) {
 	echo $e->getMessage();
+	exit();
 }
 
 echo 'complete.';
