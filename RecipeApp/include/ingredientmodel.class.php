@@ -16,8 +16,9 @@ class IngredientModel extends Model {
 		$query = 'SELECT name, quantity FROM ingredients WHERE id = :id';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':id', $id);
+		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 		$statement->execute();
-  	$ingredient = $statement->fetch(PDO::FETCH_CLASS, 'Ingredient');
+  	$ingredient = $statement->fetch();
 
 		return $ingredient;
 	}
@@ -33,8 +34,8 @@ class IngredientModel extends Model {
 		$statement->execute();
 		$ingredients = array();
 
-		foreach ($statement as $row) {
-			array_push($ingredients, $row);
+		foreach ($statement as $ingredient) {
+			array_push($ingredients, $ingredient);
 		}
 
 		return $ingredients;
@@ -50,8 +51,8 @@ class IngredientModel extends Model {
 		$statement->execute();
 		$ingredients = array();
 
-		foreach ($statement as $row) {
-			array_push($ingredients, $row);
+		foreach ($statement as $ingredient) {
+			array_push($ingredients, $ingredient);
 		}
 
 		return $ingredients;
