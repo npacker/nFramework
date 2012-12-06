@@ -3,6 +3,9 @@
 class RecipeModel extends Model {
 
 	public function view($id) {
+
+		echo 'Called view from recipe model.\n';
+
 		$recipe = new Recipe();
 		$query = 'SELECT name FROM recipes WHERE id = :id';
 		$statement = $this->connection->prepare($query);

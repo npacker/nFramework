@@ -8,6 +8,9 @@ class Controller {
 	protected $template;
 
 	public function __construct(Model $model, $action, $id=null) {
+
+		echo 'Controller constructor.\n';
+
 		$this->model = $model;
 		$this->action = $action;
 
@@ -18,19 +21,8 @@ class Controller {
 
 		$this->template = new Template();
 
-		if (isset($id)) {
-			try {
-				$this->getProperties($this->model->$action($id));
-			} catch (Exception $e) {
-				echo $e->getMessage;
-			}
-		} else {
-			try {
-				$this->getProperties($this->model->$action());
-			} catch (Exception $e) {
-				echo $e->getMessage;
-			}
-		}
+		if (isset($id)) $this->getProperties($this->model->$action($id));
+		else $this->getProperties($this->model->$action());
 	}
 
 	public function __destruct() {
