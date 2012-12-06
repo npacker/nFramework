@@ -16,8 +16,8 @@ class Controller {
 		$this->id = $id;
 		$this->template = new Template();
 
-		if (isset($id)) $this->getTemplateVars($this->model->$action($id));
-		else $this->getTemplateVars($this->model->$action());
+		if (isset($id)) $this->setTemplateVars($this->model->$action($id));
+		else $this->setTemplateVars($this->model->$action());
 	}
 
 	public function __destruct() {
@@ -27,7 +27,7 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function getTemplateVars(Node $node) {
+	protected function setTemplateVars(Node $node) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
