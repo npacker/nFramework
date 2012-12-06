@@ -21,4 +21,8 @@ abstract class Model {
 
 	abstract public function delete($id);
 
+	public function getProperites() {
+		return get_object_vars($this);
+	}
+
 }

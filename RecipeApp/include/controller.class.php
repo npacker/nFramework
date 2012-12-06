@@ -27,11 +27,11 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function getProperties($object) {
+	protected function getProperties(Model $model) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$vars = get_object_vars($object);
+		$vars = $model->getProperites();
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);
