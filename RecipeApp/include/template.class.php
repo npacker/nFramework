@@ -5,17 +5,17 @@ class Template {
 	protected $vars;
 
 	public function __construct() {
-		$this->vars = array();
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
+		$this->vars = array();
 	}
 
 	public function set($key, $value) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$this->vars['$key'] = $value;
+		$this->vars[$key] = $value;
 	}
 
 	public function render() {
@@ -23,6 +23,7 @@ class Template {
 		echo 'Called ' . __METHOD__ . "<br />";
 
 		print_r($this->vars);
+		echo '';
 	}
 
 }

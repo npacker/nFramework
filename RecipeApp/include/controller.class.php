@@ -27,15 +27,15 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function getProperties(Node $model) {
+	protected function getProperties(Node $node) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$vars = $model->getProperites();
+		$vars = $node->getProperites();
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);
-			echo $key;
+			echo $key . ' ' . $value . '<br />';
 		}
 	}
 
