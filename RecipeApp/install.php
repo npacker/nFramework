@@ -21,11 +21,17 @@ $query = 'DROP DATABASE recipesdb;
 						name VARCHAR(255) NOT NULL,
 						quantity INT NOT NULL
 					);';
+
 $connection = MySqlConnection::getConnection();
-$statement = $connection->prepare($query);
+
+try {
+	$statement = $connection->prepare($query);
+} catch (Exception $e) {
+	echo $e->getMessage();
+}
+
 try {
 	$statement->execute();
 } catch (Exception $e) {
 	echo $e->getMessage();
-	exit();
 }
