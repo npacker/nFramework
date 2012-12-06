@@ -12,8 +12,20 @@ class Controller {
 		$this->action = $action;
 		$this->id = $id;
 		$this->template = new Template();
-		if (isset($id)) $this->getProperties($this->model->$action($id));
-		else $this->getProperties($this->model->$action());
+
+		if (isset($id)) {
+			try {
+				$this->getProperties($this->model->$action($id));
+			} catch (Exception $e) {
+				echo $e->getMessage;
+			}
+		} else {
+			try {
+				$this->getProperties($this->model->$action());
+			} catch (Exception $e) {
+				echo $e->getMessage;
+			}
+		}
 	}
 
 	protected function getProperties(Object $object) {
