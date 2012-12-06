@@ -34,6 +34,7 @@ class Controller {
 		$vars = get_object_vars($object);
 
 		echo gettype($vars);
+		echo gettype($object);
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);
