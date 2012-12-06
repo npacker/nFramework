@@ -19,6 +19,7 @@ class RecipeModel extends Model {
 		$statement->bindParam(':id', $id);
 		$statement->setFetchMode(PDO::FETCH_INTO, $recipe);
 		$statement->execute();
+		$statement->fetch();
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
