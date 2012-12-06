@@ -9,7 +9,7 @@ class Template {
 	}
 
 	public function render() {
-		echo $vars;
+		print_r($vars);
 	}
 
 }
