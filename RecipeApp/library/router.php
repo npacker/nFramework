@@ -2,7 +2,10 @@
 
 function pathInitialize() {
 	$uri = $_SERVER['REQUEST_URI'];
-	list($name, $action, $id) = explode('/', ltrim($uri, '/'));
+	$params = explode('/', ltrim($uri, '/'));
+	$name = array_shift($params);
+	$action = array_shift($params);
+	$id = array_shift($params);
 
 	if (empty($name) || empty($action) || empty($id)) returnFrontPage();
 	else routeRequest($name, $action, $id);
