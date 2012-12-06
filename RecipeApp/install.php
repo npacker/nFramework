@@ -7,7 +7,6 @@ require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 $query = 'DROP DATABASE recipesdb;
 					CREATE DATABASE recipesdb;
-					USE recipesdb;
 					DROP TABLE IF EXISTS recipes;
 					CREATE TABLE recipes
 					(
