@@ -9,7 +9,7 @@ class Controller {
 
 	public function __construct(Model $model, $action, $id=null) {
 
-		echo 'Called ' . __METHOD__;
+		echo 'Called ' . __METHOD__ . "\n";
 
 		$this->model = $model;
 		$this->action = $action;
@@ -22,14 +22,14 @@ class Controller {
 
 	public function __destruct() {
 
-		echo 'Called ' . __METHOD__;
+		echo 'Called ' . __METHOD__ . "\n";
 
 		$this->template->render();
 	}
 
 	protected function getProperties($object) {
 
-		echo 'Called ' . __METHOD__;
+		echo 'Called ' . __METHOD__ . "\n";
 
 		$vars = get_object_vars($object);
 
@@ -40,7 +40,7 @@ class Controller {
 
 	protected function set($key, $value) {
 
-		echo 'Called ' . __METHOD__;
+		echo 'Called ' . __METHOD__ . "\n";
 
 		$this->template->set($key, $value);
 	}
