@@ -17,8 +17,8 @@ class RecipeModel extends Model {
 		$query = 'SELECT name FROM recipes WHERE id = :id';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':id', $id);
+		$statement->setFetchMode(PDO::FETCH_INTO, $recipe);
 		$statement->execute();
-		$statement->fetch(PDO::FETCH_INTO, $recipe);
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 

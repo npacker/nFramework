@@ -19,11 +19,21 @@ $query = 'DROP TABLE IF EXISTS recipes;
 						name VARCHAR(255) NOT NULL,
 						quantity INT NOT NULL,
 						recipe_id INT NOT NULL,
-						FOREIGN KEY (recipe_id)
+						CONSTRAINT ingredients_fk_recipes
+							FOREIGN KEY (recipe_id)
 							REFERENCES recipes(id)
 							ON UPDATE CASCADE
 							ON DELETE CASCADE
-					);';
+					);
+					INSERT INTO recipes
+						(name)
+					VALUES
+						("Test Recipe 1");
+					INSERT INTO ingredients
+						(name, quantity, recipe_id)
+					VALUES
+						("Test ingredient 1", "1", "1");
+		';
 
 $connection = MySqlConnection::getConnection();
 
