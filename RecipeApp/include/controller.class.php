@@ -35,7 +35,6 @@ class Controller {
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);
-			echo $key . ' ' . $value . '<br />';
 		}
 	}
 
