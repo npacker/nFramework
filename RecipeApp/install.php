@@ -6,7 +6,8 @@ define('ROOT', getcwd());
 require_once (ROOT . DS . 'library' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
-$query = 'CREATE TABLE recipes
+$query = 'DROP TABLE IF EXISTS recipes;
+					CREATE TABLE recipes
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
