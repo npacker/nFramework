@@ -32,8 +32,8 @@ function returnFrontPage() {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	$name = 'recipe';
+	$name = 'cookbook';
 	$action = 'view';
-	$id = null;
+	$id = 1;
 	routeRequest($name, $action, $id);
 }

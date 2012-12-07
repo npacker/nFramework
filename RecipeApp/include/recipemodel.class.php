@@ -22,6 +22,7 @@ class RecipeModel extends Model {
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
+
 		return $recipe;
 	}
 
