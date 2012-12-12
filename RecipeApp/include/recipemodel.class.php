@@ -22,13 +22,19 @@ class RecipeModel extends Model {
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
 
-
 		return $recipe;
 	}
 
-	public function edit($id) {}
+	public function create() {
 
-	public function create($id) {}
+		echo 'Called ' . __METHOD__ . "<br />";
+
+		list($name) = $_POST;
+		$query = 'INSERT INTO recipes (name) VALUES (:name)';
+		$statement = $this->connection->prepare($query);
+		$statement->bindParam(':name', $name);
+		$statement->execute();
+	}
 
 	public function update($id) {}
 
