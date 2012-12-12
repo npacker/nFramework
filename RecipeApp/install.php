@@ -24,29 +24,8 @@ $query = 'DROP TABLE IF EXISTS ingredients;
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
-					);
-					INSERT INTO recipes
-						(name)
-					VALUES
-						("Test Recipe 1");
-					INSERT INTO ingredients
-						(name, quantity, recipe_id)
-					VALUES
-						("Test ingredient 1", "1", "1");
-		';
+					);';
 
 $connection = MySqlConnection::getConnection();
-
-try {
-	$statement = $connection->prepare($query);
-} catch (Exception $e) {
-	echo $e->getMessage();
-	exit();
-}
-
-try {
-	$statement->execute();
-} catch (Exception $e) {
-	echo $e->getMessage();
-	exit();
-}
+$statement = $connection->prepare($query);
+$statement->execute();
