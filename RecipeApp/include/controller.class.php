@@ -11,7 +11,11 @@ class Controller {
 
 		$this->model = $model;
 		$this->template = new Template();
-		$this->setTemplateVars($this->model->$action($id));
+		try {
+			$this->setTemplateVars($this->model->$action($id));
+		} Catch (Exception $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	public function __destruct() {
