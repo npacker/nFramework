@@ -6,8 +6,14 @@ define('ROOT', getcwd());
 require_once (ROOT . DS . 'library' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
-$query = 'DROP TABLE IF EXISTS ingredients;
+$query = 'DROP TABLE IF EXISTS settings;
+					DROP TABLE IF EXISTS ingredients;
 					DROP TABLE IF EXISTS recipes;
+					CREATE TABLE IF NOT EXISTS settings
+					(
+						key VARCHAR(255) UNIQUE NOT NULL,
+						value VARCHAR(255) NOT NULL
+					);
 					CREATE TABLE IF NOT EXISTS recipes
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
