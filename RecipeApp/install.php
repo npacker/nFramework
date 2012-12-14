@@ -6,7 +6,7 @@ define('ROOT', getcwd());
 require_once (ROOT . DS . 'library' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
-$query = 'DROP TABLE IF EXISTS ingredients;
+/* $query = 'DROP TABLE IF EXISTS ingredients;
 					CREATE TABLE ingredients
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
@@ -24,7 +24,24 @@ $query = 'DROP TABLE IF EXISTS ingredients;
 					(
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
+					);';*/
+
+$query = 'DROP TABLE IF EXISTS ingredients;
+					DROP TABLE IF EXISTS recipes;
+					CREATE TABLE IF NOT EXISTS recipes
+					(
+						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+						name VARCHAR(255) NOT NULL
+					);
+					CREATE TABLE IF NOT EXISTS ingredients
+					(
+						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
+						name VARCHAR(255) NOT NULL,
+						quantity INT NOT NULL,
+						recipe_id INT NOT NULL,
+						CONSTRAINT ingredients_fk_recipes FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON UPDATE CASCADE ON DELETE CASCADE
 					);';
+
 $connection = MySqlConnection::getConnection();
 $statement = $connection->prepare($query);
 

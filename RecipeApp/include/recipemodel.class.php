@@ -17,7 +17,12 @@ class RecipeModel extends Model {
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':id', $id);
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
-		$statement->execute();
+		try {
+			$statement->execute();
+		} catch (Exception $e) {
+			echo $e->getMessage;
+			exit();
+		}
 		$recipe = $statement->fetch();
 		$ingredients = $this->getIngredients($id);
 		$recipe->setIngredients($ingredients);
@@ -33,7 +38,12 @@ class RecipeModel extends Model {
 		$query = 'INSERT INTO recipes (name) VALUES (:name)';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':name', $name);
-		$statement->execute();
+		try {
+			$statement->execute();
+		} catch (Exception $e) {
+			echo $e->getMessage;
+			exit();
+		}
 	}
 
 	public function update($id) {}
