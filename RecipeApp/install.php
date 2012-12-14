@@ -11,7 +11,7 @@ $query = 'DROP TABLE IF EXISTS settings;
 					DROP TABLE IF EXISTS recipes;
 					CREATE TABLE IF NOT EXISTS settings
 					(
-						key VARCHAR(255) UNIQUE NOT NULL,
+						key VARCHAR(255) NOT NULL,
 						value VARCHAR(255) NOT NULL
 					);
 					CREATE TABLE IF NOT EXISTS recipes
