@@ -6,7 +6,9 @@ define('ROOT', getcwd());
 require_once (ROOT . DS . 'library' . DS . 'config.php');
 require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
-$query = 'DROP TABLE IF EXISTS ingredients;
+$query = 'DROP DATABASE IF EXISTS recipesdb;
+					CREATE DATABASE IF NOT EXISTS recipesdb;
+					DROP TABLE IF EXISTS ingredients;
 					DROP TABLE IF EXISTS recipes;
 					CREATE TABLE IF NOT EXISTS recipes
 					(
