@@ -20,7 +20,7 @@ class IngredientModel extends Model {
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo $e->getMessage();
 			exit();
 		}
   	$ingredient = $statement->fetch();
@@ -39,7 +39,7 @@ class IngredientModel extends Model {
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo $e->getMessage();
 			exit();
 		}
 		$ingredients = array();
@@ -61,7 +61,7 @@ class IngredientModel extends Model {
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo $e->getMessage();
 			exit();
 		}
 		$ingredients = array();

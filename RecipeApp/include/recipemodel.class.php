@@ -20,7 +20,7 @@ class RecipeModel extends Model {
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo $e->getMessage();
 			exit();
 		}
 		$recipe = $statement->fetch();
@@ -41,7 +41,7 @@ class RecipeModel extends Model {
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
-			echo $e->getMessage;
+			echo $e->getMessage();
 			exit();
 		}
 	}
