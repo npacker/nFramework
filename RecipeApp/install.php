@@ -25,8 +25,8 @@ $query = 'DROP TABLE IF EXISTS ingredients;
 						id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 						name VARCHAR(255) NOT NULL
 					);
-					INSERT INTO recipes (name) VALUES (\'Test Recipes 1\');
-					INSERT INTO ingredients (name, quantity, recipe_id)  VALUES (\'Test Ingredient 1\', 1, 1);';
+					INSERT INTO recipes (name) VALUES ("Test Recipes 1");
+					INSERT INTO ingredients (name, quantity, recipe_id) VALUES ("Test Ingredient 1", 1, 1);';
 
 $connection = MySqlConnection::getConnection();
 $statement = $connection->prepare($query);
