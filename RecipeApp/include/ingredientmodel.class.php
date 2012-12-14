@@ -23,7 +23,8 @@ class IngredientModel extends Model {
 			echo $e->getMessage();
 			exit();
 		}
-  	$ingredient = $statement->fetch();
+  		
+  		$ingredient = $statement->fetch();
 
 		return $ingredient;
 	}
@@ -36,12 +37,14 @@ class IngredientModel extends Model {
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':recipe_id', $recipeId);
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
+		
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			exit();
 		}
+		
 		$ingredients = array();
 
 		foreach ($statement as $ingredient) {
@@ -58,12 +61,14 @@ class IngredientModel extends Model {
 		$query = 'SELECT name, quantity FROM ingredients';
 		$statement = $this->connection->prepare($query);
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
+		
 		try {
 			$statement->execute();
 		} catch (Exception $e) {
 			echo $e->getMessage();
 			exit();
 		}
+		
 		$ingredients = array();
 
 		foreach ($statement as $ingredient) {
