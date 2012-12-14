@@ -28,7 +28,7 @@ $query = 'DROP TABLE IF EXISTS ingredients;
 					INSERT INTO ingredients
 						(name, quantity, recipe_id)
 					VALUES
-						("Test Ingredient 1", "1", "1",);
+						("Test Ingredient 1", 1, 1);
 					';
 
 $connection = MySqlConnection::getConnection();
