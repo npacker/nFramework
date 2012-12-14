@@ -11,11 +11,7 @@ class Controller {
 
 		$this->model = $model;
 		$this->template = new Template();
-		try {
-			$this->setTemplateVars($this->model->$action($id));
-		} Catch (Exception $e) {
-			echo $e->getMessage();
-		}
+		$this->setTemplateVars($this->model->$action($id));
 	}
 
 	public function __destruct() {
@@ -25,7 +21,7 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function setTemplateVars(Node $node) {
+	protected function setTemplateVars($node) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
