@@ -22,7 +22,10 @@ $query = 'DROP DATABASE IF EXISTS recipesdb;
 						name VARCHAR(255) NOT NULL,
 						quantity INT NOT NULL,
 						recipe_id INT NOT NULL,
-						CONSTRAINT ingredients_fk_recipes FOREIGN KEY (recipe_id) REFERENCES recipes(id) ON UPDATE CASCADE ON DELETE CASCADE
+						CONSTRAINT ingredients_fk_recipes
+							FOREIGN KEY (recipe_id) REFERENCES recipes(id)
+							ON UPDATE CASCADE
+							ON DELETE CASCADE
 					);
 					INSERT INTO recipes
 						(name)
