@@ -13,6 +13,8 @@ abstract class Model {
 
 	abstract public function view($id);
 
+	abstract public function viewRel($id, $field);
+
 	abstract public function create();
 
 	abstract public function update($id);

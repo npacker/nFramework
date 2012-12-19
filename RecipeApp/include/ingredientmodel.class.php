@@ -31,39 +31,13 @@ class IngredientModel extends Model {
 		return $ingredient;
 	}
 
-	public function viewSet($recipeId) {
+	public function viewRel($id, $field) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$query = 'SELECT name, quantity FROM ingredients WHERE recipe_id = :recipe_id';
+		$query = "SELECT name, quantity FROM ingredients WHERE $field = :$field";
 		$statement = $this->connection->prepare($query);
-		$statement->bindParam(':recipe_id', $recipeId);
-		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
-
-		try {
-			$statement->execute();
-		} catch (Exception $e) {
-			echo $e->getMessage();
-			exit();
-		}
-
-		$ingredients = array();
-
-		foreach ($statement as $ingredient) {
-			array_push($ingredients, $ingredient);
-		}
-
-		$statement->closeCursor();
-
-		return $ingredients;
-	}
-
-	public function viewAll() {
-
-		echo 'Called ' . __METHOD__ . "<br />";
-
-		$query = 'SELECT name, quantity FROM ingredients';
-		$statement = $this->connection->prepare($query);
+		$statement->bindParam(":$field", $id);
 		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 
 		try {

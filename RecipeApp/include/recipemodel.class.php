@@ -33,6 +33,8 @@ class RecipeModel extends Model {
 		return $recipe;
 	}
 
+	public function viewRel($id, $field) {}
+
 	public function create() {
 
 		echo 'Called ' . __METHOD__ . "<br />";
@@ -64,7 +66,7 @@ class RecipeModel extends Model {
 			echo $e->getMessage();
 		}
 
-		return $ingredientModel->viewSet($id);
+		return $ingredientModel->viewRel($id, 'recipe_id');
 	}
 
 }
