@@ -24,11 +24,11 @@ function pathInit() {
 	$action = array_shift($params);
 	$id = array_shift($params);
 
-	if (empty($name) || empty($action) || empty($id)) returnFrontPage();
-	else routeRequest($name, $action, $id);
+	if (empty($name) || empty($action) || empty($id)) returnFront();
+	else request($name, $action, $id);
 }
 
-function routeRequest($name, $action, $id) {
+function request($name, $action, $id) {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
@@ -42,7 +42,7 @@ function routeRequest($name, $action, $id) {
 	}
 }
 
-function returnFrontPage() {
+function returnFront() {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
@@ -52,9 +52,11 @@ function returnFrontPage() {
 	routeRequest($name, $action, $id);
 }
 
-function bootstrapFull() {
+function bootstrapInit() {
 	spl_autoload_register('__include_file');
-	pathInit();
 }
 
-bootstrapFull();
+function bootstrapFull() {
+	bootstrapInit();
+	pathInit();
+}
