@@ -40,6 +40,7 @@ function request($name, $action, $id) {
 		$controller = new Controller($model, $action, $id);
 	} catch (Exception $e) {
 		echo $e->getMessage();
+		exit();
 	}
 }
 
