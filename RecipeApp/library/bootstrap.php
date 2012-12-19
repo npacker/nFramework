@@ -3,6 +3,9 @@
 require_once (ROOT . DS . 'library' . DS . 'config.php');
 
 function __include_file($filename) {
+
+	echo 'Called ' . __FUNCTION__ . '<br />';
+
 	$filename = strtolower($filename);
 
 	if (file_exists(ROOT . DS . 'library' . DS . $filename . '.class.php')) {
