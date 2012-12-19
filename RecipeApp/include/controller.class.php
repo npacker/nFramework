@@ -24,9 +24,9 @@ class Controller {
 
 	protected function setTemplateVars($node) {
 
-		if (!is_object($node)) return;
-
 		echo 'Called ' . __METHOD__ . "<br />";
+
+		if (!is_object($node)) return;
 
 		$vars = $node->getProperites();
 
