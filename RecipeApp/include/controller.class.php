@@ -5,13 +5,14 @@ class Controller {
 	protected $model;
 	protected $template;
 
-	public function __construct(Model $model, $action, $id) {
+	public function __construct(Model $model, $action, $id=null) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
 		$this->model = $model;
 		$this->template = new Template();
-		$this->setTemplateVars($this->model->$action($id));
+		if (isset($id))	$this->setTemplateVars($this->model->$action($id));
+		else $this->setTemplateVars($this->model->$action());
 	}
 
 	public function __destruct() {

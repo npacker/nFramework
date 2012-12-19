@@ -23,9 +23,7 @@ function pathInit() {
 	$name = array_shift($params);
 	$action = array_shift($params);
 	$id = array_shift($params);
-
-	if (empty($name) || empty($action) || empty($id)) returnFront();
-	else request($name, $action, $id);
+	request($name, $action, $id);
 }
 
 function request($name, $action, $id) {
@@ -40,16 +38,6 @@ function request($name, $action, $id) {
 	} catch (Exception $e) {
 		echo $e->getMessage();
 	}
-}
-
-function returnFront() {
-
-	echo 'Called ' . __FUNCTION__ . '<br />';
-
-	$name = 'cookbook';
-	$action = 'view';
-	$id = 1;
-	request($name, $action, $id);
 }
 
 function bootstrapInit() {
