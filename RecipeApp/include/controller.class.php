@@ -5,7 +5,7 @@ class Controller {
 	protected $model;
 	protected $template;
 
-	public function __construct(Model $model, $action, $id=null) {
+	public function __construct(Model $model, $action, $id) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
