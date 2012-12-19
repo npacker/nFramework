@@ -1,7 +1,6 @@
 <?php
 
 require_once (ROOT . DS . 'library' . DS . 'config.php');
-require_once (ROOT . DS . 'library' . DS . 'autoload.php');
 
 function __include_file($filename) {
 	$filename = strtolower($filename);
