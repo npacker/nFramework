@@ -49,7 +49,7 @@ function returnFront() {
 	$name = 'cookbook';
 	$action = 'view';
 	$id = 1;
-	routeRequest($name, $action, $id);
+	request($name, $action, $id);
 }
 
 function bootstrapInit() {
