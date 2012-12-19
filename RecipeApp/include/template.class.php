@@ -23,7 +23,8 @@ class Template {
 		echo 'Called ' . __METHOD__ . "<br />";
 
 		print_r($this->vars);
-		echo '';
+
+		echo "<br />";
 	}
 
 }
