@@ -1,7 +1,5 @@
 <?php
 
-require_once (ROOT . DS . 'library' . DS . 'config.php');
-
 function __include_file($filename) {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
@@ -45,6 +43,7 @@ function request($name, $action, $id) {
 }
 
 function bootstrapInit() {
+	require_once (ROOT . DS . 'library' . DS . 'config.php');
 	spl_autoload_register('__include_file');
 }
 
