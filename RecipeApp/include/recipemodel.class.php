@@ -41,7 +41,7 @@ class RecipeModel extends Model {
 
 		$query = 'SELECT name FROM recipes';
 		$statement = $this->connection->prepare($query);
-		$statement->setFetchMode(PDO::FETCH_ASSOC);
+		$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
 
 		try {
 			$statement->execute();
