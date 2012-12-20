@@ -8,6 +8,7 @@ class Controller {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
+		// This is a temporary implementation of templates.
 		$this->template = new Template();
 
 		switch ($action) {
