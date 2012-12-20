@@ -11,18 +11,18 @@ class Controller {
 		$this->template = new Template();
 
 		switch ($action) {
-			case 'view':
-				if (isset($id)) $this->setTemplateVars($model->view($id));
-				else $this->setTemplateVars($model->viewAll());
-				break;
-			case 'create':
-				if (isset($_POST)) $this->setTemplateVars($model->create($_POST));
+			case 'delete':
+				$this->setTemplateVars($model->delete($id));
 				break;
 			case 'update':
 				if (isset($_POST)) $this->setTemplateVars($model->update($id, $_POST));
 				break;
-			case 'delete':
-				$this->setTemplateVars($model->delete($id));
+			case 'create':
+				if (isset($_POST)) $this->setTemplateVars($model->create($_POST));
+				break;
+			case 'view':
+				if (isset($id)) $this->setTemplateVars($model->view($id));
+				else $this->setTemplateVars($model->viewAll());
 				break;
 			default:
 				Throw new Exception('Error.');
