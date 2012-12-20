@@ -83,7 +83,11 @@ class RecipeModel extends Model {
 		}
 	}
 
-	public function update($id, Array $data) {}
+	public function update($id, Array $data) {
+
+		echo 'Called ' . __METHOD__ . "<br />";
+
+	}
 
 	public function delete($id) {
 
