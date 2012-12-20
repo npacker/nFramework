@@ -85,7 +85,21 @@ class RecipeModel extends Model {
 
 	public function update($id, Array $data) {}
 
-	public function delete($id) {}
+	public function delete($id) {
+
+		echo 'Called ' . __METHOD__ . "<br />";
+
+		$query = 'DELETE FROM recipes WHERE id = :id';
+		$statement = $this->connection->prepare($query);
+		$statement->bindParam(':id', $id);
+
+		try {
+			$statement->execute();
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit();
+		}
+	}
 
 	protected function getIngredients($id) {
 
