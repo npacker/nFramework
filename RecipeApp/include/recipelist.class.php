@@ -2,10 +2,10 @@
 
 Class RecipeList extends Node {
 
-	protected $recipeList;
+	protected $recipeList = array();
 
 	public function __construct(Array $recipeList=null) {
-		$this->recipeList = $recipeList;
+		if (isset($recipeList)) $this->recipeList = $recipeList;
 	}
 
 	public function addRecipe(Recipe $recipe) {
