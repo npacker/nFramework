@@ -16,7 +16,7 @@ class Controller {
 				else $this->setTemplateVars($model->viewAll());
 				break;
 			case 'create':
-				$this->setTemplateVars($model->create());
+				if (isset($_POST)) $this->setTemplateVars($model->create());
 				break;
 			case 'update':
 			case 'delete':
