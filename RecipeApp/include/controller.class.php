@@ -15,10 +15,10 @@ class Controller {
 				$this->setTemplateVars($model->delete($id));
 				break;
 			case 'update':
-				if (isset($_POST)) $this->setTemplateVars($model->update($id, $_POST));
+				if (!empty($_POST)) $this->setTemplateVars($model->update($id, $_POST));
 				break;
 			case 'create':
-				if (isset($_POST)) $this->setTemplateVars($model->create($_POST));
+				if (!empty($_POST)) $this->setTemplateVars($model->create($_POST));
 				break;
 			case 'view':
 				if (isset($id)) $this->setTemplateVars($model->view($id));
