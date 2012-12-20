@@ -49,11 +49,17 @@ function request($type, $action, $id) {
 }
 
 function bootstrapInit() {
+
+	echo 'Called ' . __FUNCTION__ . '<br />';
+
 	require_once (ROOT . DS . 'library' . DS . 'config.php');
 	spl_autoload_register('__include_file');
 }
 
 function bootstrapFull() {
+
+	echo 'Called ' . __FUNCTION__ . '<br />';
+
 	bootstrapInit();
 	pathInit();
 }
