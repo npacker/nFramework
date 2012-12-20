@@ -11,7 +11,7 @@ abstract class Model {
 		$this->connection = MySqlConnection::getConnection();
 	}
 
-	abstract public function view($id);
+	abstract public function view($id=null);
 
 	abstract public function viewRel($id, $field);
 

@@ -9,28 +9,30 @@ class RecipeModel extends Model {
 		parent::__construct();
 	}
 
-	public function view($id) {
+	public function view($id=null) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$query = 'SELECT name FROM recipes WHERE id = :id';
-		$statement = $this->connection->prepare($query);
-		$statement->bindParam(':id', $id);
-		$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
+		if (isset($id) && is_numeric($id)) {
+			$query = 'SELECT name FROM recipes WHERE id = :id';
+			$statement = $this->connection->prepare($query);
+			$statement->bindParam(':id', $id);
+			$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
 
-		try {
-			$statement->execute();
-		} catch (Exception $e) {
-			echo $e->getMessage();
-			exit();
+			try {
+				$statement->execute();
+			} catch (Exception $e) {
+				echo $e->getMessage();
+				exit();
+			}
+
+			$recipe = $statement->fetch();
+			$statement->closeCursor();
+			$ingredients = $this->getIngredients($id);
+			$recipe->setIngredients($ingredients);
+
+			return $recipe;
 		}
-
-		$recipe = $statement->fetch();
-		$statement->closeCursor();
-		$ingredients = $this->getIngredients($id);
-		$recipe->setIngredients($ingredients);
-
-		return $recipe;
 	}
 
 	public function viewRel($id, $field) {}
