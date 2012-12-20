@@ -38,11 +38,11 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function setTemplateVars(Node $node) {
+	protected function setTemplateVars(Type $type) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$vars = $node->getProperites();
+		$vars = $type->getProperites();
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);
