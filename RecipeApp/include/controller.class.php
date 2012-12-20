@@ -22,10 +22,11 @@ class Controller {
 				break;
 			case 'view':
 				if (isset($id)) $this->setTemplateVars($model->view($id));
-				else $this->setTemplateVars($model->viewAll());
+				else $this->setTemplateVars($model->all());
 				break;
 			default:
 				Throw new Exception('Error.');
+				break;
 		}
 	}
 

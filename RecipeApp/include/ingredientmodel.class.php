@@ -58,7 +58,7 @@ class IngredientModel extends Model {
 		return $ingredients;
 	}
 
-	public function viewAll() {}
+	public function all() {}
 
 	public function create(Array $data) {}
 

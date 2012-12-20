@@ -35,7 +35,7 @@ class RecipeModel extends Model {
 
 	public function viewRel($id, $field) {}
 
-	public function viewAll() {
+	public function all() {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 

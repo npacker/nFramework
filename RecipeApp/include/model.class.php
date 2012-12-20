@@ -15,7 +15,7 @@ abstract class Model {
 
 	abstract public function viewRel($id, $field);
 
-	abstract public function viewAll();
+	abstract public function all();
 
 	abstract public function create(Array $data);
 
