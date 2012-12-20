@@ -34,11 +34,9 @@ class Controller {
 		$this->template->render();
 	}
 
-	protected function setTemplateVars($node) {
+	protected function setTemplateVars(Node $node) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
-
-		if (!is_object($node)) return;
 
 		$vars = $node->getProperites();
 

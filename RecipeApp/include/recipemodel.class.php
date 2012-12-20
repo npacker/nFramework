@@ -50,15 +50,20 @@ class RecipeModel extends Model {
 			exit();
 		}
 
-		$recipes = array();
+		try {
+			$recipeList = new RecipeList();
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit();
+		}
 
 		foreach($statement as $recipe) {
-			array_push($recipes, $recipe);
+			$recipeList->addRecipe($recipe);
 		}
 
 		$statement->closeCursor();
 
-		return $recipes;
+		return $recipeList;
 	}
 
 	public function create() {
