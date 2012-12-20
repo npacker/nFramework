@@ -16,11 +16,13 @@ class Controller {
 				else $this->setTemplateVars($model->viewAll());
 				break;
 			case 'create':
-				if (isset($_POST)) $this->setTemplateVars($model->create());
+				if (isset($_POST)) $this->setTemplateVars($model->create($_POST));
 				break;
 			case 'update':
+				if (isset($_POST)) $this->setTemplateVars($model->update($id, $_POST));
+				break;
 			case 'delete':
-				$this->setTemplateVars($model->$action($id));
+				$this->setTemplateVars($model->delete($id));
 				break;
 			default:
 				Throw new Exception('Error.');

@@ -66,11 +66,11 @@ class RecipeModel extends Model {
 		return $recipeList;
 	}
 
-	public function create() {
+	public function create(Array $data) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$name = $_POST['name'];
+		$name = $data['name'];
 		$query = 'INSERT INTO recipes (name) VALUES (:name)';
 		$statement = $this->connection->prepare($query);
 		$statement->bindParam(':name', $name);
@@ -83,7 +83,7 @@ class RecipeModel extends Model {
 		}
 	}
 
-	public function update($id) {}
+	public function update($id, Array $data) {}
 
 	public function delete($id) {}
 

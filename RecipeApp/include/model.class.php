@@ -17,9 +17,9 @@ abstract class Model {
 
 	abstract public function viewAll();
 
-	abstract public function create();
+	abstract public function create(Array $data);
 
-	abstract public function update($id);
+	abstract public function update($id, Array $data);
 
 	abstract public function delete($id);
 

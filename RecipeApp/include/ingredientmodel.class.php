@@ -60,9 +60,9 @@ class IngredientModel extends Model {
 
 	public function viewAll() {}
 
-	public function create() {}
+	public function create(Array $data) {}
 
-	public function update($id) {}
+	public function update($id, Array $data) {}
 
 	public function delete($id) {}
 
