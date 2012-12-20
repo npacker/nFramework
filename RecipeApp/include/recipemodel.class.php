@@ -95,6 +95,7 @@ class RecipeModel extends Model {
 			$ingredientModel = new ingredientModel();
 		} catch (Exception $e) {
 			echo $e->getMessage();
+			exit();
 		}
 
 		return $ingredientModel->viewRel($id, 'recipe_id');
