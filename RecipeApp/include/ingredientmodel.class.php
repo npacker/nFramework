@@ -58,6 +58,8 @@ class IngredientModel extends Model {
 		return $ingredients;
 	}
 
+	public function viewAll() {}
+
 	public function create() {}
 
 	public function update($id) {}

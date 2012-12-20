@@ -2,17 +2,29 @@
 
 class Controller {
 
-	protected $model;
 	protected $template;
 
 	public function __construct(Model $model, $action, $id) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		$this->model = $model;
 		$this->template = new Template();
-		if (isset($id))	$this->setTemplateVars($this->model->$action($id));
-		else $this->setTemplateVars($this->model->$action());
+
+		switch ($action) {
+			case 'view':
+				if (isset($id)) $this->setTemplateVars($model->view($id));
+				else $this->setTemplateVars($model->viewAll());
+				break;
+			case 'create':
+				$this->setTemplateVars($model->create());
+				break;
+			case 'update':
+			case 'delete':
+				$this->setTemplateVars($model->$action($id));
+				break;
+			default:
+				Throw new Exception('Error.');
+		}
 	}
 
 	public function __destruct() {
