@@ -21,20 +21,26 @@ function pathInit() {
 
 	$uri = $_SERVER['REQUEST_URI'];
 	$params = explode('/', ltrim($uri, '/'));
-	$name = array_shift($params);
+	$type = array_shift($params);
 	$action = array_shift($params);
 	$id = array_shift($params);
-	request($name, $action, $id);
+	request($type, $action, $id);
 }
 
-function request($name, $action, $id) {
+function request($type, $action, $id) {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	$modelName = $name . 'Model';
+	$modelName = rtrim($type, 's') . 'Model';
 
 	try {
 		$model = new $modelName();
+	}	catch (Exception $e) {
+		echo $e->getMessage();
+		exit();
+	}
+
+	try {
 		$controller = new Controller($model, $action, $id);
 	} catch (Exception $e) {
 		echo $e->getMessage();
