@@ -25,7 +25,7 @@ class Controller {
 				else $this->setTemplateVars($model->all());
 				break;
 			default:
-				Throw new Exception('Error.');
+				Throw new Exception('The requested action is undefined.');
 				break;
 		}
 	}
