@@ -31,7 +31,7 @@ function request($type, $action, $id) {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	$modelName = rtrim($type, 's') . 'Model';
+	$modelName = substr_replace($type, '', -1) . 'Model';
 
 	try {
 		$model = new $modelName();
