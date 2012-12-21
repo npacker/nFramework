@@ -4,7 +4,7 @@ Class SessionModel extends Model {
 
 	public function __construct() {}
 
-	public function get($id) {}
+	public function find($id) {}
 
 	public function join($id, $field) {}
 

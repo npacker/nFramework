@@ -7,7 +7,7 @@ class IngredientModel extends Model {
 		parent::__construct();
 	}
 
-	public function get($id) {
+	public function find($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = 'SELECT name, quantity FROM ingredients WHERE id = :id';
 		$statement = $this->connection->prepare($query);

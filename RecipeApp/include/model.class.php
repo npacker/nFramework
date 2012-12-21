@@ -9,7 +9,7 @@ abstract class Model {
 		$this->connection = MySqlConnection::getConnection();
 	}
 
-	abstract public function get($id);
+	abstract public function find($id);
 
 	abstract public function join($id, $field);
 

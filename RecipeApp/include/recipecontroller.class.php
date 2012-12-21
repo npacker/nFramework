@@ -10,7 +10,7 @@ Class RecipeController extends Controller {
 
 	public function view($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		if (isset($id)) $this->prepare($this->model->get($id));
+		if (isset($id)) $this->prepare($this->model->find($id));
 		else $this->prepare($this->model->all());
 	}
 
