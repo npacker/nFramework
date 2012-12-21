@@ -31,8 +31,7 @@ function pathInit() {
 
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-	$controllerName = ucfirst(strtolower(substr_replace($type, '', -1))) . 'Controller';
-	$action = strtolower($action);
+	$controllerName = substr_replace($type, '', -1) . 'Controller';
 
 	try {
 		$controller = new $controllerName();
