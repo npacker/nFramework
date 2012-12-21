@@ -23,7 +23,7 @@ function pathInit() {
 
 	try {
 		route($type, $action, $id);
-	} catch (Exception $e) {
+	} catch (BadMethodCallException $e) {
 		echo $e->getMessage();
 		exit();
 	}
