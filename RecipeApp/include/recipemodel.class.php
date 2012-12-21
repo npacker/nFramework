@@ -27,7 +27,7 @@ class RecipeModel extends Model {
 
 		$recipe = $statement->fetch();
 		$statement->closeCursor();
-		$ingredients = $this->getIngredients($id);
+		$ingredients = $this->ingredients($id);
 		$recipe->setIngredients($ingredients);
 
 		return $recipe;
@@ -105,7 +105,7 @@ class RecipeModel extends Model {
 		}
 	}
 
-	protected function getIngredients($id) {
+	protected function ingredients($id) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 

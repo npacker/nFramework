@@ -24,28 +24,23 @@ function pathInit() {
 	$type = array_shift($params);
 	$action = array_shift($params);
 	$id = array_shift($params);
-	request($type, $action, $id);
+	route($type, $action, $id);
 }
 
-function request($type, $action, $id) {
+function route($type, $action, $id) {
 
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	$modelName = substr_replace($type, '', -1) . 'Model';
+	$controllerName = ucfirst(strtolower(substr_replace($type, '', -1))) . 'Controller';
 
 	try {
-		$model = new $modelName();
-	}	catch (Exception $e) {
-		echo $e->getMessage();
-		exit();
-	}
-
-	try {
-		$controller = new Controller($model, $action, $id);
+		$controller = new $controllerName();
 	} catch (Exception $e) {
 		echo $e->getMessage();
 		exit();
 	}
+
+	if (method_exists($controller, $action)) $controller->$action($id);
 }
 
 function bootstrapInit() {
