@@ -23,8 +23,7 @@ class RecipeModel extends Model {
 
 		$recipe = $statement->fetch();
 		$statement->closeCursor();
-		$ingredients = $this->ingredients($id);
-		$recipe->setIngredients($ingredients);
+		$recipe->setIngredients($this->ingredients($id));
 
 		return $recipe;
 	}
