@@ -16,7 +16,7 @@ class RecipeModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -39,7 +39,7 @@ class RecipeModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -69,7 +69,7 @@ class RecipeModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -87,7 +87,7 @@ class RecipeModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -98,7 +98,7 @@ class RecipeModel extends Model {
 
 		try {
 			$ingredientModel = new ingredientModel();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}

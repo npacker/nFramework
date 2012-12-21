@@ -16,7 +16,7 @@ class IngredientModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -36,7 +36,7 @@ class IngredientModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -66,7 +66,7 @@ class IngredientModel extends Model {
 
 		try {
 			$statement->execute();
-		} catch (Exception $e) {
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
