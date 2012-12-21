@@ -98,7 +98,7 @@ class RecipeModel extends Model {
 
 		try {
 			$ingredientModel = new ingredientModel();
-		} catch (PDOException $e) {
+		} catch (Exception $e) {
 			echo $e->getMessage();
 			exit();
 		}
