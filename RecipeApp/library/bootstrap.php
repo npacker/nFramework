@@ -20,7 +20,13 @@ function pathInit() {
 	$type = array_shift($params);
 	$action = array_shift($params);
 	$id = array_shift($params);
-	route($type, $action, $id);
+
+	try {
+		route($type, $action, $id);
+	} catch (Exception $e) {
+		echo $e->getMessage();
+		exit();
+	}
 }
 
 function route($type, $action, $id) {
@@ -36,6 +42,7 @@ function route($type, $action, $id) {
 	}
 
 	if (method_exists($controller, $action)) $controller->$action($id);
+	else Throw new BadMethodCallException('Action not defined.', $code, $previous);
 }
 
 function bootstrapInit() {
