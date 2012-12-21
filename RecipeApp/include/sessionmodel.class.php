@@ -2,9 +2,7 @@
 
 Class SessionModel extends Model {
 
-	public function __construct() {
-
-	}
+	public function __construct() {}
 
 	public function get($id) {}
 

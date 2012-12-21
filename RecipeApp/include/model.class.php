@@ -5,9 +5,7 @@ abstract class Model {
 	protected $connection;
 
 	public function __construct() {
-
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		$this->connection = MySqlConnection::getConnection();
 	}
 
