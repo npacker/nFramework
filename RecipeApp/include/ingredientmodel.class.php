@@ -9,7 +9,7 @@ class IngredientModel extends Model {
 		parent::__construct();
 	}
 
-	public function view($id) {
+	public function get($id) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
@@ -31,7 +31,7 @@ class IngredientModel extends Model {
 		return $ingredient;
 	}
 
-	public function viewRel($id, $field) {
+	public function join($id, $field) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 

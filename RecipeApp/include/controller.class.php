@@ -22,7 +22,7 @@ class Controller {
 				if (!empty($_POST)) $this->prepare($model->create($_POST));
 				break;
 			case 'view':
-				if (isset($id)) $this->prepare($model->view($id));
+				if (isset($id)) $this->prepare($model->get($id));
 				else $this->prepare($model->all());
 				break;
 			default:

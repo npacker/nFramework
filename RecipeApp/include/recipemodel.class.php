@@ -9,7 +9,7 @@ class RecipeModel extends Model {
 		parent::__construct();
 	}
 
-	public function view($id) {
+	public function get($id) {
 
 		echo 'Called ' . __METHOD__ . "<br />";
 
@@ -33,7 +33,7 @@ class RecipeModel extends Model {
 		return $recipe;
 	}
 
-	public function viewRel($id, $field) {}
+	public function join($id, $field) {}
 
 	public function all() {
 
@@ -116,7 +116,7 @@ class RecipeModel extends Model {
 			exit();
 		}
 
-		return $ingredientModel->viewRel($id, 'recipe_id');
+		return $ingredientModel->join($id, 'recipe_id');
 	}
 
 }
