@@ -3,9 +3,7 @@
 Class UserModel extends Model {
 
 	public function __construct() {
-
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		parent::__construct();
 	}
 
