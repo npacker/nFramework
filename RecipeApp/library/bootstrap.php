@@ -35,7 +35,7 @@ function route($type, $action, $id) {
 
 	try {
 		$controller = new $controllerName();
-	} catch (Exception $e) {
+	} catch (FileNotFoundException $e) {
 		echo $e->getMessage();
 		exit();
 	}
@@ -47,7 +47,7 @@ function route($type, $action, $id) {
 			echo $e->getMessage();
 			exit();
 		}
-	}	else Throw new BadMethodCallException('Action not defined.');
+	}	else throw new BadMethodCallException('Action not defined.');
 }
 
 function bootstrapInit() {
