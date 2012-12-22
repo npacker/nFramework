@@ -18,12 +18,11 @@ class RecipeModel extends Model {
 			$statement->execute();
 			$recipe = $statement->fetch();
 			$statement->closeCursor();
+			$recipe->setIngredients($this->ingredients($id));
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
-
-		$recipe->setIngredients($this->ingredients($id));
 
 		return $recipe;
 	}
