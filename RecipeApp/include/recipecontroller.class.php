@@ -51,7 +51,7 @@ class RecipeController extends Controller {
 	}
 
 	protected function validateId($id) {
-		if (!is_numeric($id)) Throw new InvalidArgumentException("$id is not numeric.");
+		if (!is_numeric($id)) throw new InvalidArgumentException("$id is not numeric.");
 	}
 
 }
