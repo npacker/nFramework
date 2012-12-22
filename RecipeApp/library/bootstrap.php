@@ -9,7 +9,7 @@ function __include_file($filename) {
 	} else if (file_exists(ROOT . DS . 'include' . DS . $filename . '.class.php')) {
 		require_once ROOT . DS . 'include' . DS . $filename . '.class.php';
 	} else {
-		throw new Exception("Could not load $filename.");
+		throw new FileNotFoundException("Could not load $filename.");
 	}
 }
 
@@ -40,8 +40,14 @@ function route($type, $action, $id) {
 		exit();
 	}
 
-	if (method_exists($controller, $action)) $controller->$action($id);
-	else Throw new BadMethodCallException('Action not defined.');
+	if (method_exists($controller, $action)) {
+		try {
+			$controller->$action($id);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+			exit();
+		}
+	}	else Throw new BadMethodCallException('Action not defined.');
 }
 
 function bootstrapInit() {
