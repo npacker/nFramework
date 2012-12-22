@@ -10,19 +10,18 @@ class IngredientModel extends Model {
 	public function find($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = 'SELECT name, quantity FROM ingredients WHERE id = :id';
-		$statement = $this->connection->prepare($query);
-		$statement->bindParam(':id', $id);
-		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 
 		try {
+			$statement = $this->connection->prepare($query);
+			$statement->bindParam(':id', $id);
+			$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 			$statement->execute();
+			$ingredient = $statement->fetch();
+			$statement->closeCursor();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
-
-  	$ingredient = $statement->fetch();
-  	$statement->closeCursor();
 
 		return $ingredient;
 	}
@@ -30,24 +29,23 @@ class IngredientModel extends Model {
 	public function join($id, $field) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = "SELECT name, quantity FROM ingredients WHERE $field = :$field";
-		$statement = $this->connection->prepare($query);
-		$statement->bindParam(":$field", $id);
-		$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 
 		try {
+			$statement = $this->connection->prepare($query);
+			$statement->bindParam(":$field", $id);
+			$statement->setFetchMode(PDO::FETCH_CLASS, 'Ingredient');
 			$statement->execute();
+			$ingredients = array();
+
+			foreach ($statement as $ingredient) {
+				array_push($ingredients, $ingredient);
+			}
+
+			$statement->closeCursor();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
-
-		$ingredients = array();
-
-		foreach ($statement as $ingredient) {
-			array_push($ingredients, $ingredient);
-		}
-
-		$statement->closeCursor();
 
 		return $ingredients;
 	}
@@ -61,10 +59,10 @@ class IngredientModel extends Model {
 	public function delete($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = 'DELETE FROM ingredients WHERE id = :id';
-		$statement = $this->connection->prepare($query);
-		$satement->bindParam(':id', $id);
 
 		try {
+			$statement = $this->connection->prepare($query);
+			$satement->bindParam(':id', $id);
 			$statement->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();

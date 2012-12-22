@@ -38,12 +38,18 @@ $query = 'DROP DATABASE IF EXISTS recipesdb;
 						("Test Ingredient 1", 1, 1);
 					';
 
-$connection = MySqlConnection::getConnection();
+try {
+	$connection = MySqlConnection::getConnection();
+} catch (PDOException $e) {
+	echo $e->getMessage();
+	exit();
+}
+
 $statement = $connection->prepare($query);
 
 try {
 	$statement->execute();
-} catch (Exception $e) {
+} catch (PDOException $e) {
 	echo $e->getMessage;
 	exit();
 }
