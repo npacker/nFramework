@@ -6,7 +6,13 @@ abstract class Model {
 
 	public function __construct() {
 		echo 'Called ' . __METHOD__ . "<br />";
-		$this->connection = MySqlConnection::getConnection();
+
+		try {
+			$this->connection = MySqlConnection::getConnection();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			exit();
+		}
 	}
 
 	abstract public function find($id);
