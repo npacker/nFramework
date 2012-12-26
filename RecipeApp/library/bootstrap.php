@@ -33,7 +33,7 @@ function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
 	if (!empty($type)) $controllerName = substr_replace($type, '', -1) . 'Controller';
-	else $controllerName = 'RecipeController';
+	else $controllerName = '';
 
 	try {
 		$controller = new $controllerName();
