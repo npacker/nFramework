@@ -20,4 +20,11 @@ class Request {
 		return $value;
 	}
 
+	public static function server($key, $default=null) {
+		echo 'Called ' . __METHOD__ . "<br />";
+		$value = $default;
+		if (array_key_exists($key, $_SERVER)) $value = $_SERVER[$key];
+		return $value;
+	}
+
 }
