@@ -38,6 +38,9 @@ function route($type, $action, $id) {
 	} catch (FileNotFoundException $e) {
 		echo $e->getMessage();
 		exit();
+	} catch (Exception $e) {
+		echo $e->getMessage();
+		exit();
 	}
 
 	if (method_exists($controller, $action)) {
