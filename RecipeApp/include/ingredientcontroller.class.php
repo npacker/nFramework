@@ -1,7 +1,3 @@
 <?php
 
-Class IngredientController extends Controller {
-
-
-
-}
+Class IngredientController extends Controller {}

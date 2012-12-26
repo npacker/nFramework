@@ -29,4 +29,8 @@ abstract class Controller {
 		$this->view->set($key, $value);
 	}
 
+	protected function validateId($id) {
+		if (!is_numeric($id) && !is_null($id)) throw new InvalidArgumentException("$id is not numeric.");
+	}
+
 }

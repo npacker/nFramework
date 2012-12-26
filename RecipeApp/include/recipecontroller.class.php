@@ -11,8 +11,10 @@ class RecipeController extends Controller {
 	public function view($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		if (!is_numeric($id) && !is_null($id)) {
-			throw new InvalidArgumentException("$id is not numeric.");
+		try {
+			$this->validateId($id);
+		} catch (InvalidArgumentException $e) {
+			throw $e;
 			return;
 		}
 
@@ -29,8 +31,10 @@ class RecipeController extends Controller {
 	public function update($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		if (!is_numeric($id) && !is_null($id)) {
-			throw new InvalidArgumentException("$id is not numeric.");
+		try {
+			$this->validateId($id);
+		} catch (InvalidArgumentException $e) {
+			throw $e;
 			return;
 		}
 
@@ -40,8 +44,10 @@ class RecipeController extends Controller {
 	public function delete($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 
-		if (!is_numeric($id) && !is_null($id)) {
-			throw new InvalidArgumentException("$id is not numeric.");
+		try {
+			$this->validateId($id);
+		} catch (InvalidArgumentException $e) {
+			throw $e;
 			return;
 		}
 
