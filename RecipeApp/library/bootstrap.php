@@ -32,8 +32,9 @@ function pathInit() {
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	if (!empty($type)) $controllerName = substr_replace($type, '', -1) . 'Controller';
-	else $controllerName = '';
+	if (empty($type)) return;
+
+	$controllerName = substr_replace($type, '', -1) . 'Controller';
 
 	try {
 		$controller = new $controllerName();
