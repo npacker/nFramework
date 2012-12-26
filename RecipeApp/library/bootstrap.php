@@ -31,14 +31,13 @@ function pathInit() {
 
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-	$controllerName = substr_replace($type, '', -1) . 'Controller';
+
+	if (isset($type)) $controllerName = substr_replace($type, '', -1) . 'Controller';
+	else $controllerName = 'RecipeController';
 
 	try {
 		$controller = new $controllerName();
 	} catch (FileNotFoundException $e) {
-		echo $e->getMessage();
-		exit();
-	} catch (ErrorException $e) {
 		echo $e->getMessage();
 		exit();
 	}
