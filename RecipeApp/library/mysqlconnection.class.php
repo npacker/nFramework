@@ -2,6 +2,10 @@
 
 class MySqlConnection {
 
+	final private function __construct() {}
+
+	final private function __clone() {}
+
 	public static function getConnection() {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$dsn = 'mysql:host=' . DB_HOSTNAME . ';dbname=' . DB_DATABASE;
