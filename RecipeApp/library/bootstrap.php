@@ -15,7 +15,7 @@ function __include_file($filename) {
 
 function pathInit() {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-	$uri = Request::server('REQUEST_URI');
+	$uri = Request::server('REQUEST_URI', '/recipes/view');
 	$params = explode('/', ltrim($uri, '/'));
 	$type = array_shift($params);
 	$action = array_shift($params);
@@ -31,8 +31,6 @@ function pathInit() {
 
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-
-	if (empty($type)) return;
 
 	$controllerName = substr_replace($type, '', -1) . 'Controller';
 
