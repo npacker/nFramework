@@ -32,7 +32,7 @@ function pathInit() {
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
 
-	if (isset($type)) $controllerName = substr_replace($type, '', -1) . 'Controller';
+	if (!empty($type)) $controllerName = substr_replace($type, '', -1) . 'Controller';
 	else $controllerName = 'RecipeController';
 
 	try {
