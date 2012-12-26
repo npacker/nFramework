@@ -55,9 +55,9 @@ class RecipeModel extends Model {
 		return $recipeList;
 	}
 
-	public function create(Array $data) {
+	public function create() {
 		echo 'Called ' . __METHOD__ . "<br />";
-		$name = $data['name'];
+		$name = Request::post('name');
 		$query = 'INSERT INTO recipes (name) VALUES (:name)';
 
 		try {
@@ -70,7 +70,7 @@ class RecipeModel extends Model {
 		}
 	}
 
-	public function update($id, Array $data) {
+	public function update($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
 	}
 

@@ -21,9 +21,9 @@ abstract class Model {
 
 	abstract public function all();
 
-	abstract public function create(Array $data);
+	abstract public function create();
 
-	abstract public function update($id, Array $data);
+	abstract public function update($id);
 
 	abstract public function delete($id);
 

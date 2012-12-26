@@ -29,10 +29,4 @@ abstract class Controller {
 		$this->view->set($key, $value);
 	}
 
-	protected function validateArray(Array $search, Array $keys) {
-		foreach ($keys as $key) {
-			if (!array_key_exists($key, $search)) throw new InvalidArgumentException("Array key $key not found.");
-		}
-	}
-
 }
