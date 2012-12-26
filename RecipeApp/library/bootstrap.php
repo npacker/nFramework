@@ -38,7 +38,7 @@ function route($type, $action, $id) {
 	} catch (FileNotFoundException $e) {
 		echo $e->getMessage();
 		exit();
-	} catch (Exception $e) {
+	} catch (ErrorException $e) {
 		echo $e->getMessage();
 		exit();
 	}
