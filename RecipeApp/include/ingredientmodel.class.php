@@ -52,9 +52,9 @@ class IngredientModel extends Model {
 
 	public function all() {}
 
-	public function create(Array $data) {}
+	public function create() {}
 
-	public function update($id, Array $data) {}
+	public function update($id) {}
 
 	public function delete($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
