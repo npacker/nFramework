@@ -26,6 +26,12 @@ function pathInit() {
 	} catch (BadMethodCallException $e) {
 		echo $e->getMessage();
 		exit();
+	} catch (FileNotFoundException $e) {
+		echo $e->getMessage();
+		exit();
+	} catch (Exception $e) {
+		echo $e->getMessage();
+		exit();
 	}
 }
 
@@ -37,16 +43,14 @@ function route($type, $action, $id) {
 	try {
 		$controller = new $controllerName();
 	} catch (FileNotFoundException $e) {
-		echo $e->getMessage();
-		exit();
+		throw $e;
 	}
 
 	if (method_exists($controller, $action)) {
 		try {
 			$controller->$action($id);
 		} catch (Exception $e) {
-			echo $e->getMessage();
-			exit();
+			throw $e;
 		}
 	}	else throw new BadMethodCallException('Action not defined.');
 }
