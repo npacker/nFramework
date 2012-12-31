@@ -12,12 +12,11 @@ class MySqlConnection {
 
 		try {
 			$connection = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+			$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
-
-		$connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 
 		return $connection;
 	}
