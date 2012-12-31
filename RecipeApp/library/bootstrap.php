@@ -7,7 +7,7 @@ function __include_file($filename) {
 	if (file_exists(ROOT . DS . 'library' . DS . $filename . '.class.php')) {
 		require_once ROOT . DS . 'library' . DS . $filename . '.class.php';
 	} else if (file_exists(ROOT . DS . 'include' . DS . $filename . '.class.php')) {
-		require_once ROOT . DS . 'include' . DS . $filename . '.class.php';
+		require ROOT . DS . 'include' . DS . $filename . '.class.php';
 	} else {
 		throw new FileNotFoundException("Could not load $filename.");
 	}
