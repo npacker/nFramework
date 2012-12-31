@@ -24,7 +24,6 @@ class RecipeController extends Controller {
 
 	public function create() {
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
 		$this->prepare($this->model->create($name));
