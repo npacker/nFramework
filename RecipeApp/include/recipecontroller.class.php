@@ -8,7 +8,7 @@ class RecipeController extends Controller {
 		$this->model = new RecipeModel();
 	}
 
-	public function view($id) {
+	public function view($id=null) {
 		echo 'Called ' . __METHOD__ . "<br />";
 
 		try {
