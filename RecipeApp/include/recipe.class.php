@@ -11,17 +11,9 @@ class Recipe extends Type {
 		if (isset($ingredients)) $this->ingredients = $ingredients;
 	}
 
-	public function name() {
-		return $this->name;
-	}
-
-	public function ingredients() {
-		return $this->ingredients;
-	}
-
-	public function setIngredients(Array $ingredients) {
+	public function addIngredient(Ingredient $ingredient) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		$this->ingredients = $ingredients;
+		array_push($this->ingredients, $ingredient);
 	}
 
 }

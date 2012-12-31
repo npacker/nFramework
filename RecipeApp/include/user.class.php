@@ -7,19 +7,10 @@ Class User extends Type {
 	protected $password;
 
 	public function __construct($name=null, $email=null, $password=null) {
-
-	}
-
-	public function name() {
-		return $this->name;
-	}
-
-	public function email() {
-		return $this->email;
-	}
-
-	public function password() {
-		return $this->password;
+		echo 'Called ' . __METHOD__ . "<br />";
+		$this->name = $name;
+		$this->email = $email;
+		$this->password = $password;
 	}
 
 }

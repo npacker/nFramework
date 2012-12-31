@@ -18,7 +18,7 @@ class RecipeModel extends Model {
 			$statement->execute();
 			$recipe = $statement->fetch();
 			$statement->closeCursor();
-			$recipe->setIngredients($this->ingredients($id));
+			$this->ingredients($id, $recipe);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
@@ -55,14 +55,13 @@ class RecipeModel extends Model {
 		return $recipeList;
 	}
 
-	public function create() {
+	public function create(Recipe $recipe=null) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		$name = Request::post('name');
 		$query = 'INSERT INTO recipes (name) VALUES (:name)';
 
 		try {
 			$statement = $this->connection->prepare($query);
-			$statement->bindParam(':name', $name);
+			$statement->bindParam(':name', $recipe->getName());
 			$statement->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
@@ -70,7 +69,7 @@ class RecipeModel extends Model {
 		}
 	}
 
-	public function update($id) {
+	public function update($id, Recipe $recipe=null) {
 		echo 'Called ' . __METHOD__ . "<br />";
 	}
 
@@ -88,7 +87,7 @@ class RecipeModel extends Model {
 		}
 	}
 
-	protected function ingredients($id) {
+	protected function ingredients($id, &$recipe) {
 		echo 'Called ' . __METHOD__ . "<br />";
 
 		try {
@@ -98,7 +97,11 @@ class RecipeModel extends Model {
 			exit();
 		}
 
-		return $ingredientModel->join($id, 'recipe_id');
+		$ingredients = $ingredientModel->join($id, 'recipe_id');
+
+		foreach ($ingredients as $ingredient) {
+			$recipe->addIngredient($ingredient);
+		}
 	}
 
 }

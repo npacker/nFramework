@@ -49,7 +49,7 @@ function route($type, $action, $id) {
 
 	if (method_exists($controller, $action)) {
 		try {
-			$controller->$action($id);
+			(empty($id)) ? $controller->$action() : $controller->$action($id);
 		} catch (Exception $e) {
 			throw $e;
 			return;
