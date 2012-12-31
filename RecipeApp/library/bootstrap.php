@@ -15,7 +15,7 @@ function __include_file($filename) {
 function pathInit() {
 	echo 'Called ' . __FUNCTION__ . '<br />';
 	$uri = Request::server('REQUEST_URI');
-	$params = explode('/', ltrim($uri, '/'));
+	$params = explode('/', trim($uri, '/'));
 	$type = array_shift($params);
 	$action = array_shift($params);
 	$id = array_shift($params);
