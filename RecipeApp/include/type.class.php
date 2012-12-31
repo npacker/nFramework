@@ -2,6 +2,12 @@
 
 abstract class Type {
 
+	public function __get($property) {
+		$method = 'get' . ucfirst($property);
+
+		return $this->$method();
+	}
+
 	public function __call($method, $arguments) {
 		if (preg_match('/^(get)([A-Z])(.*)$/', $method, $matches)) {
 			$property = strtolower($matches[2]) . $matches[3];
