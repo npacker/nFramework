@@ -61,7 +61,7 @@ class RecipeModel extends Model {
 
 		try {
 			$statement = $this->connection->prepare($query);
-			$statement->bindParam(':name', $recipe->getName());
+			$statement->bindParam(':name', $recipe->name);
 			$statement->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
