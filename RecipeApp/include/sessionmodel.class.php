@@ -10,9 +10,9 @@ Class SessionModel extends Model {
 
 	public function all() {}
 
-	public function create(Array $data) {}
+	public function create(Session $session=null) {}
 
-	public function update($id, Array $data) {}
+	public function update($id, Session $session=null) {}
 
 	public function delete($id) {}
 

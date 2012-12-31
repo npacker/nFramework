@@ -13,12 +13,10 @@ Class UserModel extends Model {
 
 	public function all() {}
 
-	public function create(Array $data) {}
+	public function create(User $user=null) {}
 
-	public function update($id, Array $data) {}
+	public function update($id, User $user=null) {}
 
 	public function delete($id) {}
-
-	public function authenticate($password) {}
 
 }
