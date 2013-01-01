@@ -15,8 +15,12 @@ class Query {
 	protected $where = array();
 	protected $values = array();
 
-	public function __construct(MySqlDatabase $connection) {
+	public function __construct(MySqlDatabase &$connection) {
 		$this->connection = $connection;
+	}
+
+	final public function __destruct() {
+		$this->connection = null;
 	}
 
 	public function table($table) {

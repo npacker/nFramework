@@ -7,13 +7,12 @@ class MySqlDatabase {
 	protected $database;
 	protected $username;
 	protected $password;
+	protected $dsn;
 	protected $connection;
 
 	protected function connect() {
-		$dsn = "mysql:host={$this->hostname};dbname={$this->database}";
-
 		try {
-			$this->connection = new PDO($dsn, $this->username, $this->password);
+			$this->connection = new PDO($this->dsn, $this->username, $this->password);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
@@ -21,11 +20,12 @@ class MySqlDatabase {
 		}
 	}
 
-	protected function __construct($hostname, $database, $username, $password) {
+	protected function __construct($hostname='localhost', $database, $username, $password) {
 		$this->hostname = $hostname;
 		$this->database = $database;
 		$this->username = $username;
 		$this->password = $password;
+		$this->dsn = "mysql:host={$this->hostname};dbname={$this->database}";
 		$this->connect();
 	}
 
@@ -33,6 +33,10 @@ class MySqlDatabase {
 		if (is_null(self::$instance)) self::$instance = new self($hostname, $database, $username, $password);
 
 		return self::$instance;
+	}
+
+	public function query() {
+		return new Query($this->connection);
 	}
 
 }
