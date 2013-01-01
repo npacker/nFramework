@@ -200,6 +200,8 @@ class Query {
 			echo "{$key} {$value}";
 		}
 
+		echo "<br />";
+
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
