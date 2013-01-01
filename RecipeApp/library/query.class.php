@@ -17,14 +17,17 @@ class Query {
 	protected $values = array();
 
 	public function __construct(PDO $connection) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->connection = $connection;
 	}
 
 	public function __destruct() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		unset($this->connection);
 	}
 
 	public function from($table, $columns=array('*')) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->table = $table;
 		$this->columns = $columns;
 
@@ -32,6 +35,7 @@ class Query {
 	}
 
 	public function where($column, $operator, $value) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->where[] = "{$column} {$operator} :where-{$column}";
 		$this->addValue("where-{$column}", $value);
 
@@ -41,6 +45,7 @@ class Query {
 	}
 
 	public function order($column, $direction='ASC') {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->order = $column;
 		$this->orderDirection = strtoupper($direction);
 
@@ -48,6 +53,7 @@ class Query {
 	}
 
 	public function group($column, $direction='ASC') {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->group = $column;
 		$this->groupDirection = strtoupper($drection);
 
@@ -55,6 +61,7 @@ class Query {
 	}
 
 	public function limit($limit, $offset) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->limit = $limit;
 		$this->offset = $offset;
 
@@ -62,6 +69,7 @@ class Query {
 	}
 
 	protected function whereClause() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$where = '';
 
 		if (isset($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
@@ -70,6 +78,7 @@ class Query {
 	}
 
 	protected function groupClause() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$group = '';
 
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
@@ -78,6 +87,7 @@ class Query {
 	}
 
 	protected function orderClause() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$order = '';
 
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
@@ -86,6 +96,7 @@ class Query {
 	}
 
 	protected function limitClause() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$limit = '';
 
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
@@ -95,6 +106,7 @@ class Query {
 	}
 
 	protected function buildSelect() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "SELECT %s FROM %s %s %s %s %s";
 		$columns = implode(', ', $this->columns);
 		$table = $this->table;
@@ -108,6 +120,7 @@ class Query {
 	}
 
 	protected function buildInsert($data) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
 
 		foreach ($data as $column => $value) {
@@ -123,6 +136,7 @@ class Query {
 	}
 
 	protected function buildUpdate($data) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "UPDATE %s SET %s %s %s";
 		$update = array();
 
@@ -140,6 +154,7 @@ class Query {
 	}
 
 	protected function buildDelete() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "DELETE FROM %s %s %s";
 		$table = $this->table;
 		$where = $this->whereClause();
@@ -150,10 +165,12 @@ class Query {
 	}
 
 	protected function addValue($column, $value) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$this->values[":{$column}"] = $value;
 	}
 
 	protected function setFetchMode($fetchMode, $option=null) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			($option) ? $this->statement->setFetchMode($fetchMode, $option) : $this->statement->setFetchMode($fetchMode);
 		} catch (Exception $e) {
@@ -162,6 +179,7 @@ class Query {
 	}
 
 	protected function prepare($query) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->statement = $this->connection->prepare($query);
 		} catch (PDOException $e) {
@@ -170,6 +188,7 @@ class Query {
 	}
 
 	protected function execute() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
@@ -178,6 +197,7 @@ class Query {
 	}
 
 	protected function fetch() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->statement->fetch();
 		} catch (PDOException $e) {
@@ -186,6 +206,7 @@ class Query {
 	}
 
 	public function fetchClass($class) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_CLASS, $class);
@@ -196,6 +217,7 @@ class Query {
 	}
 
 	public function fetchBoth() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_BOTH);
@@ -206,12 +228,14 @@ class Query {
 	}
 
 	public function save($data) {
+		echo 'Called ' . __METHOD__ . "<br />";
 		($insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
 		$this->prepare($query);
 		$this->execute();
 	}
 
 	public function delete() {
+		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildDelete();
 		$this->prepare($query);
 		$this->execute();
