@@ -19,7 +19,7 @@ class Query {
 		$this->connection = $connection;
 	}
 
-	final public function __destruct() {
+	public function __destruct() {
 		$this->connection = null;
 	}
 
@@ -55,8 +55,8 @@ class Query {
 		return $this;
 	}
 
-	public function where($column, $operator, $value) {
-		$this->where[] = "{$column} {$operator} :{$column}";
+	public function where($column, $value) {
+		$this->where[] = "{$column} = :{$column}";
 		$this->addValue($column, $value);
 
 		if ($insert) $insert = false;
