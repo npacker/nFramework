@@ -10,7 +10,7 @@ bootstrapInit();
 $database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
 $database->connect();
 $recipe = $database->query()
-	->from('recipes')
+	->from('recipes', 'name')
 	->where('id', '=', 1)
 	->fetchClass('Recipe');
 print_r($recipe);
