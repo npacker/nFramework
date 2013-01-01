@@ -237,7 +237,7 @@ class Query {
 
 	public function save(Array $data) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		($this->insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
+		$query = ($this->insert) ? $this->buildInsert($data) : $this->buildUpdate($data);
 		$this->prepare($query);
 		$this->execute();
 	}
