@@ -11,6 +11,5 @@ $database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PA
 $database->connect();
 $recipe = $database->query()
 	->from('recipes', array('name'))
-	->where('id', '=', 1)
 	->fetchClass('Recipe');
 echo $recipe->name;
