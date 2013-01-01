@@ -136,6 +136,9 @@ class Query {
 		print_r($columns);
 		print_r($values);
 		$query = trim(sprintf($template, $table, $columns, $values));
+		echo $query;
+		echo "<br />";
+		die();
 
 		return $query;
 	}
