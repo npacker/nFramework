@@ -36,8 +36,8 @@ class Query {
 
 	public function where($column, $operator, $value) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		$this->where[] = "{$column} {$operator} :where-{$column}";
-		$this->addValue("where-{$column}", $value);
+		$this->where[] = "{$column} {$operator} :where_{$column}";
+		$this->addValue("where_{$column}", $value);
 
 		if ($this->insert) $this->insert = false;
 
