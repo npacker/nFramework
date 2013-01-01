@@ -201,7 +201,7 @@ class Query {
 		}
 
 		try {
-			(empty($this->values)) ? $this->statement->execute() : $this->statement->execute($this->values);
+			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
