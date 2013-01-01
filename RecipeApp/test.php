@@ -13,3 +13,7 @@ $recipe = $database->query()
 	->from('recipes', array('name'))
 	->fetchClass('Recipe');
 echo $recipe;
+$result = $database->query()
+	->from('recipes')
+	->fetchBoth();
+print_r($result);
