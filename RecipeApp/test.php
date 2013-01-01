@@ -33,6 +33,7 @@ $result = $database->query()
 	->fetchBoth();
 
 $recipe_id = $result['id'];
+echo "The recipe_id is {$recipe_id}.<br />";
 
 $database->query()
 	->from('ingredients')
