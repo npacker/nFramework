@@ -72,7 +72,7 @@ class Query {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$where = '';
 
-		if (isset($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
+		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
 
 		return $where;
 	}
@@ -197,7 +197,7 @@ class Query {
 		}
 
 		try {
-			(is_array($this->values)) ? $this->statement->execute($this->values) : $this->statement->execute();
+			(empty($this->values)) ? $this->statement->execute() : $this->statement->execute($this->values);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
