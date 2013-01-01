@@ -17,3 +17,10 @@ $result = $database->query()
 	->from('recipes')
 	->fetchBoth();
 print_r($result);
+$database->query()
+	->from('recipes')
+	->save(array('name' => 'Test Recipe 2'));
+$result = $database->query()
+	->from('recipes')
+	->fetchBoth();
+print_r($result);
