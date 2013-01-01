@@ -191,9 +191,13 @@ class Query {
 
 	protected function execute() {
 		echo 'Called ' . __METHOD__ . "<br />";
-		print_r($this->values);
+
+		foreach ($this->values as $key => $value) {
+			echo "{$key} {$value}";
+		}
+
 		try {
-			$this->statement->execute($this->values);
+			(is_array($this->values)) ? $this->statement->execute($this->values) : $this->statement->execute();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
