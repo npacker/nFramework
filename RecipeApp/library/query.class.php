@@ -26,7 +26,7 @@ class Query {
 		unset($this->connection);
 	}
 
-	public function from($table, $columns=array('*')) {
+	public function from($table, Array $columns=array('*')) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$this->table = $table;
 		$this->columns = $columns;
@@ -119,7 +119,7 @@ class Query {
 		return $query;
 	}
 
-	protected function buildInsert($data) {
+	protected function buildInsert(Array $data) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
 		$columns = array();
@@ -137,21 +137,21 @@ class Query {
 		return $query;
 	}
 
-	protected function buildUpdate($data) {
+	protected function buildUpdate(Array $data) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "UPDATE %s SET %s %s %s";
-		$table = $this->table;
-		$update = array();
+		$columns = array();
 
 		foreach ($data as $column => $value) {
 			$this->addValue($column, $value);
-			$update[] = "{$column}=:{$column}";
+			$columns[] = "{$column} = :{$column}";
 		}
 
-		$update = implode(', ', $update);
+		$table = $this->table;
+		$columns = implode(', ', $columns);
 		$where = $this->whereClause();
 		$limit = $this->limitClause();
-		$query = trim(sprintf($template, $table, $update, $where, $limit));
+		$query = trim(sprintf($template, $table, $columns, $where, $limit));
 
 		return $query;
 	}
@@ -242,7 +242,7 @@ class Query {
 		return $result;
 	}
 
-	public function save($data) {
+	public function save(Array $data) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		($this->insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
 		$this->prepare($query);
