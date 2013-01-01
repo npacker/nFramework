@@ -7,4 +7,10 @@ require_once (ROOT . DS . 'library' . DS . 'bootstrap.php');
 
 bootstrapInit();
 
-$query = new Query();
+$database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
+$database->connect();
+$recipe = $database->query()
+	->from('recipes')
+	->where('id', '=', 1)
+	->fetchClass('Recipe');
+printr($recipe);
