@@ -134,12 +134,9 @@ class Query {
 		$table = $this->table;
 		$columns = implode(', ', $columns);
 		$values = implode(', ', array_keys($this->values));
-		print_r($columns);
-		print_r($values);
 		$query = trim(sprintf($template, $table, $columns, $values));
 		echo $query;
 		echo "<br />";
-		die();
 
 		return $query;
 	}
