@@ -206,10 +206,12 @@ class Query {
 	protected function fetch() {
 		echo 'Called ' . __METHOD__ . "<br />";
 		try {
-			$this->statement->fetch();
+			$result = $this->statement->fetch();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
+
+		return $result;
 	}
 
 	public function fetchClass($class) {
