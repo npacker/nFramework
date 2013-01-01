@@ -12,11 +12,13 @@ $database->connect();
 
 $recipe = $database->query()
 	->from('recipes', array('name'))
-	->fetchClass('Recipe');
+	->classtype('Recipe')
+	->fetch();
 
 $result = $database->query()
 	->from('recipes')
-	->fetchBoth();
+	->both()
+	->fetch();
 
 $database->query()
 	->from('recipes')
@@ -30,7 +32,8 @@ $database->query()
 $result = $database->query()
 	->from('recipes', array('id'))
 	->where('name', 'Test Recipe 3')
-	->fetchBoth();
+	->both()
+	->fetch();
 
 $recipe_id = $result['id'];
 print_r($result);
