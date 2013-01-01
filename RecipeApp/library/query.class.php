@@ -115,8 +115,6 @@ class Query {
 		$order = $this->orderClause();
 		$limit = $this->limitClause();
 		$query = trim(sprintf($template, $columns, $table, $where, $group, $order, $limit));
-		echo $query;
-		echo "<br />";
 
 		return $query;
 	}
@@ -135,8 +133,6 @@ class Query {
 		$columns = implode(', ', $columns);
 		$values = implode(', ', array_keys($this->values));
 		$query = trim(sprintf($template, $table, $columns, $values));
-		echo $query;
-		echo "<br />";
 
 		return $query;
 	}
@@ -187,6 +183,9 @@ class Query {
 
 	protected function prepare($query) {
 		echo 'Called ' . __METHOD__ . "<br />";
+
+		echo $query . "<br />";
+
 		try {
 			$this->statement = $this->connection->prepare($query);
 		} catch (PDOException $e) {
