@@ -42,6 +42,10 @@ class MySqlDatabase {
 		}
 	}
 
+	public function close() {
+		unset($this->connection);
+	}
+
 	public function query() {
 		try {
 			$query = new Query($this->connection);
