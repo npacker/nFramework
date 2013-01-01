@@ -29,7 +29,7 @@ $database->query()
 
 $result = $database->query()
 	->from('recipes', array('id'))
-	->where('name', 'Test Recipe 2')
+	->where('name', 'Test Recipe 3')
 	->fetchBoth();
 
 $recipe_id = $result['id'];
