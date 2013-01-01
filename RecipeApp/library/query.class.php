@@ -132,6 +132,7 @@ class Query {
 		$table = $this->table;
 		$columns = implode(', ', array_keys($this->values));
 		print_r(array_keys($this->values));
+		print_r($columns);
 		exit();
 		$values = implode(', ', $this->values);
 		$query = trim(sprintf($template, $table, $columns, $values));
