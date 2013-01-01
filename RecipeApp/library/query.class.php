@@ -202,35 +202,24 @@ class Query {
 		}
 	}
 
-	protected function fetch() {
-		echo 'Called ' . __METHOD__ . "<br />";
-		try {
-			$result = $this->statement->fetch();
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
-
-		return $result;
-	}
-
-	public function fetchClass($class) {
+	public function classtype($class) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_CLASS, $class);
 		$this->execute();
-		$result = $this->fetch();
+		$result = $this->statement;
 
 		return $result;
 	}
 
-	public function fetchBoth() {
+	public function both() {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_BOTH);
 		$this->execute();
-		$result = $this->fetch();
+		$result = $this->statement;
 
 		return $result;
 	}
