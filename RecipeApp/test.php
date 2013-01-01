@@ -12,7 +12,7 @@ $database->connect();
 $recipe = $database->query()
 	->from('recipes', array('name'))
 	->fetchClass('Recipe');
-echo $recipe;
+echo $recipe->name;
 $result = $database->query()
 	->from('recipes')
 	->fetchBoth();
