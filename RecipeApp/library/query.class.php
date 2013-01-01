@@ -124,15 +124,16 @@ class Query {
 	protected function buildInsert($data) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
+		$columns = array();
 
 		foreach ($data as $column => $value) {
 			$this->addValue($column, $value);
+			$columns[] = $column;
 		}
 
 		$table = $this->table;
-		$columns = implode(', ', array_keys($this->values));
-		$values = implode(', ', $this->values);
-		print_r(array_keys($this->values));
+		$columns = implode(', ', $columns);
+		$values = implode(', ', array_keys($this->values));
 		print_r($columns);
 		print_r($values);
 		$query = trim(sprintf($template, $table, $columns, $values));
