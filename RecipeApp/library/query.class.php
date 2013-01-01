@@ -16,7 +16,7 @@ class Query {
 	protected $where = array();
 	protected $values = array();
 
-	public function __construct(MySqlDatabase $connection) {
+	public function __construct(PDO $connection) {
 		$this->connection = $connection;
 	}
 
