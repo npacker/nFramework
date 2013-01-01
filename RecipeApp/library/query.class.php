@@ -195,13 +195,6 @@ class Query {
 
 	protected function execute() {
 		echo 'Called ' . __METHOD__ . "<br />";
-
-		foreach ($this->values as $key => $value) {
-			echo "{$key} {$value}";
-		}
-
-		echo "<br />";
-
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
