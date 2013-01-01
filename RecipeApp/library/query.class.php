@@ -39,10 +39,6 @@ class Query {
 		$this->where[] = "{$column} {$operator} :where-{$column}";
 		$this->addValue("where-{$column}", $value);
 
-		foreach ($this->values as $column => $value) {
-			echo "{$column} {$value}";
-		}
-
 		if ($this->insert) $this->insert = false;
 
 		return $this;
@@ -119,6 +115,8 @@ class Query {
 		$order = $this->orderClause();
 		$limit = $this->limitClause();
 		$query = trim(sprintf($template, $columns, $table, $where, $group, $order, $limit));
+		echo $query;
+		echo "<br />";
 
 		return $query;
 	}
