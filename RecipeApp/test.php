@@ -27,6 +27,17 @@ $database->query()
 	->where('name', 'Test Recipe 2')
 	->save(array('name' => 'Test Recipe 3'));
 
+$result = $database->query()
+	->from('recipes', array('id'))
+	->where('name', 'Test Recipe 2')
+	-fetchBoth();
+
+$recipe_id = $result['id'];
+
+$database->query()
+	->from('ingredients')
+	->save(array('name' => 'Eggs', 'quantity' => 2, 'recipe_id' => $recipe_id));
+
 $database->query()
 	->from('recipes')
 	->where('name', 'Test Recipe 3')
