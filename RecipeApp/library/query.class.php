@@ -35,7 +35,7 @@ class Query {
 		$this->where[] = "{$column} {$operator} :where-{$column}";
 		$this->addValue("where-{$column}", $value);
 
-		if ($insert) $insert = false;
+		if ($this->insert) $this->insert = false;
 
 		return $this;
 	}

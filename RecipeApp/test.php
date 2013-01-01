@@ -13,4 +13,4 @@ $recipe = $database->query()
 	->from('recipes')
 	->where('id', '=', 1)
 	->fetchClass('Recipe');
-printr($recipe);
+print_r($recipe);
