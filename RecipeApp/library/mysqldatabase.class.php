@@ -20,7 +20,7 @@ class MySqlDatabase {
 		}
 	}
 
-	protected function __construct($hostname='localhost', $database, $username, $password) {
+	protected function __construct($hostname, $database, $username, $password) {
 		$this->hostname = $hostname;
 		$this->database = $database;
 		$this->username = $username;
