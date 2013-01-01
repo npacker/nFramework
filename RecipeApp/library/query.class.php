@@ -131,10 +131,10 @@ class Query {
 
 		$table = $this->table;
 		$columns = implode(', ', array_keys($this->values));
+		$values = implode(', ', $this->values);
 		print_r(array_keys($this->values));
 		print_r($columns);
-		exit();
-		$values = implode(', ', $this->values);
+		print_r($values);
 		$query = trim(sprintf($template, $table, $columns, $values));
 
 		return $query;
