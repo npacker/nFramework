@@ -3,15 +3,17 @@
 class MySqlDatabase {
 
 	protected static $instance = null;
+	protected $hostname;
+	protected $database;
+	protected $username;
+	protected $password;
 	protected $connection;
-	protected $statement;
 
-
-	protected function __construct() {
-		$dsn = 'mysql:host=' . DB_HOSTNAME . ';dbname=' . DB_DATABASE;
+	protected function connect() {
+		$dsn = "mysql:host={$this->hostname};dbname={$this->database}";
 
 		try {
-			$this->connection = new PDO($dsn, DB_USERNAME, DB_PASSWORD);
+			$this->connection = new PDO($dsn, $this->username, $this->password);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
@@ -19,25 +21,18 @@ class MySqlDatabase {
 		}
 	}
 
-	public static function instance() {
-		if (is_null(self::$instance)) self::$instance = new self();
+	protected function __construct($hostname, $database, $username, $password) {
+		$this->hostname = $hostname;
+		$this->database = $database;
+		$this->username = $username;
+		$this->password = $password;
+		$this->connect();
+	}
+
+	public static function instance($hostname, $database, $username, $password) {
+		if (is_null(self::$instance)) self::$instance = new self($hostname, $database, $username, $password);
+
 		return self::$instance;
-	}
-
-	protected function prepare($query) {
-		$this->statement = $this->connection->prepare($query);
-	}
-
-	protected function bindParam($parameter, $variable) {
-		$this->statement->bindParam($parameter, $variable);
-	}
-
-	protected function execute() {
-		$this->statement->execute();
-	}
-
-	protected function fetchClass($class) {
-		$this->statement->setFetchMode(PDO::FETCH_CLASS, $class);
 	}
 
 }

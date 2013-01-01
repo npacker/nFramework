@@ -2,16 +2,31 @@
 
 class Query {
 
-	protected $from;
-	protected $fields;
+	protected $connection;
+	protected $statement;
+	protected $insert = true;
+	protected $table;
+	protected $columns;
 	protected $limit;
 	protected $order;
-	protected $direction;
+	protected $orderDirection;
+	protected $group;
+	protected $groupDirection;
 	protected $where = array();
+	protected $values = array();
 
-	public function from($table, $fields=array('*')) {
-		$this->from = $table;
-		$this->fields = $fields;
+	public function __construct(MySqlDatabase $connection) {
+		$this->connection = $connection;
+	}
+
+	public function table($table) {
+		$this->table = $table;
+
+		return $this;
+	}
+
+	public function columns($columns=array('*')) {
+		$this->columns = $columns;
 
 		return $this;
 	}
@@ -22,15 +37,25 @@ class Query {
 		return $this;
 	}
 
-	public function order($order, $direction='ASC') {
-		$this->order = $order;
-		$this->direction = strtoupper($direction);
+	public function order($column, $direction='ASC') {
+		$this->order = $column;
+		$this->orderDirection = strtoupper($direction);
+
+		return $this;
+	}
+
+	public function group($column, $direction='ASC') {
+		$this->group = $column;
+		$this->groupDirection = strtoupper($drection);
 
 		return $this;
 	}
 
 	public function where($column, $operator, $value) {
-	  $this->where[] = sprintf("$column %s %s", $operator, $value);
+		$this->where[] = "{$column} {$operator} :{$column}";
+		$this->addValue($column, $value);
+
+		if ($insert) $insert = false;
 
 		return $this;
 	}
@@ -41,6 +66,14 @@ class Query {
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
 
 		return $limit;
+	}
+
+	protected function groupClause() {
+		$group = '';
+
+		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
+
+		return $group;
 	}
 
 	protected function orderClause() {
@@ -60,25 +93,104 @@ class Query {
 	}
 
 	protected function buildSelect() {
-		$template = "SELECT %S FROM %s %s %s %s";
-		$fields = implode(', ', $this->fields);
-		$from = $this->from;
+		$template = "SELECT %s FROM %s %s %s %s %s";
+		$columns = implode(', ', $this->columns);
+		$table = $this->table;
 		$where = $this->whereClause();
+		$group = $this->groupClause();
 		$order = $this->orderClause();
 		$limit = $this->limitClause();
-		$query = trim(sprintf($template, $fields, $from, $where, $order, $limit));
+		$query = trim(sprintf($template, $columns, $table, $where, $group, $order, $limit));
 
 		return $query;
 	}
 
-	protected function buildInsert() {}
+	protected function buildInsert($data) {
+		$template = "INSERT INTO %s (%s) VALUES (%s)";
 
-	protected function buildUpdate() {}
+		foreach ($data as $column => $value) {
+			$this->addValue($column, $value);
+		}
 
-	protected function buildDelete() {}
+		$table = $this->table;
+		$columns = implode(', ', array_keys($this->values));
+		$values = implode(', ', $this->values);
+		$query = trim(sprintf($template, $table, $columns, $values));
 
-	public function save($data) {}
+		return $query;
+	}
 
-	public function delete() {}
+	protected function buildUpdate($data) {
+		$template = "UPDATE %s SET %s %s %s";
+
+		$columns = array();
+
+		foreach ($data as $column => $value) {
+			$this->addValue($column, $value);
+			$columns[] = "{$column}=:{$column}";
+		}
+
+		$columns = implode(', ', $columns);
+		$where = $this->whereClause();
+		$query = trim(sprintf($template, $table, $columns, $where));
+
+		return $query;
+	}
+
+	protected function buildDelete() {
+		$template = "DELETE FROM %s %s %s";
+		$query = trim(sprintf($template, $table, $where, $limit));
+
+		return $query;
+	}
+
+	protected function addValue($column, $value) {
+		$this->values[":{$column}"] = $value;
+	}
+
+	protected function prepare($query) {
+		$this->statement = $this->connection->prepare($query);
+	}
+
+	protected function execute() {
+		$inputParameters = $this->values;
+		$this->statement->execute($inputParameters);
+	}
+
+	protected function fetch() {
+		$this->statement->fetch();
+	}
+
+	public function fetchClass($class) {
+		$query = $this->buildSelect();
+		$this->prepare($query);
+		$this->statement->setFetchMode(PDO::FETCH_CLASS, $class);
+		$this->execute();
+		$result = $this->fetch();
+
+		return $result;
+	}
+
+	public function fetchBoth() {
+		$query = $this->buildSelect();
+		$this->prepare($query);
+		$this->statement->setFetchMode(PDO::FETCH_BOTH);
+		$this->execute();
+		$result = $this->fetch();
+
+		return $result;
+	}
+
+	public function save($data) {
+		($insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
+		$this->prepare($query);
+		$this->execute();
+	}
+
+	public function delete() {
+		$query = $this->buildDelete();
+		$this->prepare($query);
+		$this->execute();
+	}
 
 }
