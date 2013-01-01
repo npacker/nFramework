@@ -13,12 +13,10 @@ $database->connect();
 $recipe = $database->query()
 	->from('recipes', array('name'))
 	->fetchClass('Recipe');
-echo $recipe->name;
 
 $result = $database->query()
 	->from('recipes')
 	->fetchBoth();
-print_r($result);
 
 $database->query()
 	->from('recipes')
@@ -26,5 +24,10 @@ $database->query()
 
 $database->query()
 	->from('recipes')
-	->where('name', '=', 'Test Recipe 2')
+	->where('name', 'Test Recipe 2')
+	->save(array('name' => 'Test Recipe 3'));
+
+$database->query()
+	->from('recipes')
+	->where('name', 'Test Recipe 3')
 	->delete();

@@ -34,7 +34,7 @@ class Query {
 		return $this;
 	}
 
-	public function where($column, $operator, $value) {
+	public function where($column, $value, $operator='=') {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$this->where[] = "{$column} {$operator} :where_{$column}";
 		$this->addValue("where_{$column}", $value);
