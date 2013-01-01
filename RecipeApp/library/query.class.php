@@ -191,6 +191,7 @@ class Query {
 
 	protected function execute() {
 		echo 'Called ' . __METHOD__ . "<br />";
+		echo $this->values;
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
