@@ -5,14 +5,13 @@ class Query {
 	protected $from;
 	protected $fields;
 	protected $limit;
-	protected $offset;
 	protected $order;
 	protected $direction;
 	protected $where = array();
 
 	public function from($table, $fields=array('*')) {
 		$this->from = $table;
-		$this->fields[$table] = $fields;
+		$this->fields = $fields;
 
 		return $this;
 	}
@@ -30,22 +29,39 @@ class Query {
 		return $this;
 	}
 
-	public function where($column, $value) {
-	  $this->where[] = sprintf("$column = %s", $value);
+	public function where($column, $operator, $value) {
+	  $this->where[] = sprintf("$column %s %s", $operator, $value);
 
 		return $this;
 	}
 
+	protected function limitClause() {
+		$limit = '';
+
+		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
+
+		return $limit;
+	}
+
+	protected function orderClause() {
+		$order = '';
+
+		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
+
+		return $order;
+	}
+
+	protected function whereClause() {
+		$where = '';
+
+		if (isset($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
+
+		return $where;
+	}
+
 	protected function buildSelect() {
 		$template = "SELECT %S FROM %s %s %s %s";
-		$fields = array();
-		$from = $where = $order = $limit = $query = '';
-
-		foreach ($this->fields as $field => $alias) {
-			(is_string($field)) ? $fields[] = "$field as $alias" : $fields[] = $alias;
-		}
-
-		$fields = implode(', ', $fields);
+		$fields = implode(', ', $this->fields);
 		$from = $this->from;
 		$where = $this->whereClause();
 		$order = $this->orderClause();
@@ -61,28 +77,8 @@ class Query {
 
 	protected function buildDelete() {}
 
-	protected function whereClause() {
-		if (isset($this->where)) {
-			$where = "WHERE " . implode(' AND ', $this->where);
-		}
+	public function save($data) {}
 
-		return $where;
-	}
-
-	protected function orderClause() {
-		if (isset($this->order)) {
-			$order = "ORDER BY {$this->order} {$this->direction}";
-		}
-
-		return $order;
-	}
-
-	protected function limitClause() {
-		if (isset($this->limit)) {
-			$limit = "LIMIT {$this->limit}";
-		}
-
-		return $limit;
-	}
+	public function delete() {}
 
 }

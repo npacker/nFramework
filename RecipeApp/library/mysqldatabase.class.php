@@ -6,6 +6,7 @@ class MySqlDatabase {
 	protected $connection;
 	protected $statement;
 
+
 	protected function __construct() {
 		$dsn = 'mysql:host=' . DB_HOSTNAME . ';dbname=' . DB_DATABASE;
 
@@ -21,14 +22,6 @@ class MySqlDatabase {
 	public static function instance() {
 		if (is_null(self::$instance)) self::$instance = new self();
 		return self::$instance;
-	}
-
-	function test() {
-		$this->querySelect(array(
-			"table" => "recipes",
-			"columns" => array("name"),
-			"where"	=> array("id" => $id),
-		));
 	}
 
 	protected function prepare($query) {
