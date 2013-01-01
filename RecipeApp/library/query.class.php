@@ -122,7 +122,6 @@ class Query {
 
 	protected function buildUpdate($data) {
 		$template = "UPDATE %s SET %s %s %s";
-
 		$columns = array();
 
 		foreach ($data as $column => $value) {
@@ -132,13 +131,17 @@ class Query {
 
 		$columns = implode(', ', $columns);
 		$where = $this->whereClause();
-		$query = trim(sprintf($template, $table, $columns, $where));
+		$limit = $this->limitClause();
+		$query = trim(sprintf($template, $table, $columns, $where, $limit));
 
 		return $query;
 	}
 
 	protected function buildDelete() {
 		$template = "DELETE FROM %s %s %s";
+		$table = $this->table;
+		$where = $this->whereClause();
+		$limit = $this->limitClause();
 		$query = trim(sprintf($template, $table, $where, $limit));
 
 		return $query;
@@ -153,8 +156,7 @@ class Query {
 	}
 
 	protected function execute() {
-		$inputParameters = $this->values;
-		$this->statement->execute($inputParameters);
+		$this->statement->execute($this->values);
 	}
 
 	protected function fetch() {
