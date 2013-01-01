@@ -140,6 +140,7 @@ class Query {
 	protected function buildUpdate($data) {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "UPDATE %s SET %s %s %s";
+		$table = $this->table;
 		$update = array();
 
 		foreach ($data as $column => $value) {
@@ -238,7 +239,7 @@ class Query {
 
 	public function save($data) {
 		echo 'Called ' . __METHOD__ . "<br />";
-		($insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
+		($this->insert) ? $query = $this->buildInsert($data) : $query = $this->buildUpdate($data);
 		$this->prepare($query);
 		$this->execute();
 	}
