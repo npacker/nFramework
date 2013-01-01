@@ -8,6 +8,7 @@ class Query {
 	protected $table;
 	protected $columns;
 	protected $limit;
+	protected $offset;
 	protected $order;
 	protected $orderDirection;
 	protected $group;
@@ -15,28 +16,26 @@ class Query {
 	protected $where = array();
 	protected $values = array();
 
-	public function __construct(MySqlDatabase &$connection) {
+	public function __construct(MySqlDatabase $connection) {
 		$this->connection = $connection;
 	}
 
 	public function __destruct() {
-		$this->connection = null;
+		unset($this->connection);
 	}
 
-	public function table($table) {
+	public function from($table, $columns=array('*')) {
 		$this->table = $table;
-
-		return $this;
-	}
-
-	public function columns($columns=array('*')) {
 		$this->columns = $columns;
 
 		return $this;
 	}
 
-	public function limit($limit) {
-		$this->limit = $limit;
+	public function where($column, $operator, $value) {
+		$this->where[] = "{$column} {$operator} :where-{$column}";
+		$this->addValue("where-{$column}", $value);
+
+		if ($insert) $insert = false;
 
 		return $this;
 	}
@@ -55,21 +54,19 @@ class Query {
 		return $this;
 	}
 
-	public function where($column, $value) {
-		$this->where[] = "{$column} = :{$column}";
-		$this->addValue($column, $value);
-
-		if ($insert) $insert = false;
+	public function limit($limit, $offset) {
+		$this->limit = $limit;
+		$this->offset = $offset;
 
 		return $this;
 	}
 
-	protected function limitClause() {
-		$limit = '';
+	protected function whereClause() {
+		$where = '';
 
-		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
+		if (isset($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
 
-		return $limit;
+		return $where;
 	}
 
 	protected function groupClause() {
@@ -88,12 +85,13 @@ class Query {
 		return $order;
 	}
 
-	protected function whereClause() {
-		$where = '';
+	protected function limitClause() {
+		$limit = '';
 
-		if (isset($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
+		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
+		if (isset($this->offset)) $limit .= ",{$this->offset}";
 
-		return $where;
+		return $limit;
 	}
 
 	protected function buildSelect() {
@@ -126,17 +124,17 @@ class Query {
 
 	protected function buildUpdate($data) {
 		$template = "UPDATE %s SET %s %s %s";
-		$columns = array();
+		$update = array();
 
 		foreach ($data as $column => $value) {
 			$this->addValue($column, $value);
-			$columns[] = "{$column}=:{$column}";
+			$update[] = "{$column}=:{$column}";
 		}
 
-		$columns = implode(', ', $columns);
+		$update = implode(', ', $update);
 		$where = $this->whereClause();
 		$limit = $this->limitClause();
-		$query = trim(sprintf($template, $table, $columns, $where, $limit));
+		$query = trim(sprintf($template, $table, $update, $where, $limit));
 
 		return $query;
 	}
@@ -155,22 +153,42 @@ class Query {
 		$this->values[":{$column}"] = $value;
 	}
 
+	protected function setFetchMode($fetchMode, $option=null) {
+		try {
+			($option) ? $this->statement->setFetchMode($fetchMode, $option) : $this->statement->setFetchMode($fetchMode);
+		} catch (Exception $e) {
+			echo $e->getMessage();
+		}
+	}
+
 	protected function prepare($query) {
-		$this->statement = $this->connection->prepare($query);
+		try {
+			$this->statement = $this->connection->prepare($query);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	protected function execute() {
-		$this->statement->execute($this->values);
+		try {
+			$this->statement->execute($this->values);
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	protected function fetch() {
-		$this->statement->fetch();
+		try {
+			$this->statement->fetch();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+		}
 	}
 
 	public function fetchClass($class) {
 		$query = $this->buildSelect();
 		$this->prepare($query);
-		$this->statement->setFetchMode(PDO::FETCH_CLASS, $class);
+		$this->setFetchMode(PDO::FETCH_CLASS, $class);
 		$this->execute();
 		$result = $this->fetch();
 
@@ -180,7 +198,7 @@ class Query {
 	public function fetchBoth() {
 		$query = $this->buildSelect();
 		$this->prepare($query);
-		$this->statement->setFetchMode(PDO::FETCH_BOTH);
+		$this->setFetchMode(PDO::FETCH_BOTH);
 		$this->execute();
 		$result = $this->fetch();
 
