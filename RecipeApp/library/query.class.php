@@ -36,6 +36,19 @@ class Query {
 
 	public function where($column, $value, $operator='=') {
 		echo 'Called ' . __METHOD__ . "<br />";
+
+		switch ($operator) {
+			case '=':
+			case '>':
+			case '<':
+			case '>=':
+			case '<=':
+			case '!=':
+				break;
+			default:
+				trigger_error('Invalid equality operator.', E_USER_ERROR);
+		}
+
 		$this->where[] = "{$column} {$operator} :where_{$column}";
 		$this->addValue("where_{$column}", $value);
 
@@ -47,7 +60,17 @@ class Query {
 	public function order($column, $direction='ASC') {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$this->order = $column;
-		$this->orderDirection = strtoupper($direction);
+
+		switch (strtoupper($direction)) {
+			case 'ASC':
+				$this->orderDirection = 'ASC';
+				break;
+			case 'DESC':
+				$this->orderDirection = 'DESC';
+				break;
+			default:
+				trigger_error('Invalid direction clause.', E_USER_ERROR);
+		}
 
 		return $this;
 	}
@@ -55,7 +78,17 @@ class Query {
 	public function group($column, $direction='ASC') {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$this->group = $column;
-		$this->groupDirection = strtoupper($drection);
+
+		switch (strtoupper($direction)) {
+			case 'ASC':
+				$this->groupDirection = 'ASC';
+				break;
+			case 'DESC':
+				$this->groupDirection = 'DESC';
+				break;
+			default:
+				trigger_error('Invalid direction clause.', E_USER_ERROR);
+		}
 
 		return $this;
 	}
