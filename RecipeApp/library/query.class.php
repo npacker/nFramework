@@ -36,7 +36,6 @@ class Query {
 	public function from($table, Array $columns=array('*')) {
 		if (empty($table)) throw new InvalidArgumentException('Table name must be set.');
 		if (!is_string($table)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
-
 		$this->table = $table;
 		$this->columns = $columns;
 		$this->fromCalled = true;
@@ -77,7 +76,6 @@ class Query {
 	public function order($column, $direction='ASC') {
 		if (empty($column)) throw new InvalidArgumentException('ORDER BY column must be set.');
 		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-
 		$this->order = $column;
 
 		switch (strtoupper($direction)) {
@@ -97,7 +95,6 @@ class Query {
 	public function group($column, $direction='ASC') {
 		if (empty($column)) throw new InvalidArgumentException('GROUP BY column must be set.');
 		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-
 		$this->group = $column;
 
 		switch (strtoupper($direction)) {
@@ -117,7 +114,6 @@ class Query {
 	public function limit($limit, $offset=null) {
 		if (empty($limit)) throw new InvalidArgumentException('LIMIT value must be set.');
 		if (!is_int($limit)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
-
 		$this->limit = $limit;
 
 		if (isset($offset)) {
@@ -130,7 +126,6 @@ class Query {
 
 	protected function whereClause() {
 		$where = '';
-
 		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
 
 		return $where;
@@ -138,7 +133,6 @@ class Query {
 
 	protected function groupClause() {
 		$group = '';
-
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
 
 		return $group;
@@ -146,7 +140,6 @@ class Query {
 
 	protected function orderClause() {
 		$order = '';
-
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
 
 		return $order;
@@ -154,7 +147,6 @@ class Query {
 
 	protected function limitClause() {
 		$limit = '';
-
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
 		if (isset($this->offset)) $limit .= ",{$this->offset}";
 
@@ -233,7 +225,6 @@ class Query {
 
 	protected function addValue($column, $value) {
 		if (empty($column)) throw new InvalidArgumentException('Column name must be specified for value.');
-
 		$this->values[":{$column}"] = $value;
 	}
 
@@ -265,7 +256,6 @@ class Query {
 
 	public function classtype($class) {
 		if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
-
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_CLASS, $class);
@@ -286,12 +276,14 @@ class Query {
 	}
 
 	public function save(Array $data) {
+		if (!$this->fromCalled) throw new RuntimeException('Query could not be completed: no table given.');
 		$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
 		$this->prepare($query);
 		$this->execute();
 	}
 
 	public function delete() {
+		if (!$this->fromCalled) throw new RuntimeException('Query could not be completed: no table or columns given.');
 		$query = $this->buildDelete();
 		$this->prepare($query);
 		$this->execute();
