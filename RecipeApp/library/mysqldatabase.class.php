@@ -11,7 +11,6 @@ class MySqlDatabase {
 	protected $connection;
 
 	protected function __construct($hostname, $database, $username, $password) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$this->hostname = $hostname;
 		$this->database = $database;
 		$this->username = $username;
@@ -20,7 +19,6 @@ class MySqlDatabase {
 	}
 
 	public function __destruct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		unset($this->connection);
 	}
 
@@ -29,7 +27,6 @@ class MySqlDatabase {
 	final private function __sleep() {}
 
 	public static function instance($hostname, $database, $username, $password) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		if (is_null(self::$instance)) self::$instance = new self($hostname, $database, $username, $password);
 
 		return self::$instance;
