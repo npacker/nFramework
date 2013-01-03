@@ -4,7 +4,6 @@ class Query {
 
 	protected $connection;
 	protected $statement;
-	protected $insert = true;
 	protected $table;
 	protected $columns;
 	protected $limit;
@@ -15,27 +14,40 @@ class Query {
 	protected $groupDirection;
 	protected $where = array();
 	protected $values = array();
+	protected $whereCalled = false;
+	protected $fromCalled = false;
 
 	public function __construct(PDO $connection) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$this->connection = $connection;
 	}
 
 	public function __destruct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		unset($this->connection);
 	}
 
+	protected function invalidArgumentExceptionMessage($method, &$argument, $argNum, $expected) {
+		$template = "Argument %s passed to %s must be a %s, %s given.";
+		$given = gettype($argument);
+		$message = sprintf($template, $argNum, $method, $expected, $given);
+
+		return $message;
+	}
+
 	public function from($table, Array $columns=array('*')) {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($table)) throw new InvalidArgumentException('Table name must be set.');
+		if (!is_string($table)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
+
 		$this->table = $table;
 		$this->columns = $columns;
+		$this->fromCalled = true;
 
 		return $this;
 	}
 
 	public function where($column, $value, $operator='=') {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($column)) throw new InvalidArgumentException('WHERE column must be set.');
+		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		if (!is_string($operator)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $operator, 3, 'string'));
 
 		switch ($operator) {
 			case '=':
@@ -46,19 +58,26 @@ class Query {
 			case '!=':
 				break;
 			default:
-				trigger_error('Invalid equality operator.', E_USER_ERROR);
+				throw new InvalidArgumentException('Invalid WHERE comparison operator.');
 		}
 
 		$this->where[] = "{$column} {$operator} :where_{$column}";
-		$this->addValue("where_{$column}", $value);
 
-		if ($this->insert) $this->insert = false;
+		try {
+			$this->addValue("where_{$column}", $value);
+		} catch (Exception $e) {
+			throw $e;
+		}
+
+		$this->whereCalled = true;
 
 		return $this;
 	}
 
 	public function order($column, $direction='ASC') {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($column)) throw new InvalidArgumentException('ORDER BY column must be set.');
+		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+
 		$this->order = $column;
 
 		switch (strtoupper($direction)) {
@@ -69,14 +88,16 @@ class Query {
 				$this->orderDirection = 'DESC';
 				break;
 			default:
-				trigger_error('Invalid direction clause.', E_USER_ERROR);
+				throw new InvalidArgumentException('Invalid ORDER BY direction.');
 		}
 
 		return $this;
 	}
 
 	public function group($column, $direction='ASC') {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($column)) throw new InvalidArgumentException('GROUP BY column must be set.');
+		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+
 		$this->group = $column;
 
 		switch (strtoupper($direction)) {
@@ -87,22 +108,27 @@ class Query {
 				$this->groupDirection = 'DESC';
 				break;
 			default:
-				trigger_error('Invalid direction clause.', E_USER_ERROR);
+				throw new InvalidArgumentException('Invalid GROUP BY direction.');
 		}
 
 		return $this;
 	}
 
-	public function limit($limit, $offset) {
-		echo 'Called ' . __METHOD__ . "<br />";
+	public function limit($limit, $offset=null) {
+		if (empty($limit)) throw new InvalidArgumentException('LIMIT value must be set.');
+		if (!is_int($limit)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
+
 		$this->limit = $limit;
-		$this->offset = $offset;
+
+		if (isset($offset)) {
+			if (!is_int($offset)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
+			$this->offset = $offset;
+		}
 
 		return $this;
 	}
 
 	protected function whereClause() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$where = '';
 
 		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
@@ -111,7 +137,6 @@ class Query {
 	}
 
 	protected function groupClause() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$group = '';
 
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
@@ -120,7 +145,6 @@ class Query {
 	}
 
 	protected function orderClause() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$order = '';
 
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
@@ -129,7 +153,6 @@ class Query {
 	}
 
 	protected function limitClause() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$limit = '';
 
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
@@ -139,7 +162,6 @@ class Query {
 	}
 
 	protected function buildSelect() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "SELECT %s FROM %s %s %s %s %s";
 		$columns = implode(', ', $this->columns);
 		$table = $this->table;
@@ -153,30 +175,40 @@ class Query {
 	}
 
 	protected function buildInsert(Array $data) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
 		$columns = array();
+		$values = array();
 
 		foreach ($data as $column => $value) {
-			$this->addValue($column, $value);
-			$columns[] = $column;
+			try {
+				$this->addValue($column, $value);
+			} catch (Exception $e) {
+				throw $e;
+			}
+
+			$columns[] = (string) $column;
+			$values[] = ":{$column}";
 		}
 
 		$table = $this->table;
 		$columns = implode(', ', $columns);
-		$values = implode(', ', array_keys($this->values));
+		$values = implode(', ', $values);
 		$query = trim(sprintf($template, $table, $columns, $values));
 
 		return $query;
 	}
 
 	protected function buildUpdate(Array $data) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "UPDATE %s SET %s %s %s";
 		$columns = array();
 
 		foreach ($data as $column => $value) {
-			$this->addValue($column, $value);
+			try {
+				$this->addValue($column, $value);
+			} catch (Exception $e) {
+				throw $e;
+			}
+
 			$columns[] = "{$column} = :{$column}";
 		}
 
@@ -190,7 +222,6 @@ class Query {
 	}
 
 	protected function buildDelete() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$template = "DELETE FROM %s %s %s";
 		$table = $this->table;
 		$where = $this->whereClause();
@@ -201,23 +232,21 @@ class Query {
 	}
 
 	protected function addValue($column, $value) {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($column)) throw new InvalidArgumentException('Column name must be specified for value.');
+
 		$this->values[":{$column}"] = $value;
 	}
 
-	protected function setFetchMode($fetchMode, $option=null) {
-		echo 'Called ' . __METHOD__ . "<br />";
+	protected function setFetchMode($fetchMode, $options=null) {
 		try {
-			($option) ? $this->statement->setFetchMode($fetchMode, $option) : $this->statement->setFetchMode($fetchMode);
-		} catch (Exception $e) {
+			($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode($fetchMode);
+		} catch (PDOException $e) {
 			echo $e->getMessage();
 		}
 	}
 
 	protected function prepare($query) {
-		echo 'Called ' . __METHOD__ . "<br />";
-
-		echo $query . "<br />";
+		echo "<p>{$query}</p>";
 
 		try {
 			$this->statement = $this->connection->prepare($query);
@@ -227,7 +256,6 @@ class Query {
 	}
 
 	protected function execute() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
@@ -236,7 +264,8 @@ class Query {
 	}
 
 	public function classtype($class) {
-		echo 'Called ' . __METHOD__ . "<br />";
+		if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
+
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_CLASS, $class);
@@ -247,7 +276,6 @@ class Query {
 	}
 
 	public function both() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_BOTH);
@@ -258,14 +286,12 @@ class Query {
 	}
 
 	public function save(Array $data) {
-		echo 'Called ' . __METHOD__ . "<br />";
-		$query = ($this->insert) ? $this->buildInsert($data) : $this->buildUpdate($data);
+		$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
 		$this->prepare($query);
 		$this->execute();
 	}
 
 	public function delete() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$query = $this->buildDelete();
 		$this->prepare($query);
 		$this->execute();

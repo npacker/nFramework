@@ -36,7 +36,6 @@ class MySqlDatabase {
 	}
 
 	public function connect() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->connection = new PDO($this->dsn, $this->username, $this->password);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -47,15 +46,13 @@ class MySqlDatabase {
 	}
 
 	public function close() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		unset($this->connection);
 	}
 
 	public function query() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$query = new Query($this->connection);
-		} catch (FileNotFoundException $e) {
+		} catch (Exception $e) {
 			echo $e->getMessage();
 			exit();
 		}
