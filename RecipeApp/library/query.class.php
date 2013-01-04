@@ -47,19 +47,8 @@ class Query {
 		if (empty($column)) throw new InvalidArgumentException('WHERE column must be set.');
 		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
 		if (!is_string($operator)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $operator, 3, 'string'));
-
-		switch ($operator) {
-			case '=':
-			case '>':
-			case '<':
-			case '>=':
-			case '<=':
-			case '!=':
-				break;
-			default:
-				throw new InvalidArgumentException('Invalid WHERE comparison operator.');
-		}
-
+		if (!preg_match("/!?=(>|<)?|>|</", $operator)) throw new InvalidArgumentException('Invalid WHERE comparison operator.');
+		$this->whereCalled = true;
 		$this->where[] = "{$column} {$operator} :where_{$column}";
 
 		try {
@@ -68,26 +57,15 @@ class Query {
 			throw $e;
 		}
 
-		$this->whereCalled = true;
-
 		return $this;
 	}
 
 	public function order($column, $direction='ASC') {
 		if (empty($column)) throw new InvalidArgumentException('ORDER BY column must be set.');
 		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		if (!preg_match("/ASC|DESC/", $direction)) throw new InvalidArgumentException('Invalid ORDER BY direction.');
 		$this->order = $column;
-
-		switch (strtoupper($direction)) {
-			case 'ASC':
-				$this->orderDirection = 'ASC';
-				break;
-			case 'DESC':
-				$this->orderDirection = 'DESC';
-				break;
-			default:
-				throw new InvalidArgumentException('Invalid ORDER BY direction.');
-		}
+		$this->orderDirection = $direction;
 
 		return $this;
 	}
@@ -95,18 +73,9 @@ class Query {
 	public function group($column, $direction='ASC') {
 		if (empty($column)) throw new InvalidArgumentException('GROUP BY column must be set.');
 		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		if (!preg_match("/ASC|DESC/", $direction)) throw new InvalidArgumentException('Invalid GROUP BY direction.');
 		$this->group = $column;
-
-		switch (strtoupper($direction)) {
-			case 'ASC':
-				$this->groupDirection = 'ASC';
-				break;
-			case 'DESC':
-				$this->groupDirection = 'DESC';
-				break;
-			default:
-				throw new InvalidArgumentException('Invalid GROUP BY direction.');
-		}
+		$this->groupDirection = $direciton;
 
 		return $this;
 	}
@@ -114,12 +83,9 @@ class Query {
 	public function limit($limit, $offset=null) {
 		if (empty($limit)) throw new InvalidArgumentException('LIMIT value must be set.');
 		if (!is_int($limit)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
+		if (isset($offset) AND !is_int($offset)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
 		$this->limit = $limit;
-
-		if (isset($offset)) {
-			if (!is_int($offset)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
-			$this->offset = $offset;
-		}
+		if (isset($offset)) $this->offset = $offset;
 
 		return $this;
 	}
@@ -224,8 +190,9 @@ class Query {
 	}
 
 	protected function addValue($column, $value) {
-		if (empty($column)) throw new InvalidArgumentException('Column name must be specified for value.');
-		$this->values[":{$column}"] = $value;
+		if (empty($column)) throw new InvalidArgumentException('Invalid argument: Expected column name.');
+		$column = sprinf(":%s", $column);
+		$this->values[$column] = $value;
 	}
 
 	protected function setFetchMode($fetchMode, $options=null) {
@@ -255,7 +222,6 @@ class Query {
 	}
 
 	public function classtype($class) {
-		if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
 		$query = $this->buildSelect();
 		$this->prepare($query);
 		$this->setFetchMode(PDO::FETCH_CLASS, $class);
