@@ -1,6 +1,6 @@
 <?php
 
-class UnitTest {
+class UnitTest extends Base {
 
 	protected $tests  = array();
 	protected $failedAssertions = array();
@@ -10,7 +10,7 @@ class UnitTest {
 
 	protected function setAssertOptions() {
 		function assertHandler($file, $line, $code) {
-			array_push($this->failedAssertions, array($file, $line, $code));
+			array_push($this->failedAssertions, array('file' => $file, 'line' => $line, 'code' => $code));
 		}
 
 		assert_options(ASSERT_ACTIVE, 1);
@@ -20,12 +20,22 @@ class UnitTest {
 		assert_options(ASSERT_CALLBACK, 'assertHandler');
 	}
 
-	public function add(callable $test) {
-		array_push($this->tests, $test);
+	public function add(callable $test, $name) {
+		if (!is_string($name)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $name, 2, 'string'));
+		$this->tests[$name] = $test;
 	}
 
 	public function run() {
 		$this->setAssertOptions();
+
+		foreach ($this->tests as $name => $test) {
+			try {
+				call_user_func($test);
+			} catch (Exception $e) {
+				array_push($this->exceptions, $e);
+				array_push($this->failed, $name);
+			}
+		}
 	}
 
 }
