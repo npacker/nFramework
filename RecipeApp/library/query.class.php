@@ -89,13 +89,13 @@ class Query extends Base {
 	}
 
 	protected function groupClause() {
-		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
+		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->orderDirection}";
 
 		return $group;
 	}
 
 	protected function orderClause() {
-		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
+		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->groupDirection}";
 
 		return $order;
 	}
