@@ -1,6 +1,6 @@
 <?php
 
-class MySqlDatabase {
+class MySqlDatabase extends Base {
 
 	protected static $instance = null;
 	protected $hostname;

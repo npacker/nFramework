@@ -2,7 +2,11 @@
 
 class UnitTest {
 
-	protected static $tests;
+	protected $tests;
+	protected $failedAssertions;
+	protected $passed;
+	protected $failed;
+	protected $exceptions;
 
 	protected function setAssertOptions() {
 		function assertHandler($file, $line, $code) {
@@ -16,12 +20,8 @@ class UnitTest {
 		assert_options(ASSERT_CALLBACK, 'assertHandler');
 	}
 
-	public static function run() {
+	public function run() {
 		$this->setAssertOptions();
-		$passed = array();
-		$failed = array();
-		$exceptions = array();
-
 	}
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Query {
+class Query extends Base {
 
 	protected $connection;
 	protected $statement;
@@ -25,16 +25,8 @@ class Query {
 		unset($this->connection);
 	}
 
-	protected function invalidArgumentExceptionMessage($method, &$argument, $argNum, $expected) {
-		$template = "Argument %s passed to %s must be a %s, %s given.";
-		$given = gettype($argument);
-		$message = sprintf($template, $argNum, $method, $expected, $given);
-
-		return $message;
-	}
-
 	public function from($table, Array $columns=array('*')) {
-		if (empty($table)) throw new InvalidArgumentException('Table name must be set.');
+		if (empty($table)) throw new InvalidArgumentException('Database table name must be set.');
 		if (!is_string($table)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
 		$this->table = $table;
 		$this->columns = $columns;
@@ -91,28 +83,24 @@ class Query {
 	}
 
 	protected function whereClause() {
-		$where = '';
 		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
 
 		return $where;
 	}
 
 	protected function groupClause() {
-		$group = '';
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->direction}";
 
 		return $group;
 	}
 
 	protected function orderClause() {
-		$order = '';
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->direction}";
 
 		return $order;
 	}
 
 	protected function limitClause() {
-		$limit = '';
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
 		if (isset($this->offset)) $limit .= ",{$this->offset}";
 
