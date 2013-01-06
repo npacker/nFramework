@@ -25,7 +25,7 @@ class Query extends Base {
 		unset($this->connection);
 	}
 
-	public function from($table, Array $columns=array('*')) {
+	public function from($table, array $columns=array('*')) {
 		if (empty($table)) throw new InvalidArgumentException('Database table name must be set.');
 		if (!is_string($table)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
 		$this->table = $table;
@@ -120,7 +120,7 @@ class Query extends Base {
 		return $query;
 	}
 
-	protected function buildInsert(Array $data) {
+	protected function buildInsert(array $data) {
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
 		$columns = array();
 		$values = array();
@@ -129,7 +129,7 @@ class Query extends Base {
 			try {
 				$this->addValue($column, $value);
 			} catch (Exception $e) {
-				throw $e;
+				echo $e->getMessage();
 			}
 
 			$columns[] = (string) $column;
@@ -144,7 +144,7 @@ class Query extends Base {
 		return $query;
 	}
 
-	protected function buildUpdate(Array $data) {
+	protected function buildUpdate(array $data) {
 		$template = "UPDATE %s SET %s %s %s";
 		$columns = array();
 
@@ -152,7 +152,7 @@ class Query extends Base {
 			try {
 				$this->addValue($column, $value);
 			} catch (Exception $e) {
-				throw $e;
+				echo $e->getMessage();
 			}
 
 			$columns[] = "{$column} = :{$column}";
@@ -179,7 +179,7 @@ class Query extends Base {
 
 	protected function addValue($column, $value) {
 		if (empty($column)) throw new InvalidArgumentException('Invalid argument: Expected column name.');
-		$column = sprinf(":%s", $column);
+		$column = ":{$column}";
 		$this->values[$column] = $value;
 	}
 
@@ -229,15 +229,16 @@ class Query extends Base {
 		return $result;
 	}
 
-	public function save(Array $data) {
-		if (!$this->fromCalled) throw new RuntimeException('Query could not be completed: no table given.');
+	public function save(array $data) {
+		if (empty($data)) throw new InvalidArgumentException('Query execution halted: no data given.');
+		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
 		$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
 		$this->prepare($query);
 		$this->execute();
 	}
 
 	public function delete() {
-		if (!$this->fromCalled) throw new RuntimeException('Query could not be completed: no table or columns given.');
+		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table or columns given.');
 		$query = $this->buildDelete();
 		$this->prepare($query);
 		$this->execute();
