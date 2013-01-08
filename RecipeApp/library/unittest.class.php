@@ -20,7 +20,7 @@ class UnitTest extends Base {
 		assert_options(ASSERT_CALLBACK, 'assertHandler');
 	}
 
-	public function add(callable $test, $name) {
+	public function add(callable $test, $name='Untitled') {
 		if (!is_string($name)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $name, 2, 'string'));
 		$this->tests[$name] = $test;
 	}
@@ -30,10 +30,10 @@ class UnitTest extends Base {
 
 		foreach ($this->tests as $name => $test) {
 			try {
-				call_user_func($test);
+				$success = call_user_func($test);
+				($success) ? array_push($this->passed, $name) : array_push($this->failed, $name);
 			} catch (Exception $e) {
 				array_push($this->exceptions, $e);
-				array_push($this->failed, $name);
 			}
 		}
 	}
