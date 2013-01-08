@@ -234,8 +234,6 @@ class Query extends Base {
 	}
 
 	public function resultClass($class) {
-		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
-
 		try {
 			$query = $this->buildSelect();
 			$this->prepare($query);
@@ -251,8 +249,6 @@ class Query extends Base {
 	}
 
 	public function resultBoth() {
-		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
-
 		try {
 			$query = $this->buildSelect();
 			$this->prepare($query);
@@ -268,11 +264,7 @@ class Query extends Base {
 	}
 
 	public function save(array $data) {
-		if (empty($data)) {
-			throw new InvalidArgumentException('Query execution halted: no data given.');
-		} else if (!$this->fromCalled) {
-			throw new RuntimeException('Query execution halted: no table given.');
-		}
+		if (empty($data)) throw new InvalidArgumentException('Query execution halted: no data given.');
 
 		try {
 			$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
@@ -284,8 +276,6 @@ class Query extends Base {
 	}
 
 	public function delete() {
-		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table or columns given.');
-
 		try {
 			$query = $this->buildDelete();
 			$this->prepare($query);
