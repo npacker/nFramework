@@ -15,28 +15,25 @@ class Query extends Base {
 	protected $groupDirection;
 	protected $values = array();
 	protected $whereCalled = false;
-	protected $fromCalled = false;
 
-	public function __construct(PDO $connection) {
-		$this->connection = $connection;
-	}
-
-	public function __destruct() {
-		unset($this->connection);
-	}
-
-	public function from($table, array $columns=array('*')) {
+	public function __construct(PDO $connection, $table, array $columns=array('*')) {
 		if (empty($table)) {
 			throw new InvalidArgumentException('Database table name must be set.');
 		} else if (!is_string($table)) {
 			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
 		}
 
-		$this->fromCalled = true;
+		$this->connection = $connection;
 		$this->table = $table;
 		$this->columns = $columns;
+	}
 
-		return $this;
+	public function __destruct() {
+		unset($this->connection);
+	}
+
+	public function to($table) {
+		return $this->from($table);
 	}
 
 	public function where($column, $value, $operator='=') {
@@ -236,7 +233,7 @@ class Query extends Base {
 		}
 	}
 
-	public function classtype($class) {
+	public function resultClass($class) {
 		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
 
 		try {
@@ -253,7 +250,7 @@ class Query extends Base {
 		return $result;
 	}
 
-	public function both() {
+	public function resultBoth() {
 		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
 
 		try {

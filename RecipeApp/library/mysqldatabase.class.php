@@ -38,7 +38,6 @@ class MySqlDatabase extends Base {
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
-			exit();
 		}
 	}
 
@@ -46,12 +45,11 @@ class MySqlDatabase extends Base {
 		unset($this->connection);
 	}
 
-	public function query() {
+	public function query($table, array $columns=null) {
 		try {
-			$query = new Query($this->connection);
+			$query = new Query($this->connection, $table, $columns);
 		} catch (Exception $e) {
 			echo $e->getMessage();
-			exit();
 		}
 
 		return $query;
