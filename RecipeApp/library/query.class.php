@@ -6,13 +6,13 @@ class Query extends Base {
 	protected $statement;
 	protected $table;
 	protected $columns;
+	protected $where = array();
 	protected $limit;
 	protected $offset;
 	protected $order;
 	protected $orderDirection;
 	protected $group;
 	protected $groupDirection;
-	protected $where = array();
 	protected $values = array();
 	protected $whereCalled = false;
 	protected $fromCalled = false;
@@ -26,26 +26,36 @@ class Query extends Base {
 	}
 
 	public function from($table, array $columns=array('*')) {
-		if (empty($table)) throw new InvalidArgumentException('Database table name must be set.');
-		if (!is_string($table)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
+		if (empty($table)) {
+			throw new InvalidArgumentException('Database table name must be set.');
+		} else if (!is_string($table)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
+		}
+
+		$this->fromCalled = true;
 		$this->table = $table;
 		$this->columns = $columns;
-		$this->fromCalled = true;
 
 		return $this;
 	}
 
 	public function where($column, $value, $operator='=') {
-		if (empty($column)) throw new InvalidArgumentException('WHERE column must be set.');
-		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		if (!is_string($operator)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $operator, 3, 'string'));
-		if (!preg_match("/!?=(>|<)?|>|</", $operator)) throw new InvalidArgumentException('Invalid WHERE comparison operator.');
+		if (empty($column)) {
+			throw new InvalidArgumentException('WHERE column must be set.');
+		} else if (!is_string($column)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		} else if (!is_string($operator)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $operator, 3, 'string'));
+		} else if (!preg_match("/!?=(>|<)?|>|</", $operator)) {
+			throw new InvalidArgumentException('Invalid WHERE comparison operator.');
+		}
+
 		$this->whereCalled = true;
 		$this->where[] = "{$column} {$operator} :where_{$column}";
 
 		try {
 			$this->addValue("where_{$column}", $value);
-		} catch (Exception $e) {
+		} catch (InvalidArgumentException $e) {
 			throw $e;
 		}
 
@@ -53,9 +63,14 @@ class Query extends Base {
 	}
 
 	public function order($column, $direction='ASC') {
-		if (empty($column)) throw new InvalidArgumentException('ORDER BY column must be set.');
-		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		if (!preg_match("/ASC|DESC/", $direction)) throw new InvalidArgumentException('Invalid ORDER BY direction.');
+		if (empty($column)) {
+			throw new InvalidArgumentException('ORDER BY column must be set.');
+		} else if (!is_string($column)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		} else if (!preg_match("/ASC|DESC/", $direction)) {
+			throw new InvalidArgumentException('Invalid ORDER BY direction.');
+		}
+
 		$this->order = $column;
 		$this->orderDirection = $direction;
 
@@ -63,9 +78,14 @@ class Query extends Base {
 	}
 
 	public function group($column, $direction='ASC') {
-		if (empty($column)) throw new InvalidArgumentException('GROUP BY column must be set.');
-		if (!is_string($column)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		if (!preg_match("/ASC|DESC/", $direction)) throw new InvalidArgumentException('Invalid GROUP BY direction.');
+		if (empty($column)) {
+			throw new InvalidArgumentException('GROUP BY column must be set.');
+		} else if (!is_string($column)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		} else if (!preg_match("/ASC|DESC/", $direction)) {
+			throw new InvalidArgumentException('Invalid GROUP BY direction.');
+		}
+
 		$this->group = $column;
 		$this->groupDirection = $direciton;
 
@@ -73,10 +93,16 @@ class Query extends Base {
 	}
 
 	public function limit($limit, $offset=null) {
-		if (empty($limit)) throw new InvalidArgumentException('LIMIT value must be set.');
-		if (!is_int($limit)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
-		if (isset($offset) AND !is_int($offset)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
+		if (empty($limit)) {
+			throw new InvalidArgumentException('LIMIT value must be set.');
+		} else if (!is_int($limit)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
+		} else if (isset($offset) AND !is_int($offset)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
+		}
+
 		$this->limit = $limit;
+
 		if (isset($offset)) $this->offset = $offset;
 
 		return $this;
@@ -128,8 +154,8 @@ class Query extends Base {
 		foreach ($data as $column => $value) {
 			try {
 				$this->addValue($column, $value);
-			} catch (Exception $e) {
-				echo $e->getMessage();
+			} catch (InvalidArgumentException $e) {
+				throw $e;
 			}
 
 			$columns[] = (string) $column;
@@ -151,8 +177,8 @@ class Query extends Base {
 		foreach ($data as $column => $value) {
 			try {
 				$this->addValue($column, $value);
-			} catch (Exception $e) {
-				echo $e->getMessage();
+			} catch (InvalidArgumentException $e) {
+				throw $e;
 			}
 
 			$columns[] = "{$column} = :{$column}";
@@ -179,6 +205,7 @@ class Query extends Base {
 
 	protected function addValue($column, $value) {
 		if (empty($column)) throw new InvalidArgumentException('Invalid argument: Expected column name.');
+
 		$column = ":{$column}";
 		$this->values[$column] = $value;
 	}
@@ -187,7 +214,7 @@ class Query extends Base {
 		try {
 			($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode($fetchMode);
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw $e;
 		}
 	}
 
@@ -197,7 +224,7 @@ class Query extends Base {
 		try {
 			$this->statement = $this->connection->prepare($query);
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw $e;
 		}
 	}
 
@@ -205,43 +232,70 @@ class Query extends Base {
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
-			echo $e->getMessage();
+			throw $e;
 		}
 	}
 
 	public function classtype($class) {
-		$query = $this->buildSelect();
-		$this->prepare($query);
-		$this->setFetchMode(PDO::FETCH_CLASS, $class);
-		$this->execute();
+		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
+
+		try {
+			$query = $this->buildSelect();
+			$this->prepare($query);
+			$this->setFetchMode(PDO::FETCH_CLASS, $class);
+			$this->execute();
+		} catch (Exception $e) {
+			throw $e;
+		}
+
 		$result = $this->statement;
 
 		return $result;
 	}
 
 	public function both() {
-		$query = $this->buildSelect();
-		$this->prepare($query);
-		$this->setFetchMode(PDO::FETCH_BOTH);
-		$this->execute();
+		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
+
+		try {
+			$query = $this->buildSelect();
+			$this->prepare($query);
+			$this->setFetchMode(PDO::FETCH_BOTH);
+			$this->execute();
+		} catch (Exception $e) {
+			throw $e;
+		}
+
 		$result = $this->statement;
 
 		return $result;
 	}
 
 	public function save(array $data) {
-		if (empty($data)) throw new InvalidArgumentException('Query execution halted: no data given.');
-		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table given.');
-		$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
-		$this->prepare($query);
-		$this->execute();
+		if (empty($data)) {
+			throw new InvalidArgumentException('Query execution halted: no data given.');
+		} else if (!$this->fromCalled) {
+			throw new RuntimeException('Query execution halted: no table given.');
+		}
+
+		try {
+			$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
+			$this->prepare($query);
+			$this->execute();
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
 
 	public function delete() {
 		if (!$this->fromCalled) throw new RuntimeException('Query execution halted: no table or columns given.');
-		$query = $this->buildDelete();
-		$this->prepare($query);
-		$this->execute();
+
+		try {
+			$query = $this->buildDelete();
+			$this->prepare($query);
+			$this->execute();
+		} catch (Exception $e) {
+			throw $e;
+		}
 	}
 
 }
