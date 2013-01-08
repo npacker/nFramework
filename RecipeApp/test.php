@@ -10,46 +10,39 @@ bootstrapInit();
 $database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
 $database->connect();
 
-$recipe = $database->query()
-	->from('recipes', array('name'))
-	->classtype('Recipe')
+$recipe = $database->query('recipes', array('name'))
+	->resultClass('Recipe')
 	->fetch();
 
-$result = $database->query()
-	->from('recipes')
-	->both()
+$result = $database->query('recipes')
+	->resultBoth()
 	->fetch();
 
-$database->query()
-	->from('recipes')
+$database->query('recipes')
 	->save(array(
 			'name' => 'Test Recipe 2',
 		));
 
-$database->query()
-	->from('recipes')
+$database->query('recipes')
 	->where('name', 'Test Recipe 2')
 	->save(array(
 			'name' => 'Test Recipe 3',
 		));
 
-$result = $database->query()
-	->from('recipes', array('id'))
+$result = $database->query('recipes', array('id'))
 	->where('name', 'Test Recipe 3')
-	->both()
+	->resultBoth()
 	->fetch();
 
 $recipe_id = $result['id'];
 
-$database->query()
-	->from('ingredients')
+$database->query('ingredients')
 	->save(array(
 			'name' => 'Eggs',
 			'quantity' => 2,
 			'recipe_id' => $recipe_id
 		));
 
-$database->query()
-	->from('recipes')
+$database->query('recipes')
 	->where('name', 'Test Recipe 3')
 	->delete();
