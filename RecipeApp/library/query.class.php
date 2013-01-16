@@ -32,10 +32,6 @@ class Query extends Base {
 		unset($this->connection);
 	}
 
-	public function to($table) {
-		return $this->from($table);
-	}
-
 	public function where($column, $value, $operator='=') {
 		if (empty($column)) {
 			throw new InvalidArgumentException('WHERE column must be set.');
