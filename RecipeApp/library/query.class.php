@@ -7,6 +7,7 @@ class Query extends Base {
 	protected $table;
 	protected $columns;
 	protected $where = array();
+	protected $whereCalled = false;
 	protected $limit;
 	protected $offset;
 	protected $order;
@@ -14,7 +15,6 @@ class Query extends Base {
 	protected $group;
 	protected $groupDirection;
 	protected $values = array();
-	protected $whereCalled = false;
 
 	public function __construct(PDO $connection, $table, array $columns=array('*')) {
 		if (empty($table)) {
