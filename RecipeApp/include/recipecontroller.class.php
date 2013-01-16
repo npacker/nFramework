@@ -26,7 +26,7 @@ class RecipeController extends Controller {
 		echo 'Called ' . __METHOD__ . "<br />";
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
-		$this->prepare($this->model->create($name));
+		$this->prepare($this->model->create($recipe));
 	}
 
 	public function update($id) {
@@ -41,7 +41,7 @@ class RecipeController extends Controller {
 
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
-		$this->prepare($this->model->update($id, $name));
+		$this->prepare($this->model->update($id, $recipe));
 	}
 
 	public function delete($id) {
