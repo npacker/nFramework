@@ -102,24 +102,32 @@ class Query extends Base {
 	}
 
 	protected function whereClause() {
+		$where = '';
+
 		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
 
 		return $where;
 	}
 
 	protected function groupClause() {
+		$group = '';
+
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->orderDirection}";
 
 		return $group;
 	}
 
 	protected function orderClause() {
+		$order = '';
+
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->groupDirection}";
 
 		return $order;
 	}
 
 	protected function limitClause() {
+		$limit = '';
+
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
 		if (isset($this->offset)) $limit .= ",{$this->offset}";
 
