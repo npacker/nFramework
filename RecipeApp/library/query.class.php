@@ -247,9 +247,7 @@ class Query extends Base {
 			throw $e;
 		}
 
-		$result = $this->statement;
-
-		return $result;
+		return $this->statement;
 	}
 
 	public function resultBoth() {
@@ -262,9 +260,7 @@ class Query extends Base {
 			throw $e;
 		}
 
-		$result = $this->statement;
-
-		return $result;
+		return $this->statement;
 	}
 
 	public function save(array $data) {
