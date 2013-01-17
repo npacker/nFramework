@@ -45,7 +45,7 @@ class MySqlDatabase extends Base {
 		unset($this->connection);
 	}
 
-	public function query($table, array $columns=null) {
+	public function query($table, array $columns=array('*')) {
 		try {
 			$query = new Query($this->connection, $table, $columns);
 		} catch (Exception $e) {
