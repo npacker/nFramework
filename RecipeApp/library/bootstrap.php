@@ -45,7 +45,6 @@ function route($type, $action, $id) {
 		$controller = new $controllerName();
 	} catch (FileNotFoundException $e) {
 		throw $e;
-		return;
 	}
 
 	if (method_exists($controller, $action)) {
@@ -53,7 +52,6 @@ function route($type, $action, $id) {
 			(empty($id)) ? $controller->$action() : $controller->$action($id);
 		} catch (Exception $e) {
 			throw $e;
-			return;
 		}
 	}	else throw new BadMethodCallException('Action not defined.');
 }
