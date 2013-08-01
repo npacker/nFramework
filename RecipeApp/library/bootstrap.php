@@ -45,6 +45,7 @@ function route($type, $action, $id) {
 		$controller = new $controllerName();
 	} catch (FileNotFoundException $e) {
 		throw $e;
+		return;
 	}
 
 	if (method_exists($controller, $action)) {
