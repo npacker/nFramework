@@ -19,7 +19,7 @@ class MySqlDatabase extends Base {
 	}
 
 	public function __destruct() {
-		unset($this->connection);
+		$this->close();
 	}
 
 	final private function __clone() {}
