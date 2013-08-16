@@ -2,16 +2,13 @@
 
 abstract class Model {
 
-	protected $connection;
+	protected $database;
 
 	public function __construct() {
-		echo 'Called ' . __METHOD__ . "<br />";
-
 		try {
-			$this->connection = MySqlConnection::getConnection();
+			$this->database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
-			exit();
 		}
 	}
 
