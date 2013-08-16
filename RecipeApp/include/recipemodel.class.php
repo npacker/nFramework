@@ -3,23 +3,18 @@
 class RecipeModel extends Model {
 
 	public function __construct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		parent::__construct();
 	}
 
 	public function find($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
-		$query = 'SELECT name FROM recipes WHERE id = :id';
-
 		try {
-			$statement = $this->connection->prepare($query);
-			$statement->bindParam(':id', $id);
-			$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
-			$statement->execute();
-			$recipe = $statement->fetch();
-			$statement->closeCursor();
-			$this->ingredients($id, $recipe);
-		} catch (PDOException $e) {
+			$this->database->connect();
+			$recipe = $this->database->query('recipes', array('name'))
+				->where('id', $id)
+				->resultClass('Recipe')
+				->fetch();
+			$this->database->close();
+		} catch (PDOExcpetion $e) {
 			echo $e->getMessage();
 			exit();
 		}
@@ -30,20 +25,19 @@ class RecipeModel extends Model {
 	public function join($id, $field) {}
 
 	public function all() {
-		echo 'Called ' . __METHOD__ . "<br />";
-		$query = 'SELECT name FROM recipes';
+		$recipeList = new RecipeList();
 
 		try {
-			$statement = $this->connection->prepare($query);
-			$statement->setFetchMode(PDO::FETCH_CLASS, 'Recipe');
-			$statement->execute();
-			$recipeList = new RecipeList();
+			$this->database->connect();
+			$result = $this->database->query('recipes', array('name'))
+				->resultClass('Recipe')
+				->fetch();
 
-			foreach($statement as $recipe) {
-				$recipeList->addRecipe($recipe);
+			foreach($result as $recipe) {
+				$recipe_List->addRecipe($recipe);
 			}
 
-			$statement->closeCursor();
+			$this->database->close();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
@@ -56,13 +50,11 @@ class RecipeModel extends Model {
 	}
 
 	public function create(Recipe $recipe=null) {
-		echo 'Called ' . __METHOD__ . "<br />";
-		$query = 'INSERT INTO recipes (name) VALUES (:name)';
-
 		try {
-			$statement = $this->connection->prepare($query);
-			$statement->bindParam(':name', $recipe->name);
-			$statement->execute();
+			$this->database->connect();
+			$this->database->query('recipes', array('name'))
+				->save(array('name', $recipe->name));
+			$this->database->close();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
@@ -70,17 +62,25 @@ class RecipeModel extends Model {
 	}
 
 	public function update($id, Recipe $recipe=null) {
-		echo 'Called ' . __METHOD__ . "<br />";
+		try {
+			$this->database->connect();
+			$this->database->query('recipes', array('name'))
+				->where('id', $id)
+				->save(array('name', $recipe->name));
+			$this->database->close();
+		} catch (PDOException $e) {
+			echo $e->getMessage();
+			exit();
+		}
 	}
 
 	public function delete($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
-		$query = 'DELETE FROM recipes WHERE id = :id';
-
 		try {
-			$statement = $this->connection->prepare($query);
-			$statement->bindParam(':id', $id);
-			$statement->execute();
+			$this->database->connect();
+			$this->database->query('recipes')
+				->where('id', $id)
+				->delete();
+			$this->database->close();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
@@ -88,8 +88,6 @@ class RecipeModel extends Model {
 	}
 
 	protected function ingredients($id, &$recipe) {
-		echo 'Called ' . __METHOD__ . "<br />";
-
 		try {
 			$ingredientModel = new ingredientModel();
 		} catch (FileNotFoundException $e) {
