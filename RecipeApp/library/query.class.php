@@ -16,7 +16,7 @@ class Query extends Base {
 	protected $groupDirection;
 	protected $values = array();
 
-	public function __construct(PDO $connection, $table, array $columns=array('*')) {
+	public function __construct(PDO &$connection, $table, array $columns=array('*')) {
 		if (empty($table)) {
 			throw new InvalidArgumentException('Database table name must be set.');
 		} else if (!is_string($table)) {
@@ -29,7 +29,8 @@ class Query extends Base {
 	}
 
 	public function __destruct() {
-		unset($this->connection);
+		$this->connection = NULL;
+		$this->statement = NULL;
 	}
 
 	public function where($column, $value, $operator='=') {
@@ -220,10 +221,8 @@ class Query extends Base {
 	}
 
 	protected function prepare($query) {
-		echo "<p>{$query}</p>";
-
 		try {
-			$this->statement = $this->connection->prepare($query);
+			$this->statement =& $this->connection->prepare($query);
 		} catch (PDOException $e) {
 			throw $e;
 		}
