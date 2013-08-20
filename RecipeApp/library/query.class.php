@@ -222,7 +222,7 @@ class Query extends Base {
 
 	protected function prepare($query) {
 		try {
-			$this->statement =& $this->connection->prepare($query);
+			$this->statement = $this->connection->prepare($query);
 		} catch (PDOException $e) {
 			throw $e;
 		}
