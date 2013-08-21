@@ -26,7 +26,8 @@ class RecipeController extends Controller {
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
 		$id = $this->model->create($recipe);
-		echo $id;
+		echo "$id";
+		echo 'test';
 		$this->prepare($this->model->find($id));
 	}
 
