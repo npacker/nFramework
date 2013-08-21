@@ -38,12 +38,18 @@ function pathInit() {
 
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-
-	$controllerName = substr_replace($type, '', -1) . 'Controller';
+	if (!empty($type)) {
+		$controllerName = substr_replace($type, '', -1) . 'Controller';
+	} else {
+		$controllerName = 'recipeController';
+	}
 
 	try {
 		$controller = new $controllerName();
 	} catch (FileNotFoundException $e) {
+		throw $e;
+		return;
+	} catch (Exception $e) {
 		throw $e;
 		return;
 	}
