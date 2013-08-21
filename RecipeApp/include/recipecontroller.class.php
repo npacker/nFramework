@@ -10,7 +10,6 @@ class RecipeController extends Controller {
 
 	public function view($id=null) {
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
@@ -27,12 +26,12 @@ class RecipeController extends Controller {
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
 		$id = $this->model->create($recipe);
+		echo $id;
 		$this->prepare($this->model->find($id));
 	}
 
 	public function update($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
@@ -48,7 +47,6 @@ class RecipeController extends Controller {
 
 	public function delete($id) {
 		echo 'Called ' . __METHOD__ . "<br />";
-
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
