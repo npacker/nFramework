@@ -25,8 +25,7 @@ function pathInit() {
 	try {
 		route($type, $action, $id);
 	} catch (BadMethodCallException $e) {
-		echo $e->getMessage();
-		exit();
+		route($type, 'view', $id);
 	} catch (FileNotFoundException $e) {
 		echo $e->getMessage();
 		exit();
@@ -38,11 +37,7 @@ function pathInit() {
 
 function route($type, $action, $id) {
 	echo 'Called ' . __FUNCTION__ . '<br />';
-	if (!empty($type)) {
-		$controllerName = substr_replace($type, '', -1) . 'Controller';
-	} else {
-		$controllerName = 'recipeController';
-	}
+	$controllerName = (empty($type)) ? 'recipeController' : substr_replace($type, '', -1) . 'Controller';
 
 	try {
 		$controller = new $controllerName();
