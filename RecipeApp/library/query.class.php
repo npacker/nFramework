@@ -293,6 +293,8 @@ class Query extends Base {
 		} catch (Exception $e) {
 			throw $e;
 		}
+
+		return $this->statement;
 	}
 
 	public function delete() {

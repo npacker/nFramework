@@ -52,13 +52,16 @@ class RecipeModel extends Model {
 	public function create(Recipe $recipe=null) {
 		try {
 			$this->database->connect();
-			$this->database->query('recipes', array('name'))
+			$result = $this->database->query('recipes', array('name'))
 				->save(array('name', $recipe->name));
+			$lastInsertId = $result->lastInsertId('id');
 			$this->database->close();
 		} catch (PDOException $e) {
 			echo $e->getMessage();
 			exit();
 		}
+
+		return $lastInsertId;
 	}
 
 	public function update($id, Recipe $recipe=null) {
