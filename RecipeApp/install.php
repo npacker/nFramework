@@ -31,7 +31,8 @@ $query = 'DROP DATABASE IF EXISTS recipesdb;
 					INSERT INTO recipes
 						(name)
 					VALUES
-						("Test Recipe 1");
+						("Test Recipe 1"),
+						("Test Recipe 2");
 					INSERT INTO ingredients
 						(name, quantity, recipe_id)
 					VALUES

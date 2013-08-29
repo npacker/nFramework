@@ -25,13 +25,13 @@ while ($recipe = $result->fetch()) {
 
 $database->query('recipes')
 	->save(array(
-			'name' => 'Test Recipe 2',
+			'name' => 'Test Recipe 3',
 		));
 
 $database->query('recipes')
-	->where('name', 'Test Recipe 2')
+	->where('name', 'Test Recipe 3')
 	->save(array(
-			'name' => 'Test Recipe 3',
+			'name' => 'Test Recipe 4',
 		));
 
 $result = $database->query('recipes', array('id'))
