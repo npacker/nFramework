@@ -18,11 +18,9 @@ echo "{$recipe->name}<br />";
 
 $result = $database->query('recipes')
 	->resultBoth()
-	->fetch();
+	->fetchAll();
 
-foreach ($result as $recipe) {
-	echo $recipe;
-}
+print_r($result);
 
 $database->query('recipes')
 	->save(array(
