@@ -17,7 +17,7 @@ $recipe = $database->query('recipes', array('name'))
 echo "{$recipe->name}<br />";
 
 $result = $database->query('recipes')
-	->resultBoth()
+	->resultClass('Recipe')
 	->fetch();
 
 foreach ($result as $recipe) {
