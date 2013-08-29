@@ -17,11 +17,11 @@ $recipe = $database->query('recipes', array('name'))
 echo "{$recipe->name}<br />";
 
 $result = $database->query('recipes')
-	->resultClass('Recipe')
+	->resultBoth()
 	->fetch();
 
 foreach ($result as $recipe) {
-	echo "{$recipe->name}<br />";
+	echo $recipe;
 }
 
 $database->query('recipes')
