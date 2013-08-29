@@ -29,7 +29,7 @@ $database->query('recipes')
 		));
 
 $database->query('recipes')
-	->where('name', 'Test Recipe 3')
+	->where('name', 'Test Recipe 2')
 	->save(array(
 			'name' => 'Test Recipe 4',
 		));
