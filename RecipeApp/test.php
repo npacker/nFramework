@@ -14,9 +14,15 @@ $recipe = $database->query('recipes', array('name'))
 	->resultClass('Recipe')
 	->fetch();
 
+echo "{$recipe->name}<br />";
+
 $result = $database->query('recipes')
 	->resultBoth()
 	->fetch();
+
+foreach ($result as $recipe) {
+	echo "{$recipe->name}<br />";
+}
 
 $database->query('recipes')
 	->save(array(
