@@ -17,10 +17,11 @@ $recipe = $database->query('recipes', array('name'))
 echo "{$recipe->name}<br />";
 
 $result = $database->query('recipes')
-	->resultBoth()
-	->fetchAll();
+	->resultClass('Recipe');
 
-print_r($result);
+while ($recipe = $result->fetch()) {
+	echo "{$recipe->name}<br />";
+}
 
 $database->query('recipes')
 	->save(array(
