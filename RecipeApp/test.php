@@ -18,6 +18,7 @@ try {
 	echo $e->getMessage();
 	exit();
 }
+
 echo "{$recipe->name}<br />";
 
 try {
