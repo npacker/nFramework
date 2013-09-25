@@ -9,6 +9,7 @@ abstract class Model {
 			$this->database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
 		} catch (PDOException $e) {
 			echo $e->getMessage();
+			exit();
 		}
 	}
 
