@@ -43,7 +43,7 @@ try {
 		->save(array(
 				'name' => 'Test Recipe 3',
 			));
-		echo "<strong>Saved Test Recipe 3 to database.";
+		echo "<strong>Saved Test Recipe 3 to database.</strong><br />";
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
