@@ -43,6 +43,7 @@ try {
 		->save(array(
 				'name' => 'Test Recipe 3',
 			));
+		echo "<strong>Saved Test Recipe 3 to database.";
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
@@ -54,6 +55,7 @@ try {
 		->save(array(
 				'name' => 'Test Recipe 4',
 			));
+		echo "<strong>Renamed Test Recipe 2 to Test Recipe 4</strong><br />";
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
@@ -78,6 +80,7 @@ try {
 				'quantity' => 2,
 				'recipe_id' => $recipe_id
 			));
+		echo "<strong>Ingredient Eggs added.</strong><br />";
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
@@ -87,6 +90,7 @@ try {
 	$database->query('recipes')
 		->where('name', 'Test Recipe 3')
 		->delete();
+	echo "<strong>Test Recipe 3 deleted.</strong><br />";
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
