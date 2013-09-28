@@ -95,3 +95,15 @@ try {
 	echo $e->getMessage();
 	exit();
 }
+
+try {
+	$ingredient = $database->query('ingredients')
+		->where('name', 'Eggs')
+		->resultClass('Ingredient')
+		->fetch();
+} catch (Exception $e) {
+	echo $e->getMessage();
+	exit();
+}
+
+echo "<strong>{$ingredient->name}</strong><br />";
