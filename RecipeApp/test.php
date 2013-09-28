@@ -19,8 +19,7 @@ try {
 	exit();
 }
 
-echo "{$recipe->name}";
-echo "<br />";
+echo "<strong>{$recipe->name}</strong><br />";
 
 try {
 	$result = $database->query('recipes')
@@ -32,7 +31,7 @@ try {
 
 try {
 	while ($recipe = $result->fetch()) {
-		echo "{$recipe->name}<br />";
+		echo "<strong>{$recipe->name}</strong><br />";
 	}
 } catch (Exception $e) {
 	echo $e->getMessage();
