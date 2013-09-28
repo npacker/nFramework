@@ -19,7 +19,8 @@ try {
 	exit();
 }
 
-echo "{$recipe->name}<br />";
+echo "{$recipe->name}";
+echo "<br />";
 
 try {
 	$result = $database->query('recipes')
