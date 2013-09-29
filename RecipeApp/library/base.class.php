@@ -24,7 +24,7 @@ abstract class Base {
 
 	protected function get($property) {
 		if (property_exists($this, $property)) $value = $this->$property;
-		else throw new Exception("Property {$proprty} not defined.");
+		else throw new Exception("Property {$property} not defined.");
 
 		return $value;
 	}
