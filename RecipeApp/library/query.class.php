@@ -71,7 +71,7 @@ class Query extends Base {
 		$this->where[] = "{$colum} :where_{$column}";
 		
 		try {
-			
+			$this->addValue("where_{$column}", $value);
 		} catch (InvalidArgumentException $e) {
 			throw $e;
 		}
