@@ -58,6 +58,26 @@ class Query extends Base {
 
 		return $this;
 	}
+	
+	public function in($column, array $values) {
+		echo 'Called ' . __METHOD__ . "<br />";
+		if (empty($column)) {
+			throw new InvalidArgumentException('WHERE column must be set.');
+		} else if (!is_string($column)) {
+			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
+		}
+		
+		$this->whereCalled = true;
+		$this->where[] = "{$colum} :where_{$column}";
+		
+		try {
+			
+		} catch (InvalidArgumentException $e) {
+			throw $e;
+		}
+		
+		return $this;
+	}
 
 	public function order($column, $direction='ASC') {
 		echo 'Called ' . __METHOD__ . "<br />";
