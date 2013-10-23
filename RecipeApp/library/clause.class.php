@@ -9,4 +9,12 @@ class Clause extends Base {
 		$this->query = $query;
 	}
 
+	abstract public function andClause() {}
+
+	abstract public function orClause() {}
+
+	abstract public function andGroup() {}
+
+	abstract public function orGroup() {}
+
 }
