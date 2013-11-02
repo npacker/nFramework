@@ -6,7 +6,7 @@ class Where extends Clause {
 
 	}
 
-	public function andClause() {
+	public function andClause($column, $value, $operator='=') {
 
 	}
 
