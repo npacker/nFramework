@@ -14,48 +14,16 @@ function __include_file($class) {
 	if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
 }
 
-function pathInit() {
+function dispatch() {
 	echo 'Called ' . __FUNCTION__ . '<br />';
+
 	$uri = Request::server('REQUEST_URI');
-	$params = explode('/', trim($uri, '/'));
-	$type = array_shift($params);
-	$action = array_shift($params);
-	$id = array_shift($params);
-
-	try {
-		route($type, $action, $id);
-	} catch (BadMethodCallException $e) {
-		route($type, 'view', $id);
-	} catch (FileNotFoundException $e) {
-		echo $e->getMessage();
-		exit();
-	} catch (Exception $e) {
-		echo $e->getMessage();
-		exit();
-	}
-}
-
-function route($type, $action, $id) {
-	echo 'Called ' . __FUNCTION__ . '<br />';
-	$controllerName = (empty($type)) ? 'recipeController' : substr_replace($type, '', -1) . 'Controller';
-
-	try {
-		$controller = new $controllerName();
-	} catch (FileNotFoundException $e) {
-		throw $e;
-		return;
-	} catch (Exception $e) {
-		throw $e;
-		return;
-	}
-
-	if (method_exists($controller, $action)) {
-		try {
-			(empty($id)) ? $controller->$action() : $controller->$action($id);
-		} catch (Exception $e) {
-			throw $e;
-		}
-	}	else throw new BadMethodCallException('Action not defined.');
+	$request = new HttpRequest($uri);
+	$dispatcher = new Dispatcher();
+	$dispatcher->setController($request->getController());
+	$dispatcer->setAction($request->getAction());
+	$dispatcher->setArgs($request->getArgs());
+	$dispatcher->dispatch();
 }
 
 function bootstrapInit() {
@@ -67,5 +35,5 @@ function bootstrapInit() {
 function bootstrapFull() {
 	echo 'Called ' . __FUNCTION__ . '<br />';
 	bootstrapInit();
-	pathInit();
+	dispatch();
 }
