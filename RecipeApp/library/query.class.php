@@ -17,7 +17,6 @@ class Query extends Base {
 	protected $values = array();
 
 	public function __construct(PDO &$connection, $table, array $columns=array('*')) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($table)) {
 			throw new InvalidArgumentException('Database table name must be set.');
 		} else if (!is_string($table)) {
@@ -30,13 +29,11 @@ class Query extends Base {
 	}
 
 	public function __destruct() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$this->connection = NULL;
 		$this->statement = NULL;
 	}
 
 	public function where($column, $value, $operator='=') {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($column)) {
 			throw new InvalidArgumentException('WHERE column must be set.');
 		} else if (!is_string($column)) {
@@ -58,29 +55,27 @@ class Query extends Base {
 
 		return $this;
 	}
-	
+
 	public function in($column, array $values) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		if (empty($column)) {
 			throw new InvalidArgumentException('WHERE column must be set.');
 		} else if (!is_string($column)) {
 			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
 		}
-		
+
 		$this->whereCalled = true;
 		$this->where[] = "{$colum} :where_{$column}";
-		
+
 		try {
 			$this->addValue("where_{$column}", $value);
 		} catch (InvalidArgumentException $e) {
 			throw $e;
 		}
-		
+
 		return $this;
 	}
 
 	public function order($column, $direction='ASC') {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($column)) {
 			throw new InvalidArgumentException('ORDER BY column must be set.');
 		} else if (!is_string($column)) {
@@ -96,7 +91,6 @@ class Query extends Base {
 	}
 
 	public function group($column, $direction='ASC') {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($column)) {
 			throw new InvalidArgumentException('GROUP BY column must be set.');
 		} else if (!is_string($column)) {
@@ -112,7 +106,6 @@ class Query extends Base {
 	}
 
 	public function limit($limit, $offset=null) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($limit)) {
 			throw new InvalidArgumentException('LIMIT value must be set.');
 		} else if (!is_int($limit)) {
@@ -129,7 +122,6 @@ class Query extends Base {
 	}
 
 	protected function whereClause() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$where = '';
 
 		if (!empty($this->where)) $where = "WHERE " . implode(' AND ', $this->where);
@@ -138,7 +130,6 @@ class Query extends Base {
 	}
 
 	protected function groupClause() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$group = '';
 
 		if (isset($this->group)) $group = "GROUP BY {$this->group} {$this->orderDirection}";
@@ -147,7 +138,6 @@ class Query extends Base {
 	}
 
 	protected function orderClause() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$order = '';
 
 		if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->groupDirection}";
@@ -156,7 +146,6 @@ class Query extends Base {
 	}
 
 	protected function limitClause() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$limit = '';
 
 		if (isset($this->limit)) $limit = "LIMIT {$this->limit}";
@@ -166,7 +155,6 @@ class Query extends Base {
 	}
 
 	protected function buildSelect() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$template = "SELECT %s FROM %s %s %s %s %s";
 		$columns = implode(', ', $this->columns);
 		$table = $this->table;
@@ -180,7 +168,6 @@ class Query extends Base {
 	}
 
 	protected function buildInsert(array $data) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$template = "INSERT INTO %s (%s) VALUES (%s)";
 		$columns = array();
 		$values = array();
@@ -205,7 +192,6 @@ class Query extends Base {
 	}
 
 	protected function buildUpdate(array $data) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$template = "UPDATE %s SET %s %s %s";
 		$columns = array();
 
@@ -229,7 +215,6 @@ class Query extends Base {
 	}
 
 	protected function buildDelete() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		$template = "DELETE FROM %s %s %s";
 		$table = $this->table;
 		$where = $this->whereClause();
@@ -240,7 +225,6 @@ class Query extends Base {
 	}
 
 	protected function addValue($column, $value) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($column)) throw new InvalidArgumentException('Invalid argument: Expected column name.');
 
 		$column = ":{$column}";
@@ -248,7 +232,6 @@ class Query extends Base {
 	}
 
 	protected function setFetchMode($fetchMode, $options=null) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode($fetchMode);
 		} catch (PDOException $e) {
@@ -257,7 +240,6 @@ class Query extends Base {
 	}
 
 	protected function prepare($query) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			$this->statement = $this->connection->prepare($query);
 		} catch (PDOException $e) {
@@ -266,7 +248,6 @@ class Query extends Base {
 	}
 
 	protected function execute() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			$this->statement->execute($this->values);
 		} catch (PDOException $e) {
@@ -275,7 +256,6 @@ class Query extends Base {
 	}
 
 	public function resultClass($class) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			$query = $this->buildSelect();
 			$this->prepare($query);
@@ -289,7 +269,6 @@ class Query extends Base {
 	}
 
 	public function resultBoth() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			$query = $this->buildSelect();
 			$this->prepare($query);
@@ -303,7 +282,6 @@ class Query extends Base {
 	}
 
 	public function save(array $data) {
-		echo 'Called ' . __METHOD__ . "<br>";
 		if (empty($data)) throw new InvalidArgumentException('Query execution halted: no data given.');
 
 		try {
@@ -318,7 +296,6 @@ class Query extends Base {
 	}
 
 	public function delete() {
-		echo 'Called ' . __METHOD__ . "<br>";
 		try {
 			$query = $this->buildDelete();
 			$this->prepare($query);

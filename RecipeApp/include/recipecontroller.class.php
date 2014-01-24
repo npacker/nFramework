@@ -3,41 +3,44 @@
 class RecipeController extends Controller {
 
 	public function __construct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		parent::__construct();
 		$this->model = new RecipeModel();
 	}
 
 	public function view($id=null) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
 			throw $e;
-			return;
 		}
 
-		if (isset($id)) $this->prepare($this->model->find($id));
-		else $this->prepare($this->model->all());
+		try {
+			(isset($id)) ? $this->prepare($this->model->find($id)) : $this->prepare($this->model->all());
+		} catch (Exception $e) {
+
+		}
 	}
 
 	public function create() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$name = Request::post('name');
 		$recipe = new Recipe($name);
 		$id = $this->model->create($recipe);
+
 		echo "$id";
 		echo 'test';
-		$this->prepare($this->model->find($id));
+
+		try {
+			$this->prepare($this->model->find($id));
+		} catch (Exception $e) {
+
+		}
 	}
 
 	public function update($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
 			throw $e;
-			return;
 		}
 
 		$name = Request::post('name');
@@ -47,12 +50,10 @@ class RecipeController extends Controller {
 	}
 
 	public function delete($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
 			throw $e;
-			return;
 		}
 
 		$this->model->delete($id);

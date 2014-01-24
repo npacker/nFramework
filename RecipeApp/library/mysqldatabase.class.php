@@ -11,7 +11,6 @@ class MySqlDatabase extends Base {
 	protected $connection;
 
 	protected function __construct($hostname, $database, $username, $password) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$this->hostname = $hostname;
 		$this->database = $database;
 		$this->username = $username;
@@ -20,7 +19,6 @@ class MySqlDatabase extends Base {
 	}
 
 	public function __destruct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$this->close();
 	}
 
@@ -29,14 +27,12 @@ class MySqlDatabase extends Base {
 	final private function __sleep() {}
 
 	public static function instance($hostname, $database, $username, $password) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		if (is_null(self::$instance)) self::$instance = new self($hostname, $database, $username, $password);
 
 		return self::$instance;
 	}
 
 	public function connect() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$this->connection = new PDO($this->dsn, $this->username, $this->password);
 			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
@@ -46,12 +42,10 @@ class MySqlDatabase extends Base {
 	}
 
 	public function close() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		unset($this->connection);
 	}
 
 	public function query($table, array $columns=array('*')) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		try {
 			$query = new Query($this->connection, $table, $columns);
 		} catch (Exception $e) {
