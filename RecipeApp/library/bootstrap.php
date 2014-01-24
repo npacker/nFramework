@@ -19,7 +19,7 @@ function dispatch() {
 	$request = new HttpRequest($uri);
 	$dispatcher = new Dispatcher();
 	$dispatcher->setController($request->getController());
-	$dispatcer->setAction($request->getAction());
+	$dispatcher->setAction($request->getAction());
 	$dispatcher->setArgs($request->getArgs());
 	$dispatcher->dispatch();
 }
