@@ -28,15 +28,15 @@ class HttpRequest extends Base {
 		return $this->args;
 	}
 
+	protected function parseParams() {
+		return array_map('strtolower', explode('/', trim($this->uri, '/')));
+	}
+
 	protected function parseUrl() {
 		$params = $this->parseParams();
 		$this->controller = array_shift($params);
 		$this->action = array_shift($params);
 		$this->args = $params;
-	}
-
-	protected function parseParams() {
-		return array_map('strtolower', explode('/', trim($this->uri, '/')));
 	}
 
 }
