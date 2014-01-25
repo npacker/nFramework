@@ -8,7 +8,7 @@ class HttpRequest extends Base {
 	protected $args;
 
 	public function __construct($uri) {
-		$this->uri = $uri;
+		$this->uri = str_replace(base_path(), '', $uri);
 		$this->parseUrl();
 	}
 
@@ -28,12 +28,8 @@ class HttpRequest extends Base {
 		return $this->args;
 	}
 
-	protected function parseParams() {
-		return array_map('strtolower', explode('/', trim($this->uri, '/')));
-	}
-
 	protected function parseUrl() {
-		$params = $this->parseParams();
+		$params = parse_path($this->uri);
 		$this->controller = array_shift($params);
 		$this->action = array_shift($params);
 		$this->args = $params;

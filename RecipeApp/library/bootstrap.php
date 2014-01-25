@@ -26,6 +26,7 @@ function dispatch() {
 
 function bootstrapInit() {
 	require_once (ROOT . DS . 'library' . DS . 'config.php');
+	require_once (ROOT . DS . 'library' . DS . 'common.php');
 	spl_autoload_register('__include_file');
 }
 
