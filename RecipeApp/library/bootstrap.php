@@ -14,6 +14,11 @@ function __include_file($class) {
 	if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
 }
 
+function exception_handler($exception) {
+	echo $exception->getMessage();
+	exit();
+}
+
 function dispatch() {
 	$uri = Request::server('REQUEST_URI');
 	$request = new HttpRequest($uri);
@@ -29,6 +34,7 @@ function bootstrapInit() {
 	require_once (ROOT . DS . 'library' . DS . 'config.php');
 	require_once (ROOT . DS . 'library' . DS . 'common.php');
 	spl_autoload_register('__include_file');
+	set_exception_handler('exception_handler');
 }
 
 function bootstrapFull() {
