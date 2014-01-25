@@ -7,7 +7,7 @@ function parse_path($path) {
 function base_path() {
 	$basepath = explode('/', rtrim(Request::server('SCRIPT_NAME'), '/'));
 	array_pop($basepath);
-	$basepath = implode('/', $basepath);
+	$basepath = implode('/', $basepath) . '/';
 
 	return $basepath;
 }
