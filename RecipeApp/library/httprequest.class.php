@@ -30,11 +30,11 @@ class HttpRequest extends Base {
 	}
 
 	protected function parseUrl() {
-		$params = parse_path(array_shift(explode($this->uri, '?')));
+		$params = parse_path(array_shift(explode('?', $this->uri)));
 		$this->controller = array_shift($params);
 		$this->action = array_shift($params);
 		$this->args = $params;
-		$this->query = array_pop(explode($this->uri, '?'));
+		$this->query = array_pop(explode('?', $this->uri));
 	}
 
 }
