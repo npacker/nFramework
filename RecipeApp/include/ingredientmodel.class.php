@@ -3,12 +3,10 @@
 class IngredientModel extends Model {
 
 	public function __construct() {
-		echo 'Called ' . __METHOD__ . "<br />";
 		parent::__construct();
 	}
 
 	public function find($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$query = 'SELECT name, quantity FROM ingredients WHERE id = :id';
 
 		try {
@@ -27,7 +25,6 @@ class IngredientModel extends Model {
 	}
 
 	public function join($id, $field) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$query = "SELECT name, quantity FROM ingredients WHERE $field = :$field";
 
 		try {
@@ -57,7 +54,6 @@ class IngredientModel extends Model {
 	public function update($id, Ingredient $ingredient=null) {}
 
 	public function delete($id) {
-		echo 'Called ' . __METHOD__ . "<br />";
 		$query = 'DELETE FROM ingredients WHERE id = :id';
 
 		try {
