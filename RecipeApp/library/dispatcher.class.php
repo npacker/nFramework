@@ -23,7 +23,7 @@ class Dispatcher extends Base {
 
 	public function dispatch() {
 		try {
-			$controller = new $controllerName();
+			$controller = new $this->controller();
 		} catch (Exception $e) {
 			echo $e->getMessage();
 		}
