@@ -18,6 +18,7 @@ function dispatch() {
 	$uri = Request::server('REQUEST_URI');
 	$request = new HttpRequest($uri);
 	$dispatcher = new Dispatcher();
+	$dispatcher->setDefaultController('Recipes');
 	$dispatcher->setController($request->getController());
 	$dispatcher->setAction($request->getAction());
 	$dispatcher->setArgs($request->getArgs());

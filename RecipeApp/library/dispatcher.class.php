@@ -2,15 +2,23 @@
 
 class Dispatcher extends Base {
 
+	protected $default;
 	protected $controller;
 	protected $action;
 	protected $args;
 
 	public function __construct() {}
 
+	public function setDefaultController($default) {
+		$this->default = $default;
+	}
+
 	public function setController($controller) {
-			$controllerName =  substr_replace($controller, '', -1) . 'Controller';
-			$this->controller = $controllerName;
+			if (empty($controller)) {
+				$this->controller = $this->controllerName($this->default);
+			} else {
+				$this->controller = $this->controllerName($controller);
+			}
 	}
 
 	public function setAction($action) {
@@ -38,6 +46,10 @@ class Dispatcher extends Base {
 
 	public function forward($controller, $action, array $args) {
 
+	}
+
+	protected function controllerName($controller) {
+		return substr_replace($controller, '', -1) . 'Controller';
 	}
 
 }
