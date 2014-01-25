@@ -5,7 +5,7 @@ function parse_path($path) {
 }
 
 function base_path() {
-	$basepath = parse_path(Reqeust::server('SCRIPT_NAME'));
+	$basepath = parse_path(Request::server('SCRIPT_NAME'));
 	array_pop($basepath);
 
 	return $basepath;
