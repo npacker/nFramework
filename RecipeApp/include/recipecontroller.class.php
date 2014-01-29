@@ -11,7 +11,7 @@ class RecipeController extends Controller {
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
-			throw $e;
+
 		}
 
 		try {
@@ -26,9 +26,6 @@ class RecipeController extends Controller {
 		$recipe = new Recipe($name);
 		$id = $this->model->create($recipe);
 
-		echo "$id";
-		echo 'test';
-
 		try {
 			$this->prepare($this->model->find($id));
 		} catch (Exception $e) {
@@ -40,7 +37,7 @@ class RecipeController extends Controller {
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
-			throw $e;
+
 		}
 
 		$name = Request::post('name');
@@ -53,7 +50,7 @@ class RecipeController extends Controller {
 		try {
 			$this->validateId($id);
 		} catch (InvalidArgumentException $e) {
-			throw $e;
+
 		}
 
 		$this->model->delete($id);
