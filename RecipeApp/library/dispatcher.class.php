@@ -14,11 +14,16 @@ class Dispatcher extends Base {
 	}
 
 	public function setController($controller) {
-			if (empty($controller)) {
-				$this->controller = $this->controllerName($this->default);
-			} else {
-				$this->controller = $this->controllerName($controller);
-			}
+		if (empty($controller)) {
+			$this->controller = $this->controllerName($this->default);
+		} else {
+			$this->controller = $this->controllerName($controller);
+		}
+
+		if (!class_exits($this->controller)) {
+			$httperror = new HttpError(404, Request::server('REQUEST_URI'));
+			throw new HttpException($httperror);
+		}
 	}
 
 	public function setAction($action) {
@@ -31,16 +36,16 @@ class Dispatcher extends Base {
 
 	public function dispatch() {
 		try {
-			$controller = new $this->controller();
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
-
-		try {
 			$id = $this->args[0];
-			(empty($id)) ? $controller->$action() : $controller->$action($id);
+
+			if (empty($id)) {
+				$this->controller->$this->action();
+			} else {
+				$this->controller->$this->action($id);
+			}
 		} catch (Exception $e) {
 			echo $e->getMessage();
+			exit();
 		}
 	}
 
