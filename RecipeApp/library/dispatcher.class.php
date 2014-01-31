@@ -55,7 +55,7 @@ class Dispatcher extends Base {
 		}
 
 		try {
-			if (!class_exits($this->controller)) {
+			if (!class_exits(self::$controller)) {
 				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
 				throw new HttpException($httpError);
 			}
