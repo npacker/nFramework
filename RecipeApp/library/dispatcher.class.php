@@ -49,7 +49,7 @@ class Dispatcher extends Base {
 
 	protected static function setController($controller) {
 		if (empty($controller)) {
-			self::$controller = self::controllerName($this->default);
+			self::$controller = self::controllerName(self::$default);
 		} else {
 			self::$controller = self::controllerName($controller);
 		}
