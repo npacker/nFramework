@@ -20,14 +20,10 @@ function exception_handler($exception) {
 }
 
 function dispatch() {
-	$uri = Request::server('REQUEST_URI');
-	$request = new HttpRequest($uri);
-	$dispatcher = new Dispatcher();
-	$dispatcher->setDefaultController('Recipes');
-	$dispatcher->setController($request->getController());
-	$dispatcher->setAction($request->getAction());
-	$dispatcher->setArgs($request->getArgs());
-	$dispatcher->dispatch();
+	$request = new HttpRequest(Request::server('REQUEST_URI'));
+	Dispatcher::setDefaultController('Recipes');
+	Dispatcher::forward($request->getController(), $request->getAction(), $request->getArgs());
+	Dispatcher::dispatch();
 }
 
 function bootstrapInit() {

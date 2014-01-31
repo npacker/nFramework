@@ -2,58 +2,79 @@
 
 class Dispatcher extends Base {
 
-	protected $default;
-	protected $controller;
-	protected $action;
-	protected $args;
+	protected static $default;
+	protected static $controller;
+	protected static $action;
+	protected static $args;
 
-	public function __construct() {}
+	final private function __construct() {}
 
-	public function setDefaultController($default) {
-		$this->default = $default;
+	final private function __clone() {}
+
+	public static function setDefaultController($default) {
+		self::$default = $default;
 	}
 
-	public function setController($controller) {
-		if (empty($controller)) {
-			$this->controller = $this->controllerName($this->default);
-		} else {
-			$this->controller = $this->controllerName($controller);
-		}
-
-		if (!class_exits($this->controller)) {
-			$httperror = new HttpError(404, Request::server('REQUEST_URI'));
-			throw new HttpException($httperror);
-		}
+	public static function forward($controller, $action, array $args=array()) {
+		self::setController($controller);
+		self::setAction($action);
+		self::setArgs($args);
 	}
 
-	public function setAction($action) {
-		$this->action = $action;
-	}
+	public static function dispatch() {
+		$action = self::$action;
+		$id = self::$args[0];
 
-	public function setArgs(array $args) {
-		$this->args = $args;
-	}
-
-	public function dispatch() {
 		try {
-			$id = $this->args[0];
+			if (!method_exists($action, $controller)) {
+				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
+				throw new HttpException($httpError);
+			}
+		} catch (HttpException $e) {
+			self::forward('HttpError', 'index');
+			self::dispatch();
+		}
 
+		try {
 			if (empty($id)) {
-				$this->controller->$this->action();
+				self::$controller->$action();
 			} else {
-				$this->controller->$this->action($id);
+				self::$controller->$action($id);
 			}
 		} catch (Exception $e) {
-			echo $e->getMessage();
-			exit();
+			self::forward('HttpError', 'index');
+			self::dispatch();
 		}
 	}
 
-	public function forward($controller, $action, array $args) {
+	protected static function setController($controller) {
+		if (empty($controller)) {
+			self::$controller = self::controllerName($this->default);
+		} else {
+			self::$controller = self::controllerName($controller);
+		}
+
+		try {
+			if (!class_exits($this->controller)) {
+				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
+				throw new HttpException($httpError);
+			}
+		} catch (HttpException $e) {
+			self::forward('HttpError', 'index');
+			self::dispatch();
+		}
 
 	}
 
-	protected function controllerName($controller) {
+	protected static function setAction($action) {
+		self::$action = $action;
+	}
+
+	protected static function setArgs(array $args) {
+		self::$args = $args;
+	}
+
+	protected static function controllerName($controller) {
 		return substr_replace($controller, '', -1) . 'Controller';
 	}
 
