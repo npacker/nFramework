@@ -5,7 +5,7 @@ function parse_path($path) {
 }
 
 function base_path() {
-	$filePath = realpath(__DIR__);
+	$filePath = realpath(Request::server('PHP_SELF'));
 	$documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
 	$basepath = str_replace($documentRoot, '', $filePath);
 
