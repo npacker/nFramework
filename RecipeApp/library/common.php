@@ -5,10 +5,9 @@ function parse_path($path) {
 }
 
 function base_path() {
-	$basepath = explode('/', rtrim(Request::server('SCRIPT_NAME'), '/'));
-	$test = dirname(__FILE__);
-	array_pop($basepath);
-	$basepath = implode('/', $basepath) . '/';
+	$filePath = realpath(__DIR__);
+	$documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
+	$basepath = str_replace($documentRoot, '', $filePath);
 
 	return $basepath;
 }
