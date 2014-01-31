@@ -8,9 +8,9 @@ function base_path() {
 	$filePath = Request::server('PHP_SELF');
 	$documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
 	$basepath = str_replace($documentRoot, '', $filePath);
-	$basepath = parse_path($basepath);
+	$basepath = explode('/', trim($basepath, '/'));
 	array_pop($basepath);
-	$basepath = implode('/', trim($basepath));
+	$basepath = implode('/', $basepath);
 
 	return $basepath;
 }
