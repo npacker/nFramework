@@ -5,9 +5,12 @@ function parse_path($path) {
 }
 
 function base_path() {
-	$filePath = realpath(Request::server('PHP_SELF'));
+	$filePath = Request::server('PHP_SELF');
 	$documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
 	$basepath = str_replace($documentRoot, '', $filePath);
+	$basepath = parse_path($basepath);
+	array_pop($basepath);
+	$basepath = implode('/', trim($basepath));
 
 	return $basepath;
 }
