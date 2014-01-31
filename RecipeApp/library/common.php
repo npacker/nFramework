@@ -10,7 +10,7 @@ function base_path() {
 	$basepath = str_replace($documentRoot, '', $filePath);
 	$basepath = explode('/', $basepath);
 	array_pop($basepath);
-	$basepath = implode('/', $basepath);
+	$basepath = implode('/', $basepath) . '/';
 
 	return $basepath;
 }
