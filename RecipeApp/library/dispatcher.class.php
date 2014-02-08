@@ -49,13 +49,15 @@ class Dispatcher extends Base {
 
 	protected static function setController($controller) {
 		if (empty($controller)) {
-			self::$controller = self::controllerName(self::$default);
+			$controller = self::controllerName(self::$default);
 		} else {
-			self::$controller = self::controllerName($controller);
+			$controller = self::controllerName($controller);
 		}
 
 		try {
-			if (!class_exists(self::$controller)) {
+			if (class_exists(self::$controller)) {
+				self::$controller = new $controller();
+			} else {
 				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
 				throw new HttpException($httpError);
 			}
@@ -63,7 +65,6 @@ class Dispatcher extends Base {
 			self::forward('HttpError', 'index');
 			self::dispatch();
 		}
-
 	}
 
 	protected static function setAction($action) {
