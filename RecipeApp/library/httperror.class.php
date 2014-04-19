@@ -6,7 +6,8 @@ class HttpError extends Base {
 	protected $requestUrl;
 
 	public function __construct($code, $requestUrl) {
-
+	  $this->code = $code;
+	  $this->requestUrl = $requestUrl;
 	}
 
 	public function getCode() {
