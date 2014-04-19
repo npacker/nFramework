@@ -19,13 +19,6 @@ function exception_handler($exception) {
 	exit();
 }
 
-function dispatch() {
-	$request = new HttpRequest(Request::server('REQUEST_URI'));
-	Dispatcher::setDefaultController('Recipes');
-	Dispatcher::forward($request->getController(), $request->getAction(), $request->getArgs());
-	Dispatcher::dispatch();
-}
-
 function bootstrapInit() {
 	require_once (ROOT . DS . 'library' . DS . 'config.php');
 	require_once (ROOT . DS . 'library' . DS . 'common.php');
@@ -34,6 +27,10 @@ function bootstrapInit() {
 }
 
 function bootstrapFull() {
-	bootstrapInit();
-	dispatch();
+  bootstrapInit();
+  $request = new HttpRequest(Request::server('REQUEST_URI'));
+  Dispatcher::setDefaultController('Recipes');
+  Dispatcher::forward($request->getController(), $request->getAction(),
+    $request->getArgs());
+  Dispatcher::dispatch();
 }
