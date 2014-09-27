@@ -29,7 +29,6 @@ function bootstrapInit() {
 function bootstrapFull() {
   bootstrapInit();
   $request = new HttpRequest(Request::server('REQUEST_URI'));
-  Dispatcher::setDefaultController('Recipes');
   Dispatcher::forward($request->getController(), $request->getAction(),
     $request->getArgs());
   Dispatcher::dispatch();

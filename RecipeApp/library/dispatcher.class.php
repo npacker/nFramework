@@ -2,7 +2,6 @@
 
 class Dispatcher extends Base {
 
-	protected static $default;
 	protected static $controller;
 	protected static $action;
 	protected static $args;
@@ -10,10 +9,6 @@ class Dispatcher extends Base {
 	final private function __construct() {}
 
 	final private function __clone() {}
-
-	public static function setDefaultController($default) {
-		self::$default = $default;
-	}
 
 	public static function forward($controller, $action, array $args=array()) {
 		self::setController($controller);
@@ -48,11 +43,7 @@ class Dispatcher extends Base {
 	}
 
 	protected static function setController($controller) {
-		if (empty($controller)) {
-			$controller = self::controllerName(self::$default);
-		} else {
-			$controller = self::controllerName($controller);
-		}
+		$controller = self::controllerName($controller);
 
 		try {
 			if (class_exists(self::$controller)) {
