@@ -25,7 +25,7 @@ class Dispatcher {
 
 		try {
 			if (!method_exists($action, $controller)) {
-				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
+				$httpError = new HttpError(HTTP_ERROR_NOT_FOUND, Request::server('REQUEST_URI'));
 				throw new HttpException($httpError);
 			}
 		} catch (HttpException $e) {
@@ -54,7 +54,7 @@ class Dispatcher {
 			if (class_exists(self::$controller)) {
 				self::$controller = new $controller();
 			} else {
-				$httpError = new HttpError(404, Request::server('REQUEST_URI'));
+				$httpError = new HttpError(HTTP_ERROR_NOT_FOUND, Request::server('REQUEST_URI'));
 				throw new HttpException($httpError);
 			}
 		} catch (HttpException $e) {
