@@ -2,11 +2,13 @@
 
 function __include_file($class) {
 	$filename = strtolower($class);
+	$libraryPath = ROOT . DS . 'library' . DS . $filename . '.class.php';
+	$includesPath = ROOT . DS . 'include' . DS . $filename . '.class.php';
 
-	if (file_exists(ROOT . DS . 'library' . DS . $filename . '.class.php')) {
-		require_once ROOT . DS . 'library' . DS . $filename . '.class.php';
-	} else if (file_exists(ROOT . DS . 'include' . DS . $filename . '.class.php')) {
-		require ROOT . DS . 'include' . DS . $filename . '.class.php';
+	if (file_exists($libraryPath)) {
+		require_once $libraryPath;
+	} else if (file_exists($includesPath)) {
+		require $includesPath;
 	} else {
 		throw new FileNotFoundException("Could not load {$filename}.");
 	}
@@ -29,7 +31,6 @@ function bootstrapInit() {
 function bootstrapFull() {
   bootstrapInit();
   $request = new HttpRequest(Request::server('REQUEST_URI'));
-  Dispatcher::forward($request->getController(), $request->getAction(),
-    $request->getArgs());
+  Dispatcher::forward($request);
   Dispatcher::dispatch();
 }

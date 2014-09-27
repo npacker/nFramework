@@ -1,6 +1,6 @@
 <?php
 
-class Query extends Base {
+class Query {
 
 	protected $connection;
 	protected $statement;

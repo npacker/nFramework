@@ -1,6 +1,6 @@
 <?php
 
-class UnitTest extends Base {
+class UnitTest {
 
 	protected $tests  = array();
 	protected $failedAssertions = array();
@@ -21,7 +21,6 @@ class UnitTest extends Base {
 	}
 
 	public function add(callable $test, $name='Untitled') {
-		if (!is_string($name)) throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $name, 2, 'string'));
 		$this->tests[$name] = $test;
 	}
 

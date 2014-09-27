@@ -1,11 +1,9 @@
 <?php
 
-class HttpRequest extends Base {
+class HttpRequest {
 
 	protected $uri;
-	protected $controller;
-	protected $action;
-	protected $args;
+	protected $params;
 	protected $query;
 
 	public function __construct($uri) {
@@ -17,23 +15,16 @@ class HttpRequest extends Base {
 		return $this->uri;
 	}
 
-	public function getController() {
-		return $this->controller;
+	public function getParams() {
+		return $this->params;
 	}
 
-	public function getAction() {
-		return $this->action;
-	}
-
-	public function getArgs() {
-		return $this->args;
+	public function getQuery() {
+	 return $this->query;
 	}
 
 	protected function parseUrl() {
-		$params = parse_path(array_shift(explode('?', $this->uri)));
-		$this->controller = array_shift($params);
-		$this->action = array_shift($params);
-		$this->args = $params;
+		$this->params = parse_path(array_shift(explode('?', $this->uri)));
 		$this->query = array_pop(explode('?', $this->uri));
 	}
 

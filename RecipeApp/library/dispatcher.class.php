@@ -1,6 +1,6 @@
 <?php
 
-class Dispatcher extends Base {
+class Dispatcher {
 
 	protected static $controller;
 	protected static $action;
@@ -10,9 +10,12 @@ class Dispatcher extends Base {
 
 	final private function __clone() {}
 
-	public static function forward($controller, $action, array $args=array()) {
-		self::setController($controller);
-		self::setAction($action);
+	public static function forward($request) {
+		$params = $request->getParams();
+		$args = $request->getQuery();
+
+		self::setController(array_shift($params));
+		self::setAction(array_shift($params));
 		self::setArgs($args);
 	}
 

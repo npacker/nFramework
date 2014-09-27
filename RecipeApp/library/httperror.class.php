@@ -1,6 +1,6 @@
 <?php
 
-class HttpError extends Base {
+class HttpError {
 
 	protected $code;
 	protected $requestUrl;
