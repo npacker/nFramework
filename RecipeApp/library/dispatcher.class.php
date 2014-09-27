@@ -29,7 +29,8 @@ class Dispatcher {
 				throw new HttpException($httpError);
 			}
 		} catch (HttpException $e) {
-			self::forward('HttpError', 'index');
+			self::setController('HttpError');
+			self::setAction('index');
 			self::dispatch();
 		}
 
@@ -40,7 +41,8 @@ class Dispatcher {
 				self::$controller->$action($id);
 			}
 		} catch (Exception $e) {
-			self::forward('HttpError', 'index');
+			self::setController('HttpError');
+			self::setAction('index');
 			self::dispatch();
 		}
 	}
@@ -56,7 +58,8 @@ class Dispatcher {
 				throw new HttpException($httpError);
 			}
 		} catch (HttpException $e) {
-			self::forward('HttpError', 'index');
+			self::setController('HttpError');
+			self::setAction('index');
 			self::dispatch();
 		}
 	}
