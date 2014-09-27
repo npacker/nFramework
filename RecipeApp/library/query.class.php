@@ -7,7 +7,6 @@ class Query extends Base {
 	protected $table;
 	protected $columns;
 	protected $where = [];
-	protected $whereCalled = false;
 	protected $limit;
 	protected $offset;
 	protected $order;
@@ -17,12 +16,6 @@ class Query extends Base {
 	protected $values = [];
 
 	public function __construct(PDO &$connection, $table, array $columns=array('*')) {
-		if (empty($table)) {
-			throw new InvalidArgumentException('Database table name must be set.');
-		} else if (!is_string($table)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $table, 1, 'string'));
-		}
-
 		$this->connection = $connection;
 		$this->table = $table;
 		$this->columns = $columns;
@@ -34,17 +27,6 @@ class Query extends Base {
 	}
 
 	public function where($column, $value, $comparator='=', $operator='AND') {
-		if (empty($column)) {
-			throw new InvalidArgumentException('WHERE column must be set.');
-		} else if (!is_string($column)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		} else if (!is_string($comparator)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $comparator, 3, 'string'));
-		} else if (!preg_match("/!?=(>|<)?|>|</", $comparator)) {
-			throw new InvalidArgumentException('Invalid WHERE comparison operator.');
-		}
-
-		$this->whereCalled = true;
 		$this->where[] = "{$operator} {$column} {$comparator} :where_{$column}";
 
 		try {
@@ -57,14 +39,7 @@ class Query extends Base {
 	}
 
 	public function in($column, array $values) {
-		if (empty($column)) {
-			throw new InvalidArgumentException('WHERE column must be set.');
-		} else if (!is_string($column)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		}
-
-		$this->whereCalled = true;
-		$placeholder = "?";
+		$placeholder = '?';
 
 		for ($i = count($values); $i > 0; $i--) {
 			$placeholder .= ', ?';
@@ -84,14 +59,6 @@ class Query extends Base {
 	}
 
 	public function order($column, $direction='ASC') {
-		if (empty($column)) {
-			throw new InvalidArgumentException('ORDER BY column must be set.');
-		} else if (!is_string($column)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		} else if (!preg_match("/ASC|DESC/", $direction)) {
-			throw new InvalidArgumentException('Invalid ORDER BY direction.');
-		}
-
 		$this->order = $column;
 		$this->orderDirection = $direction;
 
@@ -99,14 +66,6 @@ class Query extends Base {
 	}
 
 	public function group($column, $direction='ASC') {
-		if (empty($column)) {
-			throw new InvalidArgumentException('GROUP BY column must be set.');
-		} else if (!is_string($column)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $column, 1, 'string'));
-		} else if (!preg_match("/ASC|DESC/", $direction)) {
-			throw new InvalidArgumentException('Invalid GROUP BY direction.');
-		}
-
 		$this->group = $column;
 		$this->groupDirection = $direciton;
 
@@ -114,14 +73,6 @@ class Query extends Base {
 	}
 
 	public function limit($limit, $offset=null) {
-		if (empty($limit)) {
-			throw new InvalidArgumentException('LIMIT value must be set.');
-		} else if (!is_int($limit)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $limit, 1, 'integer'));
-		} else if (isset($offset) AND !is_int($offset)) {
-			throw new InvalidArgumentException($this->invalidArgumentExceptionMessage(__METHOD__, $offset, 2, 'integer'));
-		}
-
 		$this->limit = $limit;
 
 		if (isset($offset)) $this->offset = $offset;
@@ -303,10 +254,8 @@ class Query extends Base {
 	}
 
 	public function save(array $data) {
-		if (empty($data)) throw new InvalidArgumentException('Query execution halted: no data given.');
-
 		try {
-			$query = ($this->whereCalled) ? $this->buildUpdate($data) : $this->buildInsert($data);
+			$query = (empty($this->where)) ? $this->buildUpdate($data) : $this->buildInsert($data);
 			$this->prepare($query);
 			$this->execute();
 		} catch (Exception $e) {
