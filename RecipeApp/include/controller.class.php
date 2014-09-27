@@ -13,8 +13,8 @@ abstract class Controller {
 		$this->view->render();
 	}
 
-	protected function prepare(Type $type) {
-		$vars = $type->getProperites();
+	protected function prepare(Entity $entity) {
+		$vars = $entity->getProperites();
 
 		foreach ($vars as $key => $value) {
 			$this->set($key, $value);

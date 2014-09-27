@@ -1,6 +1,6 @@
 <?php
 
-abstract class Type extends Base {
+abstract class Entity {
 
 	public function getProperites() {
 		return get_object_vars($this);

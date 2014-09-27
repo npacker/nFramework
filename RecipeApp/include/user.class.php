@@ -1,6 +1,6 @@
 <?php
 
-Class User extends Type {
+Class User extends Entity {
 
 	protected $name;
 	protected $password;

@@ -1,6 +1,6 @@
 <?php
 
-Class Session extends Type {
+Class Session extends Entity {
 
 	protected $fingerprint;
 	protected $created;
