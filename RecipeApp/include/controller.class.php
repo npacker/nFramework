@@ -14,9 +14,9 @@ abstract class Controller {
 	}
 
 	protected function prepare(Entity $entity) {
-		$vars = $entity->getProperites();
+		$properties = $entity->getProperites();
 
-		foreach ($vars as $key => $value) {
+		foreach ($properties as $key => $value) {
 			$this->set($key, $value);
 		}
 	}

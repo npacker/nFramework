@@ -12,59 +12,49 @@ class Dispatcher {
 
 	public static function forward($request) {
 		$params = $request->getParams();
-		$args = $request->getQuery();
-
-		self::setController(array_shift($params));
-		self::setAction(array_shift($params));
-		self::setArgs($args);
-	}
-
-	public static function dispatch() {
-		$action = self::$action;
-		$id = self::$args[0];
+		$args = array($request->getQuery());
 
 		try {
-			if (!method_exists($action, $controller)) {
-				$httpError = new HttpError(HTTP_ERROR_NOT_FOUND, Request::server('REQUEST_URI'));
-				throw new HttpException($httpError);
-			}
-		} catch (HttpException $e) {
-			self::setController('HttpError');
-			self::setAction('index');
-			self::dispatch();
+		  self::setController(array_shift($params));
+		  self::setAction(array_shift($params));
+		  self::setArgs($args);
+		} catch (Exception $e) {
+		  self::setController('HttpErrors');
+		  self::setAction('index');
+		  self::setArgs(array(
+		    'error_code' => HTTP_ERROR_NOT_FOUND,
+		    'error_message' => $e->getMessage()
+		  ));
 		}
 
-		try {
-			if (empty($id)) {
-				self::$controller->$action();
-			} else {
-				self::$controller->$action($id);
-			}
-		} catch (Exception $e) {
-			self::setController('HttpError');
-			self::setAction('index');
-			self::dispatch();
+		self::dispatch();
+	}
+
+	protected static function dispatch() {
+		$action = self::$action;
+
+		if (empty(self::$args)) {
+			self::$controller->$action();
+		} else {
+			self::$controller->$action(self::$args);
 		}
 	}
 
 	protected static function setController($controller) {
 		$controller = self::controllerName($controller);
 
-		try {
-			if (class_exists(self::$controller)) {
-				self::$controller = new $controller();
-			} else {
-				$httpError = new HttpError(HTTP_ERROR_NOT_FOUND, Request::server('REQUEST_URI'));
-				throw new HttpException($httpError);
-			}
-		} catch (HttpException $e) {
-			self::setController('HttpError');
-			self::setAction('index');
-			self::dispatch();
-		}
+	  if (!class_exists($controller, true)) {
+	    throw new Exception();
+	  }
+
+	  self::$controller = new $controller();
 	}
 
 	protected static function setAction($action) {
+	  if (!method_exists(self::$controller, $action)) {
+	    throw new Exception();
+	  }
+
 		self::$action = $action;
 	}
 
@@ -73,7 +63,13 @@ class Dispatcher {
 	}
 
 	protected static function controllerName($controller) {
-		return substr_replace($controller, '', -1) . 'Controller';
+	  if (!empty($controller)) {
+	    $controllerName = substr_replace($controller, '', -1) . 'Controller';
+	  } else {
+	    $controllerName = '';
+	  }
+
+	  return $controllerName;
 	}
 
 }

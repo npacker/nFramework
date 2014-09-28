@@ -1,5 +1,11 @@
 <?php
 
+define('HTTP_ERROR_NOT_FOUND', 404);
+
+define('HTTP_ERROR_ACCESS_DENIED', 403);
+
+define('HTTP_ERROR_SERVER_ERROR', 500);
+
 function parse_path($path) {
 	return array_map('strtolower', explode('/', trim($path, '/')));
 }

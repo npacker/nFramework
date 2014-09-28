@@ -13,16 +13,4 @@ abstract class Model {
 		}
 	}
 
-	abstract public function find($id);
-
-	abstract public function join($id, $field);
-
-	abstract public function all();
-
-	abstract public function create();
-
-	abstract public function update($id);
-
-	abstract public function delete($id);
-
 }
