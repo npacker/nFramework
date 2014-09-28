@@ -12,8 +12,19 @@ function __include_file($class) {
 	} else {
 		throw new FileNotFoundException("Could not load {$filename}.");
 	}
+}
 
-	if (!class_exists($class)) throw new Exception("Class {$class} is undefined.");
+function fatal_error_check() {
+  $error = error_get_last();
+  
+  if ($error['type'] == E_ERROR) {
+    error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+  }
+}
+
+function error_handler($errno, $errstr, $errfile, $errline) {
+  echo "An error occured on line {$errline} of {$errfile} with the message \"{$errstr}\".";
+  exit();
 }
 
 function exception_handler($exception) {
@@ -25,7 +36,11 @@ function bootstrapInit() {
 	require_once (ROOT . DS . 'library' . DS . 'config.php');
 	require_once (ROOT . DS . 'library' . DS . 'common.php');
 	spl_autoload_register('__include_file');
+	set_error_handler('error_handler');
 	set_exception_handler('exception_handler');
+	register_shutdown_function('fatal_error_check');
+	ini_set('display_errors', 'off');
+	error_reporting(E_ALL);
 }
 
 function bootstrapFull() {
