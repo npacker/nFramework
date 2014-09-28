@@ -2,8 +2,8 @@
 
 class HttpRequest {
   protected $uri;
-  protected $params;
-  protected $query;
+  protected $params = array();
+  protected $query = array();
 
   public function __construct($uri) {
     $this->uri = str_replace(base_path(), '', $uri);
