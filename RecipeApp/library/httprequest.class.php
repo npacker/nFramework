@@ -25,7 +25,7 @@ class HttpRequest {
 
 	protected function parseUrl() {
 		$this->params = parse_path(array_shift(explode('?', $this->uri)));
-		$this->query = array_pop(explode('?', $this->uri));
+		$this->query = parse_query(array_pop(explode('?', $this->uri)));
 	}
 
 }

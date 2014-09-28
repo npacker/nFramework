@@ -10,6 +10,18 @@ function parse_path($path) {
 	return array_map('strtolower', explode('/', trim($path, '/')));
 }
 
+function parse_query($query) {
+  $arguments = explode('&', $query);
+  $query_array = array();
+  
+  foreach ($arguments as $argument) {
+    $parts = explode('=', $argument);
+    $query_array[$parts[0]] = $parts[1];
+  }
+  
+  return $query_array;
+}
+
 function base_path() {
 	$filePath = Request::server('PHP_SELF');
 	$documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
