@@ -11,12 +11,15 @@ function parse_path($path) {
 }
 
 function parse_query($query) {
-  $arguments = explode('&', $query);
   $query_array = array();
   
-  foreach ($arguments as $argument) {
-    $parts = explode('=', $argument);
-    $query_array[$parts[0]] = $parts[1];
+  if (!empty($query)) {
+    $arguments = explode('&', $query);
+      
+    foreach ($arguments as $argument) {
+      $parts = explode('=', $argument);
+      $query_array[$parts[0]] = $parts[1];
+    }
   }
   
   return $query_array;
