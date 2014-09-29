@@ -14,7 +14,6 @@ class Query {
   protected $orderDirection;
   protected $statement;
   protected $table;
-  protected $query;
 
   public function __construct(PDO &$connection, $table, array $columns = array('*')) {
     $this->connection = $connection;
