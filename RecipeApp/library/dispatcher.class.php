@@ -5,11 +5,11 @@ class Dispatcher {
   protected static $action;
   protected static $args;
 
-  final private function __construct () {}
+  final private function __construct() {}
 
-  final private function __clone () {}
+  final private function __clone() {}
 
-  public static function forward ($request) {
+  public static function forward($request) {
     $params = $request->getParams();
     $args = array(
       $request->getQuery()
@@ -23,16 +23,16 @@ class Dispatcher {
       self::setController('HttpErrors');
       self::setAction('index');
       self::setArgs(
-        array(
-          'error_code' => HTTP_ERROR_NOT_FOUND,
-          'error_message' => $e->getMessage()
-        ));
+          array(
+            'error_code' => HTTP_ERROR_NOT_FOUND,
+            'error_message' => $e->getMessage()
+          ));
     }
     
     self::dispatch();
   }
 
-  protected static function dispatch () {
+  protected static function dispatch() {
     $action = self::$action;
     
     if (empty(self::$args)) {
@@ -42,31 +42,31 @@ class Dispatcher {
     }
   }
 
-  protected static function setController ($controller) {
+  protected static function setController($controller) {
     $controller = self::controllerName($controller);
     
-    if (! class_exists($controller, true)) {
+    if (!class_exists($controller, true)) {
       throw new Exception();
     }
     
     self::$controller = new $controller();
   }
 
-  protected static function setAction ($action) {
-    if (! method_exists(self::$controller, $action)) {
+  protected static function setAction($action) {
+    if (!method_exists(self::$controller, $action)) {
       throw new Exception();
     }
     
     self::$action = $action;
   }
 
-  protected static function setArgs (array $args) {
+  protected static function setArgs(array $args) {
     self::$args = $args;
   }
 
-  protected static function controllerName ($controller) {
-    if (! empty($controller)) {
-      $controllerName = substr_replace($controller, '', - 1) . 'Controller';
+  protected static function controllerName($controller) {
+    if (!empty($controller)) {
+      $controllerName = substr_replace($controller, '', -1) . 'Controller';
     } else {
       $controllerName = '';
     }
