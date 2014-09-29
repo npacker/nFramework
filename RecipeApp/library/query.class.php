@@ -134,7 +134,6 @@ class Query {
   protected function buildInsert(array $data) {
     $template = "INSERT INTO %s (%s) VALUES (%s)";
     $columns = array();
-    $placeholder = ltrim(str_repeat(', ?', count($data)), ', ');
     
     foreach ($data as $column => $value) {
       $this->addDataValue($value);
@@ -143,6 +142,7 @@ class Query {
     
     $table = $this->table;
     $columns = implode(', ', $columns);
+    $placeholder = ltrim(str_repeat(', ?', count($data)), ', ');
     $query = trim(sprintf($template, $table, $columns, $placeholder));
     
     return $query;
