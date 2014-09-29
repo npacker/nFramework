@@ -81,9 +81,9 @@ try {
 
 try {
   $result = $database->query('recipes')
-  ->constrain('name', 'Test Recipe 4')
-  ->resultBoth()
-  ->fetch();
+    ->constrain('name', 'Test Recipe 4')
+    ->resultBoth()
+    ->fetch();
 
   echo "<strong>{$result['name']} is in the database.</strong><br />";
 } catch (Exception $e) {
@@ -93,9 +93,9 @@ try {
 
 try {
   $result = $database->query('recipes')
-  ->constrain('name', 'Test Recipe 2')
-  ->resultBoth()
-  ->fetch();
+    ->constrain('name', 'Test Recipe 2')
+    ->resultBoth()
+    ->fetch();
 
   if (empty($result)) {
     echo "<strong>Test Recipe 2 is no longer in the database.</strong><br />";
@@ -131,6 +131,18 @@ try {
 } catch (Exception $e) {
 	echo $e->getMessage();
 	exit();
+}
+
+try {
+  $result = $database->query('ingredients')
+    ->constrain('name', 'Eggs')
+    ->resultBoth()
+    ->fetch();
+
+  echo "<strong>The ingredient {$result['name']} is in the database.</strong><br />";
+} catch (Exception $e) {
+  echo $e->getMessage();
+  exit();
 }
 
 try {
