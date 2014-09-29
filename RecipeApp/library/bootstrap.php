@@ -3,7 +3,7 @@
 function __include_file($class) {
 	$filename = strtolower($class);
 	$libraryPath = ROOT . DS . 'library' . DS . $filename . '.class.php';
-	$includesPath = ROOT . DS . 'include' . DS . $filename . '.class.php';
+	$includesPath = ROOT . DS . 'includes' . DS . $filename . '.class.php';
 
 	if (file_exists($libraryPath)) {
 		require_once $libraryPath;
