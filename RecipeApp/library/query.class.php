@@ -3,6 +3,9 @@
 class Query {
   protected $columns;
   protected $connection;
+  protected $constraintClauses = array();
+  protected $constraintValues = array();
+  protected $dataValues = array();
   protected $group;
   protected $groupDirection;
   protected $limit;
@@ -11,52 +14,45 @@ class Query {
   protected $orderDirection;
   protected $statement;
   protected $table;
-  protected $values = array();
-  protected $where = array();
+  protected $query;
 
-  public function __construct(PDO &$connection, $table, 
-      array $columns = array('*')) {
+  public function __construct(PDO &$connection, $table, array $columns = array('*')) {
     $this->connection = $connection;
     $this->table = $table;
     $this->columns = $columns;
   }
 
   public function __destruct() {
-    $this->connection = NULL;
-    $this->statement = NULL;
+    $this->connection = null;
+    $this->statement = null;
   }
 
-  public function constrain($column, $value, $operator = 'AND', $comparator = '=') {
-    if (empty($this->where)) {
-      $this->where[] = "{$column} {$comparator} :where_{$column}";
+  public function constrain($column, $value, $comparator = '=', $operator = 'AND') {
+    if (empty($this->constraintClauses)) {
+      $this->constraintClauses[] = "{$column} {$comparator} ?";
     } else {
-      $this->where[] = "{$operator} {$column} {$comparator} :where_{$column}";
+      $this->constraintClauses[] = "{$operator} {$column} {$comparator} ?";
     }
     
-    $this->addValue($value, "where_{$column}");
+    $this->addConstraintValue($value);
     
     return $this;
   }
   
   public function constrainOr($column, $value, $comparator = '=') {
-    return $this->constrain($column, $value, 'OR', $comparator);
+    return $this->constrain($column, $value, $comparator, 'OR');
   }
   
   public function constrainAnd($column, $value, $comparator = '=') {
-    return $this->constrain($column, $value, 'AND', $comparator);
+    return $this->constrain($column, $value, $comparator, 'AND');
   }
 
   public function in($column, array $values) {
-    $placeholder = '?';
-    
-    for ($i = count($values); $i > 0; $i--) {
-      $placeholder .= ', ?';
-    }
-    
-    $this->where[] = "IN {$column} IN ({$placeholder})";
+    $placeholder = ltrim(str_repeat(', ?', count($values)), ', ');
+    $this->constraintClauses[] = "IN {$column} IN ({$placeholder})";
     
     foreach ($values as $value) {
-      $this->addValue($value);
+      $this->addConstraintValue($value);
     }
     
     return $this;
@@ -87,13 +83,10 @@ class Query {
   protected function whereClause() {
     $where = '';
     
-    if (!empty($this->where)) {
-      $first_clause = array_shift($this->where);
-      $first_clause = ltrim($first_clause, 'AND');
-      $first_clause = ltrim($first_clause, 'OR');
-      $where = 'WHERE ' . $first_clause;
+    if (!empty($this->constraintClauses)) {
+      $where = 'WHERE';
       
-      foreach ($this->where as $clause) {
+      foreach ($this->constraintClauses as $clause) {
         $where .= ' ' . $clause;
       }
     }
@@ -134,38 +127,35 @@ class Query {
     $group = $this->groupClause();
     $order = $this->orderClause();
     $limit = $this->limitClause();
-    $query = trim(
-        sprintf($template, $columns, $table, $where, $group, $order, $limit));
+    $query = trim(sprintf($template, $columns, $table, $where, $group, $order, $limit));
     
     return $query;
   }
 
   protected function buildInsert(array $data) {
     $template = "INSERT INTO %s (%s) VALUES (%s)";
-    $columns = [];
-    $values = [];
+    $columns = array();
+    $placeholder = ltrim(str_repeat(', ?', count($data)), ', ');
     
     foreach ($data as $column => $value) {
-      $this->addValue($value, $column);
+      $this->addDataValue($value);
       $columns[] = (string) $column;
-      $values[] = ":{$column}";
     }
     
     $table = $this->table;
     $columns = implode(', ', $columns);
-    $values = implode(', ', $values);
-    $query = trim(sprintf($template, $table, $columns, $values));
+    $query = trim(sprintf($template, $table, $columns, $placeholder));
     
     return $query;
   }
 
   protected function buildUpdate(array $data) {
     $template = "UPDATE %s SET %s %s %s";
-    $columns = [];
+    $columns = array();
     
     foreach ($data as $column => $value) {
-      $this->addValue($value, $column);
-      $columns[] = "{$column} = :{$column}";
+      $this->addDataValue($value);
+      $columns[] = "{$column} = ?";
     }
     
     $table = $this->table;
@@ -187,18 +177,24 @@ class Query {
     return $query;
   }
 
-  protected function addValue($value, $column = null) {
-    if (empty($column)) {
-      $this->values[] = $value;
-    } else {
-      $column = ":{$column}";
-      $this->values[$column] = $value;
-    }
+  protected function addConstraintValue($value) {
+    $this->constraintValues[] = $value;
+  }
+  
+  protected function addDataValue($value) {
+    $this->dataValues[] = $value;
   }
 
   protected function setFetchMode($fetchMode, $options = null) {
-    ($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode(
-        $fetchMode);
+    if (isset($options)) {
+      $this->statement->setFetchMode($fetchMode, $options);
+    } else {
+      $this->statement->setFetchMode($fetchMode);
+    }
+  }
+  
+  protected function inputParameters() {
+    return array_merge($this->dataValues, $this->constraintValues);
   }
 
   protected function prepare($query) {
@@ -206,7 +202,7 @@ class Query {
   }
 
   protected function execute() {
-    $this->statement->execute($this->values);
+    $this->statement->execute($this->inputParameters());
   }
 
   public function resultClass($class) {
@@ -228,7 +224,7 @@ class Query {
   }
 
   public function save(array $data) {
-    if (empty($this->where)) {
+    if (empty($this->constraintClauses)) {
       $query = $this->buildInsert($data);
     } else {
       $query = $this->buildUpdate($data);
