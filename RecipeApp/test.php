@@ -178,6 +178,7 @@ try {
   $result = $database->query('recipes')
     ->constrain('name', 'Test Recipe 4')
     ->constrainOr('name', 'Test Recipe 1')
+    ->order('name', 'DESC')
     ->resultBoth();
 
   echo "<strong>The following recipes were selected:</strong><br />";

@@ -105,7 +105,7 @@ class Query {
   protected function orderClause() {
     $order = '';
     
-    if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->groupDirection}";
+    if (isset($this->order)) $order = "ORDER BY {$this->order} {$this->orderDirection}";
     
     return $order;
   }
