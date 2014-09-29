@@ -1,6 +1,9 @@
 <?php
-
-define('DB_HOSTNAME', 'localhost');
-define('DB_USERNAME', 'php');
-define('DB_PASSWORD', 'password');
-define('DB_DATABASE', 'recipesdb');
+$databases = array(
+  'default' => array(
+    'hostname' => 'localhost',
+    'database' => 'recipesdb',
+    'username' => 'php',
+    'password' => 'password',
+  ),
+);

@@ -32,9 +32,15 @@ function exception_handler($exception) {
 	exit();
 }
 
-function bootstrapInit() {
-	require_once (ROOT . DS . 'library' . DS . 'config.php');
+function settings_init() {
+  global $databases;
+  
+  require_once (ROOT . DS . 'library' . DS . 'config.php');
+}
+
+function bootstrap_init() {
 	require_once (ROOT . DS . 'library' . DS . 'common.php');
+	settings_init();
 	spl_autoload_register('__include_file');
 	set_error_handler('error_handler');
 	set_exception_handler('exception_handler');
@@ -43,8 +49,8 @@ function bootstrapInit() {
 	error_reporting(E_ALL);
 }
 
-function bootstrapFull() {
-  bootstrapInit();
+function bootstrap_full() {
+  bootstrap_init();
   $request = new HttpRequest(Request::server('REQUEST_URI'));
   Dispatcher::forward($request);
 }

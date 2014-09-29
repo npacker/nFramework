@@ -5,4 +5,4 @@ define('ROOT', getcwd());
 
 require_once (ROOT . DS . 'library' . DS . 'bootstrap.php');
 
-bootstrapFull();
+bootstrap_full();

@@ -33,12 +33,8 @@ class MySqlDatabase {
 	}
 
 	public function connect() {
-		try {
-			$this->connection = new PDO($this->dsn, $this->username, $this->password);
-			$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-		}
+	  $this->connection = new PDO($this->dsn, $this->username, $this->password);
+		$this->connection->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
 	}
 
 	public function close() {
@@ -46,11 +42,7 @@ class MySqlDatabase {
 	}
 
 	public function query($table, array $columns=array('*')) {
-		try {
-			$query = new Query($this->connection, $table, $columns);
-		} catch (Exception $e) {
-			echo $e->getMessage();
-		}
+	  $query = new Query($this->connection, $table, $columns);
 
 		return $query;
 	}

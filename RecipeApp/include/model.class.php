@@ -1,16 +1,17 @@
 <?php
 
 abstract class Model {
+  protected $database;
 
-	protected $database;
-
-	public function __construct() {
-		try {
-			$this->database = MySqlDatabase::instance(DB_HOSTNAME, DB_DATABASE, DB_USERNAME, DB_PASSWORD);
-		} catch (PDOException $e) {
-			echo $e->getMessage();
-			exit();
-		}
-	}
-
+  public function __construct() {
+    global $databases;
+    
+    $hostname = $databases['default']['hostname'];
+    $database = $databases['default']['database'];
+    $username = $databases['default']['username'];
+    $password = $databases['default']['password'];
+    
+    $this->database = MySqlDatabase::instance($hostname, $database, $username, 
+        $password);
+  }
 }

@@ -10,6 +10,7 @@ class HttpError extends Entity {
 	  $this->code = $code;
 	  $this->requestUrl = $requestUrl;
 	  $this->setMessage($message);
+	  $this->setTitle();
 	}
 
 	public function getCode() {
@@ -31,6 +32,19 @@ class HttpError extends Entity {
 		  default:
 		   $this->message = "The page {$this->requestUrl} could not be found.";
 		}
+	}
+	
+	protected function setTitle() {
+	  switch($this->code) {
+	    case HTTP_ERROR_ACCESS_DENIED:
+	      $this->title = "403: Access Denied";
+	      break;
+	    case HTTP_ERROR_SERVER_ERROR:
+	      $this->title = "500: Server Error";
+	      break;
+	    default:
+	      $this->title = "404: Not Found";
+	  }
 	}
 
 }
