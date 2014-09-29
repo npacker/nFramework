@@ -21,7 +21,7 @@ class Dispatcher {
       self::setArgs($args);
     } catch (Exception $e) {
       self::setController('HttpErrors');
-      self::setAction('index');
+      self::setAction('view');
       self::setArgs(
           array(
             'error_code' => HTTP_ERROR_NOT_FOUND,
