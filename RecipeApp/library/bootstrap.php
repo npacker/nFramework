@@ -1,17 +1,17 @@
 <?php
 
 function __include_file($class) {
-	$filename = strtolower($class);
-	$libraryPath = ROOT . DS . 'library' . DS . $filename . '.class.php';
-	$includesPath = ROOT . DS . 'includes' . DS . $filename . '.class.php';
+  $filename = strtolower($class);
+  $libraryPath = ROOT . DS . 'library' . DS . $filename . '.class.php';
+  $includesPath = ROOT . DS . 'includes' . DS . $filename . '.class.php';
 
-	if (file_exists($libraryPath)) {
-		require_once $libraryPath;
-	} else if (file_exists($includesPath)) {
-		require $includesPath;
-	} else {
-		throw new FileNotFoundException("Could not load {$filename}.");
-	}
+  if (file_exists($libraryPath)) {
+    require_once $libraryPath;
+  } else if (file_exists($includesPath)) {
+    require $includesPath;
+  } else {
+    throw new FileNotFoundException("Could not load {$filename}.");
+  }
 }
 
 function fatal_error_check() {
@@ -28,8 +28,8 @@ function error_handler($errno, $errstr, $errfile, $errline) {
 }
 
 function exception_handler($exception) {
-	echo $exception->getMessage();
-	exit();
+  echo $exception->getMessage();
+  exit();
 }
 
 function settings_init() {
@@ -39,14 +39,14 @@ function settings_init() {
 }
 
 function bootstrap_init() {
-	require_once (ROOT . DS . 'library' . DS . 'common.php');
-	settings_init();
-	spl_autoload_register('__include_file');
-	set_error_handler('error_handler');
-	set_exception_handler('exception_handler');
-	register_shutdown_function('fatal_error_check');
-	ini_set('display_errors', 'off');
-	error_reporting(E_ALL);
+  require_once (ROOT . DS . 'library' . DS . 'common.php');
+  settings_init();
+  spl_autoload_register('__include_file');
+  set_error_handler('error_handler');
+  set_exception_handler('exception_handler');
+  register_shutdown_function('fatal_error_check');
+  ini_set('display_errors', 'off');
+  error_reporting(E_ALL);
 }
 
 function bootstrap_full() {
