@@ -1,18 +1,18 @@
 <?php
 
 class Query {
-  protected $connection;
-  protected $statement;
-  protected $table;
   protected $columns;
-  protected $where = [];
+  protected $connection;
+  protected $group;
+  protected $groupDirection;
   protected $limit;
   protected $offset;
   protected $order;
   protected $orderDirection;
-  protected $group;
-  protected $groupDirection;
-  protected $values = [];
+  protected $statement;
+  protected $table;
+  protected $values = array();
+  protected $where = array();
 
   public function __construct(PDO &$connection, $table, 
       array $columns = array('*')) {
@@ -26,33 +26,37 @@ class Query {
     $this->statement = NULL;
   }
 
-  public function where($column, $value, $comparator = '=', $operator = 'AND') {
-    $this->where[] = "{$operator} {$column} {$comparator} :where_{$column}";
-    
-    try {
-      $this->addValue($value, "where_{$column}");
-    } catch (InvalidArgumentException $e) {
-      throw $e;
+  public function constrain($column, $value, $operator = 'AND', $comparator = '=') {
+    if (empty($this->where)) {
+      $this->where[] = "{$column} {$comparator} :where_{$column}";
+    } else {
+      $this->where[] = "{$operator} {$column} {$comparator} :where_{$column}";
     }
     
+    $this->addValue($value, "where_{$column}");
+    
     return $this;
+  }
+  
+  public function constrainOr($column, $value, $comparator = '=') {
+    return $this->constrain($column, $value, 'OR', $comparator);
+  }
+  
+  public function constrainAnd($column, $value, $comparator = '=') {
+    return $this->constrain($column, $value, 'AND', $comparator);
   }
 
   public function in($column, array $values) {
     $placeholder = '?';
     
-    for ($i = count($values); $i > 0; $i --) {
+    for ($i = count($values); $i > 0; $i--) {
       $placeholder .= ', ?';
     }
     
     $this->where[] = "IN {$column} IN ({$placeholder})";
     
-    try {
-      foreach ($values as $value) {
-        $this->addValue($value);
-      }
-    } catch (InvalidArgumentException $e) {
-      throw $e;
+    foreach ($values as $value) {
+      $this->addValue($value);
     }
     
     return $this;
@@ -81,18 +85,16 @@ class Query {
   }
 
   protected function whereClause() {
-    $where = 'WHERE ';
-    $arraySize = sizeof($this->$where);
+    $where = '';
     
-    if ($arraySize == 1) {
-      $where .= array_shift($this->where);
-    } elseif ($arraySize > 1) {
-      $first = array_shift($this->where);
-      
-      $where .= ltrim(strstr($first, ' '));
+    if (!empty($this->where)) {
+      $first_clause = array_shift($this->where);
+      $first_clause = ltrim($first_clause, 'AND');
+      $first_clause = ltrim($first_clause, 'OR');
+      $where = 'WHERE ' . $first_clause;
       
       foreach ($this->where as $clause) {
-        $where .= " {$clause}";
+        $where .= ' ' . $clause;
       }
     }
     
@@ -144,12 +146,7 @@ class Query {
     $values = [];
     
     foreach ($data as $column => $value) {
-      try {
-        $this->addValue($value, $column);
-      } catch (InvalidArgumentException $e) {
-        throw $e;
-      }
-      
+      $this->addValue($value, $column);
       $columns[] = (string) $column;
       $values[] = ":{$column}";
     }
@@ -167,12 +164,7 @@ class Query {
     $columns = [];
     
     foreach ($data as $column => $value) {
-      try {
-        $this->addValue($value, $column);
-      } catch (InvalidArgumentException $e) {
-        throw $e;
-      }
-      
+      $this->addValue($value, $column);
       $columns[] = "{$column} = :{$column}";
     }
     
@@ -205,76 +197,54 @@ class Query {
   }
 
   protected function setFetchMode($fetchMode, $options = null) {
-    try {
-      ($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode(
-          $fetchMode);
-    } catch (PDOException $e) {
-      throw $e;
-    }
+    ($options) ? $this->statement->setFetchMode($fetchMode, $options) : $this->statement->setFetchMode(
+        $fetchMode);
   }
 
   protected function prepare($query) {
-    try {
-      $this->statement = $this->connection->prepare($query);
-    } catch (PDOException $e) {
-      throw $e;
-    }
+    $this->statement = $this->connection->prepare($query);
   }
 
   protected function execute() {
-    try {
-      $this->statement->execute($this->values);
-    } catch (PDOException $e) {
-      throw $e;
-    }
+    $this->statement->execute($this->values);
   }
 
   public function resultClass($class) {
-    try {
-      $query = $this->buildSelect();
-      $this->prepare($query);
-      $this->setFetchMode(PDO::FETCH_CLASS, $class);
-      $this->execute();
-    } catch (Exception $e) {
-      throw $e;
-    }
+    $query = $this->buildSelect();
+    $this->prepare($query);
+    $this->setFetchMode(PDO::FETCH_CLASS, $class);
+    $this->execute();
     
     return $this->statement;
   }
 
   public function resultBoth() {
-    try {
-      $query = $this->buildSelect();
-      $this->prepare($query);
-      $this->setFetchMode(PDO::FETCH_BOTH);
-      $this->execute();
-    } catch (Exception $e) {
-      throw $e;
-    }
+    $query = $this->buildSelect();
+    $this->prepare($query);
+    $this->setFetchMode(PDO::FETCH_BOTH);
+    $this->execute();
     
     return $this->statement;
   }
 
   public function save(array $data) {
-    try {
-      $query = (empty($this->where)) ? $this->buildUpdate($data) : $this->buildInsert(
-          $data);
-      $this->prepare($query);
-      $this->execute();
-    } catch (Exception $e) {
-      throw $e;
+    if (empty($this->where)) {
+      $query = $this->buildInsert($data);
+    } else {
+      $query = $this->buildUpdate($data);
     }
+
+    $this->prepare($query);
+    $this->execute();
     
     return $this->statement;
   }
 
   public function delete() {
-    try {
-      $query = $this->buildDelete();
-      $this->prepare($query);
-      $this->execute();
-    } catch (Exception $e) {
-      throw $e;
-    }
+    $query = $this->buildDelete();
+    $this->prepare($query);
+    $this->execute();
+    
+    return $this->statement;
   }
 }
