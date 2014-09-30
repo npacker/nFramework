@@ -1,77 +1,111 @@
 <?php
 
 class Dispatcher {
-  protected static $controller;
-  protected static $action;
-  protected static $args;
+  protected $controller;
+  protected $action;
+  protected $arguments;
 
-  final private function __construct() {}
+  public function forward($request, $response) {
+    $pathArgs = $request->getArguments();
 
-  final private function __clone() {}
+    $controller = $this->parseController($pathArgs);
+    $action = $this->parseAction($pathArgs);
+    $arguments = $this->parseArguments($pathArgs);
 
-  public static function forward($request) {
-    $params = $request->getParams();
-    $args = array(
-      $request->getQuery()
-    );
-    
     try {
-      self::setController(array_shift($params));
-      self::setAction(array_shift($params));
-      self::setArgs($args);
-    } catch (Exception $e) {
-      self::setController('HttpErrors');
-      self::setAction('view');
-      self::setArgs(
+      $this->setController($controller);
+      $this->setAction($action);
+      $this->setArguments($arguments);
+    } catch (PDOException $e) {
+      $this->setController('HttpErrorController');
+      $this->setAction('view');
+      $this->setArguments(
           array(
-            'error_code' => HTTP_ERROR_NOT_FOUND,
+            'error_code' => HttpError::HTTP_ERROR_SERVER_ERROR,
             'error_message' => $e->getMessage(),
-            'request_uri' => $request->getUri(),
+            'request_uri' => $request->getUri()
+          ));
+    } catch (Exception $e) {
+      $this->setController('HttpErrorController');
+      $this->setAction('view');
+      $this->setArguments(
+          array(
+            'error_code' => HttpError::HTTP_ERROR_NOT_FOUND,
+            'error_message' => $e->getMessage(),
+            'request_uri' => $request->getUri()
           ));
     }
-    
-    self::dispatch();
+
+    $this->dispatch($response);
   }
 
-  protected static function dispatch() {
-    $action = self::$action;
-    
-    if (empty(self::$args)) {
-      self::$controller->$action();
+  protected function dispatch($response) {
+    $action = $this->action;
+
+    if (empty($this->arguments)) {
+      $this->controller->$action();
     } else {
-      self::$controller->$action(self::$args);
+      $this->controller->$action($this->arguments);
     }
   }
 
-  protected static function setController($controller) {
-    $controller = self::controllerName($controller);
-    
+  protected function parseController($pathArgs) {
+    $controller = null;
+
+    if (count($pathArgs) >= 1) {
+      $controller = $this->controllerName($pathArgs[0]);
+    }
+
+    return $controller;
+  }
+
+  protected function parseAction($pathArgs) {
+    $action = null;
+
+    if (count($pathArgs) >= 2) {
+      $action = $pathArgs[1];
+    }
+
+    return $action;
+  }
+
+  protected function parseArguments($pathArgs) {
+    $arguments = array();
+
+    if (count($pathArgs) >= 3) {
+      array_push($arguments, $pathArgs[2]);
+    }
+
+    return $arguments;
+  }
+
+  protected function setController($controller) {
     if (!class_exists($controller, true)) {
       throw new Exception();
     }
-    
-    self::$controller = new $controller();
+
+    $this->controller = new $controller();
   }
 
-  protected static function setAction($action) {
-    if (!method_exists(self::$controller, $action)) {
+  protected function setAction($action) {
+    if (!method_exists($this->controller, $action)) {
       throw new Exception();
     }
-    
-    self::$action = $action;
+
+    $this->action = $action;
   }
 
-  protected static function setArgs(array $args) {
-    self::$args = $args;
+  protected function setArguments($arguments) {
+    $this->arguments = $arguments;
   }
 
-  protected static function controllerName($controller) {
+  protected function controllerName($controller) {
+    $controllerName = '';
+
     if (!empty($controller)) {
-      $controllerName = substr_replace($controller, '', -1) . 'Controller';
-    } else {
-      $controllerName = '';
+      $controllerName = $controller . 'Controller';
     }
-    
+
     return $controllerName;
   }
 }

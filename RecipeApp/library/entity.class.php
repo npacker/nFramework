@@ -1,7 +1,7 @@
 <?php
 
-abstract class Entity {
-  
+class Entity {
+
   protected $title;
 
   public function getProperites() {

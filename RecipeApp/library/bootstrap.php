@@ -39,7 +39,6 @@ function settings_init() {
 }
 
 function bootstrap_init() {
-  require_once (ROOT . DS . 'library' . DS . 'common.php');
   settings_init();
   spl_autoload_register('__include_file');
   set_error_handler('error_handler');
@@ -51,7 +50,9 @@ function bootstrap_init() {
 
 function bootstrap_full() {
   bootstrap_init();
-  Dispatcher::forward(
-    new Request($_SERVER['REQUEST_URI'])
+  $dispatcher = new Dispatcher();
+  $dispatcher->forward(
+    new Request($_GET, $_POST, $_SERVER),
+    new Response()
   );
 }

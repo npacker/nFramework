@@ -2,7 +2,7 @@
 $databases = array(
   'default' => array(
     'hostname' => 'localhost',
-    'database' => 'recipesdb',
+    'database' => 'mvc',
     'username' => 'php',
     'password' => 'password',
   ),

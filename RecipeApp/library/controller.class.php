@@ -1,7 +1,6 @@
 <?php
 
 abstract class Controller {
-
   protected $model;
   protected $template;
   protected $variables = array();
@@ -14,45 +13,44 @@ abstract class Controller {
     return str_replace('controller', '', strtolower(get_class($this)));
   }
 
-  protected function prepare(Entity $entity) {
-    $properties = $entity->getProperites();
+  protected function prepare($data) {
+    if (is_object($data)) {
+      $properties = $data->getProperites();
+    } else if (is_array($data)) {
+      $properties = $data;
+    }
 
     foreach ($properties as $key => $value) {
       $this->set($key, $value);
     }
   }
   
-  protected function processTemplate($template) {   
+  protected function processTemplate() {   
     extract($this->variables);
     
     ob_start();
   
-    include $template;
+    include $this->template;
   
     return ob_get_clean();
   }
 
-  public function set($key, $value) {
+  protected function set($key, $value) {
     $this->variables[$key] = $value;
   }
   
   protected function setTemplate($template) {
-    $this->template = $template;
+    $this->template = ROOT . DS . 'templates' . DS . "{$this->getControllerName()}" . DS . "{$template}.tpl.php";
   }
   
   protected function render() {
-    $template = ROOT . DS . 'templates' . DS . "{$this->getControllerName()}" . DS . "{$this->template}.tpl.php";
-    $page = $this->processTemplate($template);
+    $page_title = $this->variables['title'];
+    $page = $this->processTemplate();
     
-    print $this->renderPage($this->variables['title'], $page);
-  }
-  
-  protected function renderPage($page_title, $page) {  
     ob_start();
   
     include ROOT . DS . 'templates' . DS . 'html.tpl.php';
-  
-    return ob_get_clean();
+    
+    print ob_get_clean();
   }
-
 }

@@ -2,10 +2,6 @@
 
 Class UserModel extends Model {
 
-	public function __construct() {
-		parent::__construct();
-	}
-
 	public function find($id) {}
 
 	public function join($id, $field) {}

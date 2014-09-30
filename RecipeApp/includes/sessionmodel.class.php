@@ -2,8 +2,6 @@
 
 Class SessionModel extends Model {
 
-	public function __construct() {}
-
 	public function find($id) {}
 
 	public function join($id, $field) {}

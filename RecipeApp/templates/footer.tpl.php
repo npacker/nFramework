@@ -1,0 +1,1 @@
+This website property of Nigel Packer &copy;<?php echo date('Y'); ?>
