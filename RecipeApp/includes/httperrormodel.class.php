@@ -6,9 +6,8 @@ class HttpErrorModel extends Model {
     parent::__construct();
   }
 
-  public function find($code, $message) {
-    $request = new HttpRequest(Request::server('REQUEST_URI'));
-    $httpError = new HttpError($code, $request->getUri());
+  public function find($code, $message, $requestUri) {
+    $httpError = new HttpError($code, $requestUri);
 
     return $httpError;
   }

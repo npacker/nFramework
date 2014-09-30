@@ -51,6 +51,7 @@ function bootstrap_init() {
 
 function bootstrap_full() {
   bootstrap_init();
-  $request = new HttpRequest(Request::server('REQUEST_URI'));
-  Dispatcher::forward($request);
+  Dispatcher::forward(
+    new Request($_SERVER['REQUEST_URI'])
+  );
 }

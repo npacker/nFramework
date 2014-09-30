@@ -25,7 +25,8 @@ class Dispatcher {
       self::setArgs(
           array(
             'error_code' => HTTP_ERROR_NOT_FOUND,
-            'error_message' => $e->getMessage()
+            'error_message' => $e->getMessage(),
+            'request_uri' => $request->getUri(),
           ));
     }
     

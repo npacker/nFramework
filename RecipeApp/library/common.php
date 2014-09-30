@@ -26,8 +26,8 @@ function parse_query($query) {
 }
 
 function base_path() {
-  $filePath = Request::server('PHP_SELF');
-  $documentRoot = realpath(Request::server('DOCUMENT_ROOT'));
+  $filePath = $_SERVER['PHP_SELF'];
+  $documentRoot = realpath($_SERVER['DOCUMENT_ROOT']);
   $basepath = str_replace($documentRoot, '', $filePath);
   $basepath = explode('/', $basepath);
   array_pop($basepath);

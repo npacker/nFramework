@@ -1,26 +1,31 @@
 <?php
 
 class Request {
+  protected $uri;
+  protected $params = array();
+  protected $query = array();
 
-  final private function __construct() {}
-
-  final private function __clone() {}
-
-  public static function get($key, $default = null) {
-    $value = $default;
-    if (array_key_exists($key, $_GET)) $value = $_GET[$key];
-    return $value;
+  public function __construct($uri) {
+    $this->uri = str_replace(base_path(), '', $uri);
+    $this->parseUrl();
   }
 
-  public static function post($key, $default = null) {
-    $value = $default;
-    if (array_key_exists($key, $_POST)) $value = $_POST[$key];
-    return $value;
+  public function getUri() {
+    return $this->uri;
   }
 
-  public static function server($key, $default = null) {
-    $value = $default;
-    if (array_key_exists($key, $_SERVER)) $value = $_SERVER[$key];
-    return $value;
+  public function getParams() {
+    return $this->params;
+  }
+
+  public function getQuery() {
+    return $this->query;
+  }
+
+  protected function parseUrl() {
+    if (!empty($this->uri)) {
+      $this->params = parse_path(strstr('?', $this->uri, true));
+      $this->query = parse_query(strstr('?', $this->uri, false));
+    }
   }
 }
