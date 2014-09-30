@@ -9,6 +9,7 @@ class RecipeController extends Controller {
 	public function view(array $args) {
 	  $this->setTemplate('view');
     $this->prepare($this->model->find($args[0]));
+    $this->render();
 	}
 
 }

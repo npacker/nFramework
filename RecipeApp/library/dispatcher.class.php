@@ -16,6 +16,7 @@ class Dispatcher {
       $this->setController($controller);
       $this->setAction($action);
       $this->setArguments($arguments);
+      $this->dispatch($response);
     } catch (PDOException $e) {
       $this->setController('HttpErrorController');
       $this->setAction('view');
@@ -25,6 +26,7 @@ class Dispatcher {
             'error_message' => $e->getMessage(),
             'request_uri' => $request->getUri()
           ));
+      $this->dispatch($response);
     } catch (Exception $e) {
       $this->setController('HttpErrorController');
       $this->setAction('view');
@@ -34,9 +36,8 @@ class Dispatcher {
             'error_message' => $e->getMessage(),
             'request_uri' => $request->getUri()
           ));
+      $this->dispatch($response);
     }
-
-    $this->dispatch($response);
   }
 
   protected function dispatch($response) {
@@ -96,6 +97,10 @@ class Dispatcher {
   }
 
   protected function setArguments($arguments) {
+    if (empty($arguments)) {
+      throw new Exception();
+    }
+
     $this->arguments = $arguments;
   }
 
