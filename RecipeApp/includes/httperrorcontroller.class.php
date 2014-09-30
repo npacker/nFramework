@@ -10,8 +10,8 @@ class HttpErrorController extends Controller {
    * The appropriate view for the given action is set here, and prepared for rendering. 
    */
   public function view(array $args) {
-    $this->view = new HttpErrorView();
-    $this->prepare($this->model->find($args['error_code'], $args['error_message']));
+    $this->setTemplate('view');
+    $this->prepare($this->model->find($args['error_code'], $args['error_message'], $args['request_uri']));
   }
 
 }
