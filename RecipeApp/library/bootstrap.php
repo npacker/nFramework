@@ -35,7 +35,7 @@ function exception_handler($exception) {
 function settings_init() {
   global $databases;
 
-  require_once (ROOT . DS . 'library' . DS . 'config.php');
+  require_once (ROOT . DS . 'conf' . DS . 'config.php');
 }
 
 function bootstrap_init() {

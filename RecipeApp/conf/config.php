@@ -4,6 +4,6 @@ $databases = array(
     'hostname' => 'localhost',
     'database' => 'mvc',
     'username' => 'php',
-    'password' => 'adf',
+    'password' => 'password',
   ),
 );
