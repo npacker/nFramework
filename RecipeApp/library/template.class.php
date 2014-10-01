@@ -47,7 +47,6 @@ class Template {
     $this->parseCSS();
     $this->parseJS();
     extract($this->variables);
-
     ob_start();
 
     include $this->template;
