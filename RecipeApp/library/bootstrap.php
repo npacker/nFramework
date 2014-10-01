@@ -39,14 +39,14 @@ function settings_init() {
 }
 
 function bootstrap_init() {
-  require (ROOT . DS . 'library' . DS . 'common.php');
-  settings_init();
-  spl_autoload_register('__include_file');
-  set_error_handler('error_handler');
-  set_exception_handler('exception_handler');
   register_shutdown_function('fatal_error_check');
   ini_set('display_errors', 'off');
   error_reporting(E_ALL);
+  set_error_handler('error_handler');
+  set_exception_handler('exception_handler');
+  spl_autoload_register('__include_file');
+  settings_init();
+  require_once (ROOT . DS . 'library' . DS . 'common.php');
 }
 
 function bootstrap_full() {
