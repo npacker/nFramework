@@ -2,6 +2,7 @@
 <html>
 <head>
 <title><?php echo $page_title; ?> | Nigel Packer</title>
+<meta charset="UTF-8">
 <?php echo $style; ?>
 <?php echo $script; ?>
 </head>
