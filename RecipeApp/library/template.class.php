@@ -60,7 +60,7 @@ class Template {
     $style = '';
 
     foreach ($css as $stylesheet) {
-      $style .= "<link rel=\"stylesheet\" href=\"http://{$baseUrl}{$basePath}/css/{$stylesheet}.css\" type=\"text/css\" media=\"screen\" />\n";
+      $style .= "<link rel=\"stylesheet\" href=\"http://{$baseUrl}{$basePath}/css/{$stylesheet}.css\" type=\"text/css\" media=\"screen\">\n";
     }
 
     $this->setVariable('style', $style);
