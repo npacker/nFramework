@@ -16,7 +16,7 @@ function __include_file($class) {
 
 function fatal_error_check() {
   $error = error_get_last();
-  
+
   if ($error['type'] == E_ERROR) {
     error_handler($error['type'], $error['message'], $error['file'], $error['line']);
   }
@@ -34,11 +34,12 @@ function exception_handler($exception) {
 
 function settings_init() {
   global $databases;
-  
+
   require_once (ROOT . DS . 'library' . DS . 'config.php');
 }
 
 function bootstrap_init() {
+  require (ROOT . DS . 'library' . DS . 'common.php');
   settings_init();
   spl_autoload_register('__include_file');
   set_error_handler('error_handler');

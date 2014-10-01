@@ -2,18 +2,19 @@
 <html>
 <head>
 <title><?php echo $page_title; ?></title>
-<link rel="stylesheet" href="http://localhost:8080/RecipeApp/RecipeApp/css/default.css" type="text/css" media="screen" />
+<?php echo $style; ?>
+<?php echo $script; ?>
 </head>
 <body>
 <div id="envelope">
   <div id="head">
-    <h1><a href="/index.php">Nigel Packer</a></h1>
+    <?php echo $page_top; ?>
   </div>
   <div id="body">
     <?php echo $page; ?>
   </div>
   <div id="foot">
-    This website property of Nigel Packer &copy;2014
+    <?php echo $page_bottom; ?>
   </div>
 </div>
 </body>

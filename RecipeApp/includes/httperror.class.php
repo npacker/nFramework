@@ -32,10 +32,10 @@ class HttpError extends Entity {
   protected function setTitle() {
     switch($this->code) {
       case self::HTTP_ERROR_ACCESS_DENIED:
-        $this->title = "403: Access Denied";
+        $this->title = "403: Forbidden";
         break;
       case self::HTTP_ERROR_SERVER_ERROR:
-        $this->title = "500: Server Error";
+        $this->title = "500: Internal Server Error";
         break;
       default:
         $this->title = "404: Not Found";

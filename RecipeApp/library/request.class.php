@@ -12,7 +12,7 @@ class Request {
     $this->get = $get;
     $this->post = $post;
     $this->server = $server;
-    $this->basePath = $this->parseBasePath();
+    $this->basePath = base_path();
     $this->uri = $this->parseRequestUri($this->basePath);
 
     if (!empty($this->uri)) {
@@ -34,18 +34,6 @@ class Request {
 
   public function getUri() {
     return $this->uri;
-  }
-
-  protected function parseBasePath() {
-    $filePath = $this->server['PHP_SELF'];
-    $documentRoot = realpath($this->server['DOCUMENT_ROOT']);
-
-    $basePath = str_replace($documentRoot, '', $filePath);
-    $basePath = explode('/', $basePath);
-    array_pop($basePath);
-    $basePath = implode('/', $basePath) . '/';
-
-    return $basePath;
   }
 
   protected function parsePath($uri) {

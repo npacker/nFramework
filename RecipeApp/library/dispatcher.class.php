@@ -14,6 +14,9 @@ class Dispatcher {
       $this->setController($controller);
       $this->setAction($action);
       $this->setArguments($arguments);
+
+      $response->setHeader($_SERVER["SERVER_PROTOCOL"] . ' 200 OK');
+
       $this->dispatch($response);
     } catch (PDOException $e) {
       $this->setController('HttpErrorController');
@@ -24,6 +27,9 @@ class Dispatcher {
             'error_message' => $e->getMessage(),
             'request_uri' => $request->getUri()
           ));
+
+      $response->setHeader($_SERVER["SERVER_PROTOCOL"] . ' 500 Internal Server Error');
+
       $this->dispatch($response);
     } catch (Exception $e) {
       $this->setController('HttpErrorController');
@@ -34,6 +40,9 @@ class Dispatcher {
             'error_message' => $e->getMessage(),
             'request_uri' => $request->getUri()
           ));
+
+      $response->setHeader($_SERVER["SERVER_PROTOCOL"] . ' 404 Not Found');
+
       $this->dispatch($response);
     }
   }
@@ -42,10 +51,20 @@ class Dispatcher {
     $action = $this->action;
 
     if (empty($this->arguments)) {
-      $this->controller->$action();
+      $data = $this->controller->$action();
     } else {
-      $this->controller->$action($this->arguments);
+      $data = $this->controller->$action($this->arguments);
     }
+
+    $data['page_top'] = new Template('header');
+    $data['page_bottom'] = new Template('footer');
+
+    $template = new Template('html', $data);
+    $template->addCSS('default');
+    $template->addJS('default');
+
+    $response->setTemplate($template);
+    $response->send();
   }
 
   protected function parseController(Request $request) {
