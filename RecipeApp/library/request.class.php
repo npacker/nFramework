@@ -1,7 +1,6 @@
 <?php
 
 class Request {
-  protected $basePath;
   protected $get;
   protected $path;
   protected $post;
@@ -12,8 +11,7 @@ class Request {
     $this->get = $get;
     $this->post = $post;
     $this->server = $server;
-    $this->basePath = base_path();
-    $this->uri = $this->parseRequestUri($this->basePath);
+    $this->uri = $this->parseRequestUri(base_path());
 
     if (!empty($this->uri)) {
       $this->path = $this->parsePath($this->uri);
@@ -24,12 +22,16 @@ class Request {
     return array_map('strtolower', explode('/', trim($this->path, '/')));
   }
 
-  public function getBasePath() {
-    return $this->basePath;
+  public function getGet() {
+    return $this->get;
   }
 
   public function getPath() {
     return $this->path;
+  }
+
+  public function getPost() {
+    return $this->post;
   }
 
   public function getUri() {

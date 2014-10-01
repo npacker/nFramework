@@ -18,7 +18,7 @@ class Template {
     $this->data = $data;
   }
 
-  public function addCSS($css) {
+  public function addStyle($css) {
     if (is_array($css)) {
       $this->css = array_replace($this->css, $css);
     } else {
@@ -26,7 +26,7 @@ class Template {
     }
   }
 
-  public function addJS($js) {
+  public function addScript($js) {
     if (is_array($js)) {
       $this->js = array_replace($this->js, $js);
     } else {
@@ -34,11 +34,11 @@ class Template {
     }
   }
 
-  public function getCSS() {
+  public function getStyle() {
     return $this->css;
   }
 
-  public function getJS() {
+  public function getScript() {
     return $this->js;
   }
 
@@ -87,8 +87,8 @@ class Template {
 
       if ($value instanceof Template) {
         $processedValue = $value->parse();
-        $this->addCSS($value->getCSS());
-        $this->addJS($value->getJS());
+        $this->addStyle($value->getStyle());
+        $this->addScript($value->getScript());
       } else {
         $processedValue = $value;
       }

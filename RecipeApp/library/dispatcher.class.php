@@ -49,19 +49,15 @@ class Dispatcher {
 
   protected function dispatch(Response $response) {
     $action = $this->action;
+    $data = $this->controller->$action($this->arguments);
 
-    if (empty($this->arguments)) {
-      $data = $this->controller->$action();
-    } else {
-      $data = $this->controller->$action($this->arguments);
-    }
-
-    $data['page_top'] = new Template('header');
+    $data['page_title'] .= ' | Nigel Packer';
+    $data['page_top'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
     $data['page_bottom'] = new Template('footer');
 
     $template = new Template('html', $data);
-    $template->addCSS('default');
-    $template->addJS('default');
+    $template->addStyle('default');
+    $template->addScript('default');
 
     $response->setTemplate($template);
     $response->send();
@@ -69,7 +65,6 @@ class Dispatcher {
 
   protected function parseController(Request $request) {
     $pathArgs = $request->getArguments();
-
     $controller = null;
 
     if (count($pathArgs) >= 1) {
@@ -95,8 +90,10 @@ class Dispatcher {
     $arguments = array();
 
     if (count($pathArgs) >= 3) {
-      array_push($arguments, $pathArgs[2]);
+      $arguments['path_argument'] = $pathArgs[2];
     }
+
+    $arguments = array_merge($arguments, $request->getGet(), $request->getPost());
 
     return $arguments;
   }
