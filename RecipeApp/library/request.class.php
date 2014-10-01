@@ -11,7 +11,7 @@ class Request {
     $this->get = $get;
     $this->post = $post;
     $this->server = $server;
-    $this->uri = $this->parseRequestUri(base_path());
+    $this->uri = $this->parseRequestUri(base_path(), $this->server['REQUEST_URI']);
 
     if (!empty($this->uri)) {
       $this->path = $this->parsePath($this->uri);
@@ -50,7 +50,7 @@ class Request {
     return $path;
   }
 
-  protected function parseRequestUri($basePath) {
-    return str_replace($basePath, '', $this->server['REQUEST_URI']);
+  protected function parseRequestUri($basePath, $requestUri) {
+    return str_replace($basePath, '', $requestUri);
   }
 }
