@@ -51,9 +51,8 @@ class Dispatcher {
     $action = $this->action;
     $data = $this->controller->$action($this->arguments);
 
-    $data['page_title'] .= ' | Nigel Packer';
-    $data['page_top'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
-    $data['page_bottom'] = new Template('footer');
+    $data['header'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
+    $data['footer'] = new Template('footer');
 
     $template = new Template('html', $data);
     $template->addStyle('default');
