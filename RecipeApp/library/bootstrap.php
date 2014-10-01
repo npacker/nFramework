@@ -40,10 +40,10 @@ function settings_init() {
 
 function bootstrap_init() {
   register_shutdown_function('fatal_error_check');
-  ini_set('display_errors', 'off');
-  error_reporting(E_ALL);
   set_error_handler('error_handler');
   set_exception_handler('exception_handler');
+  ini_set('display_errors', 'off');
+  error_reporting(E_ALL);
   spl_autoload_register('__include_file');
   settings_init();
   require_once (ROOT . DS . 'library' . DS . 'common.php');
