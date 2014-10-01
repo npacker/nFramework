@@ -13,7 +13,7 @@
     <?php echo $page; ?>
   </div>
   <div id="foot">
-    This website property of Nigel Packer &copy;<?php echo date('Y'); ?>
+    This website property of Nigel Packer &copy;2014
   </div>
 </div>
 </body>

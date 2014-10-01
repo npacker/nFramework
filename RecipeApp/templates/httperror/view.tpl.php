@@ -1,2 +1,2 @@
-<h1>404: Not Found</h1>
-<p class="error warn">The page <?php echo $requestUrl; ?> could not be found.</p>
+<h1><?php echo $title; ?></h1>
+<p class="error warn"><?php echo $message; ?></p>

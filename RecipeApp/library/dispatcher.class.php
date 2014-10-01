@@ -5,12 +5,10 @@ class Dispatcher {
   protected $action;
   protected $arguments;
 
-  public function forward($request, $response) {
-    $pathArgs = $request->getArguments();
-
-    $controller = $this->parseController($pathArgs);
-    $action = $this->parseAction($pathArgs);
-    $arguments = $this->parseArguments($pathArgs);
+  public function forward(Request $request, Response $response) {
+    $controller = $this->parseController($request);
+    $action = $this->parseAction($request);
+    $arguments = $this->parseArguments($request);
 
     try {
       $this->setController($controller);
@@ -40,7 +38,7 @@ class Dispatcher {
     }
   }
 
-  protected function dispatch($response) {
+  protected function dispatch(Response $response) {
     $action = $this->action;
 
     if (empty($this->arguments)) {
@@ -50,7 +48,9 @@ class Dispatcher {
     }
   }
 
-  protected function parseController($pathArgs) {
+  protected function parseController(Request $request) {
+    $pathArgs = $request->getArguments();
+
     $controller = null;
 
     if (count($pathArgs) >= 1) {
@@ -60,7 +60,8 @@ class Dispatcher {
     return $controller;
   }
 
-  protected function parseAction($pathArgs) {
+  protected function parseAction(Request $request) {
+    $pathArgs = $request->getArguments();
     $action = null;
 
     if (count($pathArgs) >= 2) {
@@ -70,7 +71,8 @@ class Dispatcher {
     return $action;
   }
 
-  protected function parseArguments($pathArgs) {
+  protected function parseArguments(Request $request) {
+    $pathArgs = $request->getArguments();
     $arguments = array();
 
     if (count($pathArgs) >= 3) {

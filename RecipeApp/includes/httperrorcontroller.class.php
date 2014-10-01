@@ -8,7 +8,7 @@ class HttpErrorController extends Controller {
 
   public function view(array $args) {
     $this->setTemplate('view');
-    $this->prepare($this->model->find($args['error_code'], $args['error_message'], $args['request_uri']));
+    $this->prepare($this->model->find($args['error_code'], $args['request_uri'], $args['error_message']));
     $this->render();
   }
 
