@@ -2,6 +2,8 @@
 
 class HttpErrorModel extends Model {
 
+  public function __construct() {}
+
   public function find($code, $requestUri, $message) {
     switch($code) {
       case HttpError::HTTP_ERROR_ACCESS_DENIED:
