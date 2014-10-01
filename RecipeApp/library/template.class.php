@@ -44,8 +44,8 @@ class Template {
 
   public function parse() {
     $this->processData($this->data);
-    $this->parseStyles();
-    $this->parseScripts();
+    $this->parseStyles($this->css);
+    $this->parseScripts($this->js);
     extract($this->variables);
     ob_start();
 
@@ -54,24 +54,24 @@ class Template {
     return ob_get_clean();
   }
 
-  protected function parseStyles() {
+  protected function parseStyles($css) {
     $basePath = base_path();
     $baseUrl = base_url();
     $style = '';
 
-    foreach ($this->css as $stylesheet) {
+    foreach ($css as $stylesheet) {
       $style .= "<link rel=\"stylesheet\" href=\"http://{$baseUrl}{$basePath}/css/{$stylesheet}.css\" type=\"text/css\" media=\"screen\" />\n";
     }
 
     $this->setVariable('style', $style);
   }
 
-  protected function parseScripts() {
+  protected function parseScripts($js) {
     $basePath = base_path();
     $baseUrl = base_url();
     $script = '';
 
-    foreach ($this->js as $javascript) {
+    foreach ($js as $javascript) {
       $script .= "<script type=\"text/javascript\" src=\"http://{$baseUrl}{$basePath}/js/{$javascript}.js\"></script>\n";
     }
 
