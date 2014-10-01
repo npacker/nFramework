@@ -5,7 +5,7 @@ class Recipe extends Entity {
   protected $id;
 	protected $ingredients = array();
 
-	public function __construct($id=null, $title=null, Array $ingredients=null) {
+	public function __construct($id=null, $title=null, array $ingredients=null) {
 	  if (isset($id)) $this->id = $id;
 		if (isset($title)) $this->title = $title;
 		if (isset($ingredients)) $this->ingredients = $ingredients;
@@ -15,8 +15,8 @@ class Recipe extends Entity {
 	  return $this->id;
 	}
 
-	public function addIngredient(Ingredient $ingredient) {
-		array_push($this->ingredients, $ingredient);
+	public function getIngredients() {
+	  return $this->ingredients;
 	}
 
 }
