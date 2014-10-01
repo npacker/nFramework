@@ -28,7 +28,7 @@ function error_handler($errno, $errstr, $errfile, $errline) {
 }
 
 function exception_handler($exception) {
-  echo $exception->getMessage();
+  echo 'Uncaught exception: ' . $exception->getMessage();
   exit();
 }
 
