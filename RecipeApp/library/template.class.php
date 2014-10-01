@@ -44,8 +44,8 @@ class Template {
 
   public function parse() {
     $this->processData($this->data);
-    $this->parseCSS();
-    $this->parseJS();
+    $this->parseStyles();
+    $this->parseScripts();
     extract($this->variables);
     ob_start();
 
@@ -54,7 +54,7 @@ class Template {
     return ob_get_clean();
   }
 
-  protected function parseCSS() {
+  protected function parseStyles() {
     $basePath = base_path();
     $baseUrl = base_url();
     $style = '';
@@ -66,7 +66,7 @@ class Template {
     $this->setVariable('style', $style);
   }
 
-  protected function parseJS() {
+  protected function parseScripts() {
     $basePath = base_path();
     $baseUrl = base_url();
     $script = '';
