@@ -100,7 +100,7 @@ class Dispatcher {
 
   protected function setController($controller) {
     if (!class_exists($controller, true)) {
-      throw new Exception();
+      throw new Exception("Undefined controller");
     }
 
     $this->controller = new $controller();
@@ -108,7 +108,7 @@ class Dispatcher {
 
   protected function setAction($action) {
     if (!method_exists($this->controller, $action)) {
-      throw new Exception();
+      throw new Exception("Undefined action");
     }
 
     $this->action = $action;
@@ -116,7 +116,7 @@ class Dispatcher {
 
   protected function setArguments($arguments) {
     if (empty($arguments)) {
-      throw new Exception();
+      throw new Exception("Arguments were not defined");
     }
 
     $this->arguments = $arguments;
