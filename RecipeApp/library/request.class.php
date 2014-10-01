@@ -34,6 +34,10 @@ class Request {
     return $this->post;
   }
 
+  public function getServer() {
+    return $this->server;
+  }
+
   public function getUri() {
     return $this->uri;
   }
