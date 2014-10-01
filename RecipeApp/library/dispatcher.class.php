@@ -9,13 +9,14 @@ class Dispatcher {
     $controller = $this->parseController($request);
     $action = $this->parseAction($request);
     $arguments = $this->parseArguments($request);
+    $server = $request->getServer();
 
     try {
       $this->setController($controller);
       $this->setAction($action);
       $this->setArguments($arguments);
 
-      $response->setHeader($request->getServer()["SERVER_PROTOCOL"] . ' 200 OK');
+      $response->setHeader($server["SERVER_PROTOCOL"] . ' 200 OK');
 
       $this->dispatch($response);
     } catch (PDOException $e) {
@@ -28,7 +29,7 @@ class Dispatcher {
             'request_uri' => $request->getUri()
           ));
 
-      $response->setHeader($request->getServer()["SERVER_PROTOCOL"] . ' 500 Internal Server Error');
+      $response->setHeader($server["SERVER_PROTOCOL"] . ' 500 Internal Server Error');
 
       $this->dispatch($response);
     } catch (Exception $e) {
@@ -41,7 +42,7 @@ class Dispatcher {
             'request_uri' => $request->getUri()
           ));
 
-      $response->setHeader($request->getServer()["SERVER_PROTOCOL"] . ' 404 Not Found');
+      $response->setHeader($server["SERVER_PROTOCOL"] . ' 404 Not Found');
 
       $this->dispatch($response);
     }
