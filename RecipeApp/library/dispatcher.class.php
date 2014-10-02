@@ -104,8 +104,7 @@ class Dispatcher {
       $arguments['path_argument'] = $pathArgs[2];
     }
 
-    $arguments = array_merge($arguments, $request->getGet(),
-        $request->getPost());
+    $arguments = array_merge($arguments, $request->getGet(), $request->getPost());
 
     return $arguments;
   }
