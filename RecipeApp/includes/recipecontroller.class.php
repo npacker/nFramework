@@ -7,27 +7,36 @@ class RecipeController extends Controller {
 	}
 
 	public function view(array $args = array()) {
-	  if ($args['path_argument'] == 'all') {
-	    return $this->viewAll($args);
+	  $id = $args['path_argument'];
+
+	  if ($id == 'all') {
+	    $data = $this->all($args);
+	  } else {
+      $recipe = $this->model->find($id);
+
+      if (empty($recipe)) {
+        throw new Exception();
+      }
+
+      $ingredientController = new IngredientController();
+      extract($ingredientController->view(array('recipe_id' => $id)));
+
+      $recipe['ingredients'] = $ingredients;
+
+      $data['title'] = $recipe['title'];
+      $data['content'] = new Template('recipe/view', $recipe);
+      $data['template'] = 'html';
 	  }
-
-    $recipe = $this->model->find($args['path_argument']);
-
-    if (empty($recipe)) {
-      throw new Exception();
-    }
-
-    $data['page_title'] = $recipe['title'];
-    $data['page'] = new Template('recipe/view', $recipe);
 
     return $data;
 	}
 
-	public function viewAll(array $args = array()) {
+	public function all(array $args = array()) {
     $recipes = $this->model->all();
 
-    $data['page_title'] = 'All Recipes';
-    $data['page'] = new Template('recipe/index', array('recipes' => $recipes, 'base_url' => base_url(), 'base_path' => base_path()));
+    $data['title'] = 'All Recipes';
+    $data['content'] = new Template('recipe/index', array('recipes' => $recipes, 'base_url' => base_url(), 'base_path' => base_path()));
+    $data['template'] = 'html';
 
     return $data;
 	}
