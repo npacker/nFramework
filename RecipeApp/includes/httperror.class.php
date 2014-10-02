@@ -9,12 +9,14 @@ class HttpError extends Entity {
   protected $code;
   protected $requestUrl;
   protected $message;
+  protected $level;
 
-  public function __construct($code, $requestUrl, $message) {
+  public function __construct($title, $code, $requestUrl, $message, $level) {
+    $this->title = $title;
     $this->code = $code;
     $this->requestUrl = $requestUrl;
     $this->message = $message;
-    $this->setTitle();
+    $this->level = $level;
   }
 
   public function getCode() {
@@ -27,19 +29,6 @@ class HttpError extends Entity {
 
   public function getMessage() {
     return $this->message;
-  }
-
-  protected function setTitle() {
-    switch($this->code) {
-      case self::HTTP_ERROR_ACCESS_DENIED:
-        $this->title = "403: Forbidden";
-        break;
-      case self::HTTP_ERROR_SERVER_ERROR:
-        $this->title = "500: Internal Server Error";
-        break;
-      default:
-        $this->title = "404: Not Found";
-    }
   }
 
 }
