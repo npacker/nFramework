@@ -1,0 +1,178 @@
+@CHARSET "UTF-8";
+
+/* administrative navigation menu */
+
+#admin-menu {
+  position: absolute;
+  top: 23px;
+  right: 13px;
+}
+
+#admin-menu ul {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+#admin-menu li {
+  display: block;
+  float: left;
+}
+
+#admin-menu a {
+  display: block;
+  color: #333;
+  font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+  font-size: 13px;
+  font-weight: bold;
+  line-height: 13px;
+  letter-spacing: 0.2ex;
+  text-decoration: none;
+  text-transform: uppercase;
+  text-shadow: 0 1px #fff;
+  margin-right: 20px;
+}
+
+#admin-menu li:last-child a {
+  margin-right: 0;
+}
+
+#admin-menu a:hover {
+  color: #555;
+}
+
+/* manager tables global */
+
+#body .idcolumn {
+  width: 15px;
+}
+
+#body .editcolumn {
+  width: 110px;
+  padding: 3px 5px;
+}
+
+/* editor buttons */
+
+#body input.edit {
+  width: 44px;
+}
+
+#body input.delete {
+  width: 60px;
+  margin-right: 0;
+}
+
+#body input.new {
+  width: 110px;
+  color: #444;
+  text-shadow: 0 1px 0 #fff;
+  margin-right: 0;
+  background-color: #eee;
+  border: 1px solid #999;
+}
+
+#body input.new:active {
+  color: #666;
+  text-shadow: 0 1px 0 #fff;
+  background-color: #fdfdfd;
+  border-color: #999;
+  box-shadow: 0 0 3px #222 inset;
+}
+
+#body .admin-form input.publish {
+  margin-right: 0;
+}
+
+/* article management */
+
+#body .admin-form fieldset {
+  padding: 10px;
+}
+
+#body .datecolumn {
+  width: 128px;
+}
+
+#body .authorcolumn {
+  width: 130px;
+}
+
+/* menu manager */
+
+#body .menuidcolumn {
+  width: 60px;
+}
+
+#body .ordercolumn {
+  width: 50px;
+  text-align: center;
+  padding: 3px 5px;
+}
+
+#body .typecolumn {
+  width: 50px;
+}
+
+#body .editcolumn {
+  width: 110px;
+  padding: 3px 5px;
+}
+
+/* menu editor */
+
+#body fieldset td {
+  vertical-align: top;
+}
+
+#body fieldset table, #body fieldset table input, #body fieldset table label {
+  margin: 0;
+}
+
+#body .formLabel {
+  text-align: right;
+}
+
+#body .formElement {
+  padding: 6px 5px;
+}
+
+#parentId {
+  width: 260px;
+  max-width: 260px;
+  overflow: scroll;
+}
+
+select#value {
+  width: 260px;
+  max-width: 260px;
+  overflow: scroll;
+}
+
+/* administrative forms */
+
+#body form {
+  width: 189px;
+}
+
+#body label {
+  font-size: 12px;
+  font-weight: bold;
+}
+
+#body input.text {
+  width: 175px;
+  height: 14px;
+  font-size: 12px;
+  line-height: 14px;
+  padding: 4px 3px;
+  border: 1px solid #ccc;
+  margin-bottom: 12px;
+}
+
+#body .errorField {
+  color: red;
+  font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+  font-size: 14px;
+  margin: 0;
+}
