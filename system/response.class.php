@@ -2,12 +2,12 @@
 
 class Response {
   protected $header;
-  protected $template;
+  protected $body;
 
   public function send() {
     ob_start();
     header($this->header);
-    echo $this->template->parse();
+    echo $this->body;
     ob_end_flush();
     exit();
   }
@@ -16,7 +16,7 @@ class Response {
     $this->header = $header;
   }
 
-  public function setTemplate(Template $template) {
-    $this->template = $template;
+  public function setBody($body) {
+    $this->body = $body;
   }
 }

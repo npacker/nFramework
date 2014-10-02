@@ -7,6 +7,11 @@ class HttpErrorController extends Controller {
   }
 
   public function view(array $args = array()) {
+    if ($args['uri'] == '/') {
+      $defaults = new DefaultController();
+      return $defaults->view();
+    }
+
     $httpError = $this->model->find($args['code'], $args['uri'], $args['message']);
 
     $data['title'] = $httpError->getTitle();

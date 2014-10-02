@@ -73,7 +73,7 @@ class Dispatcher {
     $template->addStyle('default');
     $template->addScript('default');
 
-    $this->response->setTemplate($template);
+    $this->response->setBody($template->parse());
     $this->response->send();
   }
 
