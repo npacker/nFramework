@@ -10,7 +10,7 @@ class IngredientController extends Controller {
     if (isset($args['recipe_id'])) {
       $ingredients = $this->model->recipe($args['recipe_id']);
 
-      $data['ingredients'] = new Template('ingredient/index', array('ingredients' => $ingredients));
+      $data['content'] = new Template('ingredient/index', array('ingredients' => $ingredients));
     } else {
       $ingredient = $this->model->find($args['id']);
 

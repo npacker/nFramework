@@ -1,5 +1,6 @@
 <ol>
 <?php foreach ($ingredients as $ingredient): ?>
-  <li><?php echo $ingredient['title']; ?> <strong>(<?php echo $ingredient['quantity']; ?>)</strong></li>
+<?php extract($ingredient); ?>
+  <li><?php echo $title; ?> <strong>(<?php echo $quantity; ?>)</strong></li>
 <?php endforeach; ?>
 </ol>

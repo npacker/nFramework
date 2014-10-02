@@ -10,23 +10,22 @@ class RecipeController extends Controller {
 	  $id = $args['path_argument'];
 
 	  if ($id == 'all') {
-	    $data = $this->all($args);
-	  } else {
-      $recipe = $this->model->find($id);
-
-      if (empty($recipe)) {
-        throw new Exception();
-      }
-
-      $ingredientController = new IngredientController();
-      extract($ingredientController->view(array('recipe_id' => $id)));
-
-      $recipe['ingredients'] = $ingredients;
-
-      $data['title'] = $recipe['title'];
-      $data['content'] = new Template('recipe/view', $recipe);
-      $data['template'] = 'html';
+	    return $this->all($args);
 	  }
+
+    $recipe = $this->model->find($id);
+
+    if (empty($recipe)) {
+      throw new Exception("The recipe could not be found.");
+    }
+
+    $ingredients = new IngredientController();
+    $ingredientData = $ingredients->view(array('recipe_id' => $id));
+    $recipe['ingredients'] = $ingredientData['content'];
+
+    $data['title'] = $recipe['title'];
+    $data['content'] = new Template('recipe/view', $recipe);
+    $data['template'] = 'html';
 
     return $data;
 	}
