@@ -22,7 +22,11 @@ class Request {
     return array_map('strtolower', explode('/', trim($this->path, '/')));
   }
 
-  public function getGet() {
+  public function getGet($key = null) {
+    if (!empty($key)) {
+      return $this->get[$key];
+    }
+
     return $this->get;
   }
 
@@ -30,11 +34,19 @@ class Request {
     return $this->path;
   }
 
-  public function getPost() {
+  public function getPost($key = null) {
+    if (!empty($key)) {
+      return $this->post[$key];
+    }
+
     return $this->post;
   }
 
-  public function getServer() {
+  public function getServer($key = null) {
+    if (!empty($key)) {
+      return $this->server[$key];
+    }
+
     return $this->server;
   }
 

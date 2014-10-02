@@ -4,51 +4,62 @@ class Dispatcher {
   protected $controller;
   protected $action;
   protected $arguments;
+  protected $request;
+  protected $response;
 
   public function forward(Request $request, Response $response) {
-    $controller = $this->parseController($request);
-    $action = $this->parseAction($request);
-    $arguments = $this->parseArguments($request);
-    $server = $request->getServer();
+    $this->request = $request;
+    $this->response = $response;
+
+    $controller = $this->parseController($this->request);
+    $action = $this->parseAction($this->request);
+    $arguments = $this->parseArguments($this->request);
+
+    $serverProtocol = $this->request->getServer('SERVER_PROTOCOL');
 
     try {
-      $this->setController($controller);
-      $this->setAction($action);
-      $this->setArguments($arguments);
-
-      $response->setHeader($server["SERVER_PROTOCOL"] . ' 200 OK');
-
-      $this->dispatch($response);
+      $this->prepare(
+        "{$serverProtocol} 200 OK",
+        $controller,
+        $action,
+        $arguments
+      );
+      $this->dispatch();
     } catch (PDOException $e) {
-      $this->setController('HttpErrorController');
-      $this->setAction('view');
-      $this->setArguments(
-          array(
-            'error_code' => HttpError::HTTP_ERROR_SERVER_ERROR,
-            'error_message' => $e->getMessage(),
-            'request_uri' => $request->getUri()
-          ));
-
-      $response->setHeader($server["SERVER_PROTOCOL"] . ' 500 Internal Server Error');
-
-      $this->dispatch($response);
+      $this->prepare(
+        "{$serverProtocol} 500 Internal Server Error",
+        'HttpErrorController',
+        'view',
+        array(
+          'code' => HttpError::HTTP_ERROR_SERVER_ERROR,
+          'uri' => $this->request->getUri(),
+          'message' => $e->getMessage(),
+        )
+      );
+      $this->dispatch();
     } catch (Exception $e) {
-      $this->setController('HttpErrorController');
-      $this->setAction('view');
-      $this->setArguments(
-          array(
-            'error_code' => HttpError::HTTP_ERROR_NOT_FOUND,
-            'error_message' => $e->getMessage(),
-            'request_uri' => $request->getUri()
-          ));
-
-      $response->setHeader($server["SERVER_PROTOCOL"] . ' 404 Not Found');
-
-      $this->dispatch($response);
+      $this->prepare(
+        "{$serverProtocol} 404 Not Found",
+        'HttpErrorController',
+        'view',
+        array(
+          'code' => HttpError::HTTP_ERROR_NOT_FOUND,
+          'uri' => $this->request->getUri(),
+          'message' => $e->getMessage(),
+        )
+      );
+      $this->dispatch();
     }
   }
 
-  protected function dispatch(Response $response) {
+  protected function prepare($header, $controller, $action, $arguments) {
+    $this->response->setHeader($header);
+    $this->setController($controller);
+    $this->setAction($action);
+    $this->setArguments($arguments);
+  }
+
+  protected function dispatch() {
     $action = $this->action;
     $data = $this->controller->$action($this->arguments);
 
@@ -59,8 +70,8 @@ class Dispatcher {
     $template->addStyle('default');
     $template->addScript('default');
 
-    $response->setTemplate($template);
-    $response->send();
+    $this->response->setTemplate($template);
+    $this->response->send();
   }
 
   protected function parseController(Request $request) {
@@ -93,7 +104,8 @@ class Dispatcher {
       $arguments['path_argument'] = $pathArgs[2];
     }
 
-    $arguments = array_merge($arguments, $request->getGet(), $request->getPost());
+    $arguments = array_merge($arguments, $request->getGet(),
+        $request->getPost());
 
     return $arguments;
   }
