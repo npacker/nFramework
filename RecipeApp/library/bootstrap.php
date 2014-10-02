@@ -35,10 +35,10 @@ function exception_handler($exception) {
 function settings_init() {
   global $databases;
 
-  require_once (ROOT . DS . 'conf' . DS . 'config.php');
+  require_once ROOT . DS . 'conf' . DS . 'config.php';
 }
 
-function bootstrap_init() {
+function bootstrap() {
   register_shutdown_function('fatal_error_check');
   set_error_handler('error_handler');
   set_exception_handler('exception_handler');
@@ -46,14 +46,5 @@ function bootstrap_init() {
   error_reporting(E_ALL);
   spl_autoload_register('__include_file');
   settings_init();
-  require_once (ROOT . DS . 'library' . DS . 'common.php');
-}
-
-function bootstrap_full() {
-  bootstrap_init();
-  $dispatcher = new Dispatcher();
-  $dispatcher->forward(
-    new Request($_GET, $_POST, $_SERVER),
-    new Response()
-  );
+  require_once ROOT . DS . 'library' . DS . 'common.php';
 }

@@ -3,6 +3,11 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 
-require_once (ROOT . DS . 'library' . DS . 'bootstrap.php');
+require_once ROOT . DS . 'library' . DS . 'bootstrap.php';
 
-bootstrap_full();
+bootstrap();
+$dispatcher = new Dispatcher();
+$dispatcher->forward(
+  new Request($_GET, $_POST, $_SERVER),
+  new Response()
+);
