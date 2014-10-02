@@ -17,7 +17,7 @@ class RecipeController extends Controller {
       throw new Exception();
     }
 
-    $data['page_title'] = $recipe->getTitle();
+    $data['page_title'] = $recipe['title'];
     $data['page'] = new Template('recipe/view', $recipe);
 
     return $data;
