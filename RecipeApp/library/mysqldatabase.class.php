@@ -3,12 +3,12 @@
 class MySqlDatabase {
 
   protected static $instance = null;
+  protected $connection;
+  protected $dsn;
   protected $hostname;
   protected $database;
   protected $username;
   protected $password;
-  protected $dsn;
-  protected $connection;
 
   protected function __construct($hostname, $database, $username, $password) {
     $this->hostname = $hostname;
@@ -41,10 +41,8 @@ class MySqlDatabase {
     unset($this->connection);
   }
 
-  public function query($table, array $columns=array('*')) {
-    $query = new Query($this->connection, $table, $columns);
-
-    return $query;
+  public function query($query) {
+    return new Query($this->connection, $query);
   }
 
 }
