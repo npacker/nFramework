@@ -63,10 +63,13 @@ class Dispatcher {
     $action = $this->action;
     $data = $this->controller->$action($this->arguments);
 
-    $data['header'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
-    $data['footer'] = new Template('footer');
+    $templateData = array();
+    $templateData['header'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
+    $templateData['page_title'] = $data['title'];
+    $templateData['page'] = $data['content'];
+    $templateData['footer'] = new Template('footer');
 
-    $template = new Template('html', $data);
+    $template = new Template($data['template'], $templateData);
     $template->addStyle('default');
     $template->addScript('default');
 
@@ -126,10 +129,6 @@ class Dispatcher {
   }
 
   protected function setArguments($arguments) {
-    if (empty($arguments)) {
-      throw new Exception("Arguments were not defined");
-    }
-
     $this->arguments = $arguments;
   }
 
