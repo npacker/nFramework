@@ -15,7 +15,7 @@ class HttpErrorController extends Controller {
     $httpError = $this->model->find($args['code'], $args['uri'], $args['message']);
 
     $data['title'] = $httpError->getTitle();
-    $data['content'] = new Template('httperror/view', $httpError);
+    $data['content'] = new Template('httperror/view', (array) $httpError);
     $data['template'] = 'html';
 
     return $data;

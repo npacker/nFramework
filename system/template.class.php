@@ -13,7 +13,7 @@ class Template {
    * @param string $include
    * @param $variables an associative array or object
    */
-  public function __construct($template, $data = array()) {
+  public function __construct($template, array $data = array()) {
     $this->processIncludePath($template);
     $this->data = $data;
   }
@@ -43,7 +43,7 @@ class Template {
   }
 
   public function parse() {
-    $this->processData($this->data);
+    $this->parseData($this->data);
     $this->parseStyles($this->css);
     $this->parseScripts($this->js);
     extract($this->variables);
@@ -53,6 +53,22 @@ class Template {
 
     return ob_get_clean();
   }
+  protected function parseData($data) {
+    foreach ($data as $key => $value) {
+      $processedKey = trim($key, "*\0");
+
+      if ($value instanceof Template) {
+        $processedValue = $value->parse();
+        $this->addStyle($value->getStyle());
+        $this->addScript($value->getScript());
+      } else {
+        $processedValue = $value;
+      }
+
+      $this->setVariable($processedKey, $processedValue);
+    }
+  }
+
 
   protected function parseStyles($css) {
     $basePath = base_path();
@@ -76,24 +92,6 @@ class Template {
     }
 
     $this->setVariable('script', $script);
-  }
-
-  protected function processData($data) {
-    $variables = (array) $data;
-
-    foreach ($variables as $key => $value) {
-      $processedKey = trim($key, "*\0");
-
-      if ($value instanceof Template) {
-        $processedValue = $value->parse();
-        $this->addStyle($value->getStyle());
-        $this->addScript($value->getScript());
-      } else {
-        $processedValue = $value;
-      }
-
-      $this->setVariable($processedKey, $processedValue);
-    }
   }
 
   protected function processIncludePath($template) {
