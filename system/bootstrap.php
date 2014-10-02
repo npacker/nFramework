@@ -1,17 +1,16 @@
 <?php
 
 function __include_file($class) {
+  $directories = array('system', 'includes');
   $filename = strtolower($class);
-  $libraryPath = ROOT . DS . 'library' . DS . $filename . '.class.php';
-  $includesPath = ROOT . DS . 'includes' . DS . $filename . '.class.php';
 
-  if (file_exists($libraryPath)) {
-    require_once $libraryPath;
-  } else if (file_exists($includesPath)) {
-    require $includesPath;
-  } else {
-    throw new FileNotFoundException("Could not load {$filename}.");
+  foreach ($directories as $directory) {
+    $file = ROOT . DS . $directory . DS . $filename . '.class.php';
+
+    if (is_readable($file)) return require_once $file;
   }
+
+  throw new FileNotFoundException("Could not load {$filename}.");
 }
 
 function fatal_error_check() {
@@ -46,5 +45,5 @@ function bootstrap() {
   error_reporting(E_ALL);
   spl_autoload_register('__include_file');
   settings_init();
-  require_once ROOT . DS . 'library' . DS . 'common.php';
+  require_once ROOT . DS . 'system' . DS . 'common.php';
 }

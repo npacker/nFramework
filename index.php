@@ -3,7 +3,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 
-require_once ROOT . DS . 'library' . DS . 'bootstrap.php';
+require_once ROOT . DS . 'system' . DS . 'bootstrap.php';
 
 bootstrap();
 $dispatcher = new Dispatcher();
