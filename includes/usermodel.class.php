@@ -1,17 +1,17 @@
 <?php
 
-Class UserModel extends Model {
+class UserModel extends Model {
 
-	public function find($id) {}
+  public function find($id) {}
 
-	public function join($id, $field) {}
+  public function join($id, $field) {}
 
-	public function all() {}
+  public function all() {}
 
-	public function create(User $user=null) {}
+  public function create(User $user = null) {}
 
-	public function update($id, User $user=null) {}
+  public function update($id, User $user = null) {}
 
-	public function delete($id) {}
+  public function delete($id) {}
 
 }

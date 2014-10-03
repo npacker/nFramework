@@ -5,7 +5,7 @@ class HttpErrorModel extends Model {
   public function __construct() {}
 
   public function find($code, $requestUri, $message) {
-    switch($code) {
+    switch ($code) {
       case HttpError::HTTP_ERROR_ACCESS_DENIED:
         $title = "403: Forbidden";
         $realMessage = "Access denied.";

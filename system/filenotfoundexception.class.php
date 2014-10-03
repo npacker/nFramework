@@ -1,3 +1,5 @@
 <?php
 
-class FileNotFoundException extends RuntimeException {}
+class FileNotFoundException extends RuntimeException {
+
+}

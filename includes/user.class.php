@@ -1,13 +1,14 @@
 <?php
 
-Class User extends Entity {
+class User extends Entity {
 
-	protected $name;
-	protected $password;
+  protected $name;
 
-	public function __construct($name=null, $password=null) {
-		$this->name = $name;
-		$this->password = $password;
-	}
+  protected $password;
+
+  public function __construct($name = null, $password = null) {
+    $this->name = $name;
+    $this->password = $password;
+  }
 
 }

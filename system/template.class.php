@@ -3,15 +3,20 @@
 class Template {
 
   protected $css = array();
+
   protected $data;
+
   protected $js = array();
+
   protected $template;
+
   protected $variables = array();
 
   /**
    *
    * @param string $include
-   * @param $variables an associative array or object
+   * @param $variables an
+   *          associative array or object
    */
   public function __construct($template, array $data = array()) {
     $this->processIncludePath($template);
@@ -53,6 +58,7 @@ class Template {
 
     return ob_get_clean();
   }
+
   protected function parseData($data) {
     foreach ($data as $key => $value) {
       $processedKey = trim($key, "*\0");
@@ -68,7 +74,6 @@ class Template {
       $this->setVariable($processedKey, $processedValue);
     }
   }
-
 
   protected function parseStyles($css) {
     $basePath = base_path();

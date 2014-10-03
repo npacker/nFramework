@@ -1,6 +1,7 @@
 <?php
 
 class DefaultController extends Controller {
+
   public function view() {
     $data = array();
 
@@ -10,4 +11,5 @@ class DefaultController extends Controller {
 
     return $data;
   }
+
 }

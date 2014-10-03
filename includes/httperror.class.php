@@ -3,12 +3,17 @@
 class HttpError extends Entity {
 
   const HTTP_ERROR_NOT_FOUND = 404;
+
   const HTTP_ERROR_ACCESS_DENIED = 403;
+
   const HTTP_ERROR_SERVER_ERROR = 500;
 
   protected $code;
+
   protected $requestUrl;
+
   protected $message;
+
   protected $level;
 
   public function __construct($title, $code, $requestUrl, $message, $level) {

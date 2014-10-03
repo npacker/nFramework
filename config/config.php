@@ -1,9 +1,8 @@
 <?php
-$databases = array(
-  'default' => array(
-    'hostname' => 'localhost',
-    'database' => 'mvc',
-    'username' => 'php',
-    'password' => 'password',
-  ),
-);
+$databases = array();
+
+$databases['default'] = array(
+  'hostname' => 'localhost',
+  'database' => 'mvc',
+  'username' => 'php',
+  'password' => 'password');

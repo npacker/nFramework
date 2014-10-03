@@ -1,7 +1,7 @@
 <?php
 
 function __include_file($class) {
-  $directories = array('system', 'includes');
+  $directories = array('system','includes');
   $filename = strtolower($class);
 
   foreach ($directories as $directory) {
@@ -17,7 +17,11 @@ function fatal_error_check() {
   $error = error_get_last();
 
   if ($error['type'] == E_ERROR) {
-    error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+    error_handler(
+      $error['type'],
+      $error['message'],
+      $error['file'],
+      $error['line']);
   }
 }
 

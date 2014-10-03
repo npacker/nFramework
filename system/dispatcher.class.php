@@ -1,10 +1,15 @@
 <?php
 
 class Dispatcher {
+
   protected $controller;
+
   protected $action;
+
   protected $arguments;
+
   protected $request;
+
   protected $response;
 
   public function forward(Request $request, Response $response) {
@@ -22,8 +27,7 @@ class Dispatcher {
         "{$serverProtocol} 200 OK",
         $controller,
         $action,
-        $arguments
-      );
+        $arguments);
       $this->dispatch();
     } catch (PDOException $e) {
       $this->prepare(
@@ -33,9 +37,7 @@ class Dispatcher {
         array(
           'code' => HttpError::HTTP_ERROR_SERVER_ERROR,
           'uri' => $this->request->getUri(),
-          'message' => $e->getMessage(),
-        )
-      );
+          'message' => $e->getMessage()));
       $this->dispatch();
     } catch (Exception $e) {
       $this->prepare(
@@ -45,9 +47,7 @@ class Dispatcher {
         array(
           'code' => HttpError::HTTP_ERROR_NOT_FOUND,
           'uri' => $this->request->getUri(),
-          'message' => $e->getMessage(),
-        )
-      );
+          'message' => $e->getMessage()));
       $this->dispatch();
     }
   }
@@ -64,7 +64,9 @@ class Dispatcher {
     $data = $this->controller->$action($this->arguments);
 
     $templateData = array();
-    $templateData['header'] = new Template('header', array('base_url' => base_url(), 'base_path' => base_path()));
+    $templateData['header'] = new Template(
+      'header',
+      array('base_url' => base_url(),'base_path' => base_path()));
     $templateData['page_title'] = $data['title'];
     $templateData['page'] = $data['content'];
     $templateData['footer'] = new Template('footer');
@@ -107,7 +109,10 @@ class Dispatcher {
       $arguments['path_argument'] = $pathArgs[2];
     }
 
-    $arguments = array_merge($arguments, $request->getGet(), $request->getPost());
+    $arguments = array_merge(
+      $arguments,
+      $request->getGet(),
+      $request->getPost());
 
     return $arguments;
   }
@@ -141,4 +146,5 @@ class Dispatcher {
 
     return $controllerName;
   }
+
 }

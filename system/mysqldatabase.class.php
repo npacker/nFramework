@@ -3,11 +3,17 @@
 class MySqlDatabase {
 
   protected static $instance = null;
+
   protected $connection;
+
   protected $dsn;
+
   protected $hostname;
+
   protected $database;
+
   protected $username;
+
   protected $password;
 
   protected function __construct($hostname, $database, $username, $password) {
@@ -27,7 +33,11 @@ class MySqlDatabase {
   final private function __sleep() {}
 
   public static function instance($hostname, $database, $username, $password) {
-    if (is_null(self::$instance)) self::$instance = new self($hostname, $database, $username, $password);
+    if (is_null(self::$instance)) self::$instance = new self(
+      $hostname,
+      $database,
+      $username,
+      $password);
 
     return self::$instance;
   }

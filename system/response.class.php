@@ -1,7 +1,9 @@
 <?php
 
 class Response {
+
   protected $header;
+
   protected $body;
 
   public function send() {
@@ -19,4 +21,5 @@ class Response {
   public function setBody($body) {
     $this->body = $body;
   }
+
 }

@@ -1,17 +1,24 @@
 <?php
 
 class Request {
+
   protected $get;
+
   protected $path;
+
   protected $post;
+
   protected $server;
+
   protected $uri;
 
   public function __construct($get, $post, $server) {
     $this->get = $get;
     $this->post = $post;
     $this->server = $server;
-    $this->uri = $this->parseRequestUri(base_path(), $this->server['REQUEST_URI']);
+    $this->uri = $this->parseRequestUri(
+      base_path(),
+      $this->server['REQUEST_URI']);
 
     if (!empty($this->uri)) {
       $this->path = $this->parsePath($this->uri);
@@ -65,4 +72,5 @@ class Request {
   protected function parseRequestUri($basePath, $requestUri) {
     return str_replace($basePath, '', $requestUri);
   }
+
 }
