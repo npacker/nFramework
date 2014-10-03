@@ -1,6 +1,6 @@
 <form class="admin-form">
   <fieldset>
-    <legend>Edit Article</legend>
+    <legend>Edit Page</legend>
     <label for="title">Title</label>
     <input type="text" id="title" name="title" size="50" value="<?php echo $title; ?>" />
     <textarea id="content" rows="20" cols="104"><?php echo $content; ?></textarea><br />
