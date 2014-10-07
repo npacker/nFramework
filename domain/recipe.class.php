@@ -1,10 +1,10 @@
 <?php
 
-class PageModel extends Model {
+class Recipe extends Model {
 
   public function find($id) {
-    $sql = 'SELECT id, title, content, created
-            FROM pages
+    $sql = 'SELECT title
+            FROM recipes
             WHERE id = ?';
 
     $this->database->connect();
@@ -17,8 +17,10 @@ class PageModel extends Model {
   }
 
   public function all() {
-    $sql = 'SELECT id, title, content, created
-            FROM pages';
+    $sql = "SELECT recipes.id, recipes.title AS title, GROUP_CONCAT(ingredients.title SEPARATOR ', ') AS ingredients
+            FROM recipes LEFT JOIN ingredients
+            ON recipes.id = ingredients.recipe_id
+            GROUP BY recipes.title";
 
     $this->database->connect();
     $result = $this->database->query($sql)
@@ -27,10 +29,6 @@ class PageModel extends Model {
     $this->database->close();
 
     return $result;
-  }
-
-  public function save($id, $title, $content) {
-
   }
 
 }

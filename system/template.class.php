@@ -12,12 +12,6 @@ class Template {
 
   protected $variables = array();
 
-  /**
-   *
-   * @param string $include
-   * @param $variables an
-   *          associative array or object
-   */
   public function __construct($template, array $data = array()) {
     $this->processIncludePath($template);
     $this->data = $data;
@@ -39,6 +33,10 @@ class Template {
     }
   }
 
+  public function getData($key) {
+    return array_key_exists($key, $this->data) ? $this->data[$key] : null;
+  }
+
   public function getStyle() {
     return $this->css;
   }
@@ -53,9 +51,7 @@ class Template {
     $this->parseScripts($this->js);
     extract($this->variables);
     ob_start();
-
     include $this->template;
-
     return ob_get_clean();
   }
 
@@ -79,9 +75,11 @@ class Template {
     $basePath = base_path();
     $baseUrl = base_url();
     $style = '';
+    $format = "<link rel=\"stylesheet\" href=\"http://%s%s/css/%s.css\" type=\"text/css\" media=\"screen\">\n";
 
     foreach ($css as $stylesheet) {
-      $style .= "<link rel=\"stylesheet\" href=\"http://{$baseUrl}{$basePath}/css/{$stylesheet}.css\" type=\"text/css\" media=\"screen\">\n";
+      $stylesheet = str_replace('/', DS, $stylesheet);
+      $style .= sprintf($format, $baseUrl, $basePath, $stylesheet);
     }
 
     $this->setVariable('style', $style);
@@ -91,16 +89,18 @@ class Template {
     $basePath = base_path();
     $baseUrl = base_url();
     $script = '';
+    $format = "<script type=\"text/javascript\" src=\"http://%s%s/js/%s.js\"></script>\n";
 
     foreach ($js as $javascript) {
-      $script .= "<script type=\"text/javascript\" src=\"http://{$baseUrl}{$basePath}/js/{$javascript}.js\"></script>\n";
+      $javascript = str_replace('/', DS, $javascript);
+      $script .= sprintf($format, $baseUrl, $basePath, $javascript);
     }
 
     $this->setVariable('script', $script);
   }
 
   protected function processIncludePath($template) {
-    $template = str_replace(DS, '/', $template);
+    $template = str_replace('/', DS, $template);
     $this->template = ROOT . DS . 'templates' . DS . $template . '.tpl.php';
   }
 

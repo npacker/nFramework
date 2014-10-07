@@ -2,24 +2,36 @@
 
 class Response {
 
-  protected $header;
+  protected $locationHeader;
 
-  protected $body;
+  protected $responseHeader;
+
+  protected $content;
 
   public function send() {
     ob_start();
-    header($this->header);
-    echo $this->body;
+
+    if (isset($this->locationHeader)) {
+      header($this->locationHeader);
+      exit();
+    }
+
+    header($this->responseHeader);
+    echo $this->content;
     ob_end_flush();
     exit();
   }
 
-  public function setHeader($header) {
-    $this->header = $header;
+  public function setLocationHeader($header) {
+    $this->locationHeader = $header;
   }
 
-  public function setBody($body) {
-    $this->body = $body;
+  public function setResponseHeader($header) {
+    $this->responseHeader = $header;
+  }
+
+  public function setContent($content) {
+    $this->content = $content;
   }
 
 }

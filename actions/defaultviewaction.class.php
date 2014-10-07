@@ -1,8 +1,8 @@
 <?php
 
-class DefaultController extends Controller {
+class DefaultViewAction extends Action implements iAction {
 
-  public function view() {
+  public function execute(ActionContext $context) {
     $data = array();
 
     $data['title'] = 'Welcome';

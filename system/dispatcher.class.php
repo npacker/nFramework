@@ -2,149 +2,88 @@
 
 class Dispatcher {
 
-  protected $controller;
-
-  protected $action;
-
-  protected $arguments;
-
-  protected $request;
-
-  protected $response;
-
   public function forward(Request $request, Response $response) {
-    $this->request = $request;
-    $this->response = $response;
-
-    $controller = $this->parseController($this->request);
-    $action = $this->parseAction($this->request);
-    $arguments = $this->parseArguments($this->request);
-
-    $serverProtocol = $this->request->getServer('SERVER_PROTOCOL');
+    $actionFactory = ActionFactory::instance();
+    $context = new ActionContext($this->parseArguments($request));
 
     try {
-      $this->prepare(
-        "{$serverProtocol} 200 OK",
-        $controller,
-        $action,
-        $arguments);
-      $this->dispatch();
+      $action = $actionFactory->get($this->parseAction($request));
+      $this->dispatch($action, $context, $response);
     } catch (PDOException $e) {
-      $this->prepare(
-        "{$serverProtocol} 500 Internal Server Error",
-        'HttpErrorController',
-        'view',
-        array(
-          'code' => HttpError::HTTP_ERROR_SERVER_ERROR,
-          'uri' => $this->request->getUri(),
-          'message' => $e->getMessage()));
-      $this->dispatch();
+      $action = $actionFactory->get('HttpErrorView');
+      $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
+      $context->set('uri', $request->getUri());
+      $context->set('message', $e->getMessage());
+      $this->dispatch($action, $context, $response);
     } catch (Exception $e) {
-      $this->prepare(
-        "{$serverProtocol} 404 Not Found",
-        'HttpErrorController',
-        'view',
-        array(
-          'code' => HttpError::HTTP_ERROR_NOT_FOUND,
-          'uri' => $this->request->getUri(),
-          'message' => $e->getMessage()));
-      $this->dispatch();
+      $action = $actionFactory->get('HttpErrorView');
+      $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
+      $context->set('uri', $request->getUri());
+      $context->set('message', $e->getMessage());
+      $this->dispatch($action, $context, $response);
     }
   }
 
-  protected function prepare($header, $controller, $action, $arguments) {
-    $this->response->setHeader($header);
-    $this->setController($controller);
-    $this->setAction($action);
-    $this->setArguments($arguments);
-  }
+  protected function dispatch(Action $action, ActionContext $context, Response $response) {
+    $data = $action->execute($context);
 
-  protected function dispatch() {
-    $action = $this->action;
-    $data = $this->controller->$action($this->arguments);
+    if (array_key_exists('location header', $data)) {
+      $response->setLocationHeader($data['location header']);
+    } else {
+      if (array_key_exists('response header', $data)) {
+        $response->setResponseHeader($data['response header']);
+      } else {
+        $response->setResponseHeader(
+          "{$context->get('SERVER_PROTOCOL')} 200 OK");
+      }
 
-    $templateData = array();
-    $templateData['header'] = new Template(
-      'header',
-      array('base_url' => base_url(),'base_path' => base_path()));
-    $templateData['page_title'] = $data['title'];
-    $templateData['page'] = $data['content'];
-    $templateData['footer'] = new Template('footer');
+      $templateData = array();
+      $templateData['title'] = strip_tags($data['title']);
+      $templateData['header'] = new Template(
+        'header',
+        array('base_url' => base_url(),'base_path' => base_path()));
+      $templateData['page_title'] = $data['title'];
+      $templateData['page'] = $data['content'];
+      $templateData['footer'] = new Template('footer');
 
-    $template = new Template($data['template'], $templateData);
-    $template->addStyle('default');
-    $template->addScript('default');
+      $template = new Template($data['template'], $templateData);
+      $template->addStyle('default');
+      $template->addScript('default');
 
-    $this->response->setBody($template->parse());
-    $this->response->send();
-  }
-
-  protected function parseController(Request $request) {
-    $pathArgs = $request->getArguments();
-    $controller = null;
-
-    if (count($pathArgs) >= 1) {
-      $controller = $this->controllerName($pathArgs[0]);
+      $response->setContent($template->parse());
     }
 
-    return $controller;
+    $response->send();
   }
 
   protected function parseAction(Request $request) {
-    $pathArgs = $request->getArguments();
-    $action = null;
+    $path = $request->getPathComponents();
+    $action = '';
 
-    if (count($pathArgs) >= 2) {
-      $action = $pathArgs[1];
+    if (count($path) >= 2) {
+      $action = ucfirst(strtolower($path[0])) . ucfirst(strtolower($path[1]));
     }
 
     return $action;
   }
 
   protected function parseArguments(Request $request) {
-    $pathArgs = $request->getArguments();
+    $path = $request->getPathComponents();
     $arguments = array();
 
-    if (count($pathArgs) >= 3) {
-      $arguments['path_argument'] = $pathArgs[2];
+    if (count($path) >= 3) {
+      $arguments['path_argument'] = $path[2];
+    } else {
+      $arguments['path_argument'] = '';
     }
 
     $arguments = array_merge(
       $arguments,
       $request->getGet(),
-      $request->getPost());
+      $request->getPost(),
+      $request->getServer());
 
     return $arguments;
-  }
-
-  protected function setController($controller) {
-    if (!class_exists($controller, true)) {
-      throw new Exception("Undefined controller");
-    }
-
-    $this->controller = new $controller();
-  }
-
-  protected function setAction($action) {
-    if (!method_exists($this->controller, $action)) {
-      throw new Exception("Undefined action");
-    }
-
-    $this->action = $action;
-  }
-
-  protected function setArguments($arguments) {
-    $this->arguments = $arguments;
-  }
-
-  protected function controllerName($controller) {
-    $controllerName = '';
-
-    if (!empty($controller)) {
-      $controllerName = $controller . 'Controller';
-    }
-
-    return $controllerName;
   }
 
 }
