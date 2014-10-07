@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
 <title><?php echo $title; ?> | Nigel Packer</title>
 <meta charset="UTF-8">
