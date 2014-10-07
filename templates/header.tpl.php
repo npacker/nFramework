@@ -1,1 +1,1 @@
-<h1><a href="<?php echo "http://{$base_url}{$base_path}/"?>">Nigel Packer</a></h1>
+<h1><a href="http://<?php echo $base_url; echo $base_path; ?>/">Nigel Packer</a></h1>

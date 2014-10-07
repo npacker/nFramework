@@ -1,8 +1,9 @@
 <?php
 
 function __include_file($class) {
-  $directories = array('system','includes');
-  $filename = strtolower($class);
+  $directories = array('system','domain','actions');
+  $parts = explode('\\', $class);
+  $filename = strtolower(end($parts));
 
   foreach ($directories as $directory) {
     $file = ROOT . DS . $directory . DS . $filename . '.class.php';
@@ -10,7 +11,7 @@ function __include_file($class) {
     if (is_readable($file)) return require_once $file;
   }
 
-  throw new FileNotFoundException("Could not load {$filename}.");
+  throw new FileNotFoundException("Could not load {$file}.");
 }
 
 function fatal_error_check() {
@@ -45,7 +46,7 @@ function bootstrap() {
   register_shutdown_function('fatal_error_check');
   set_error_handler('error_handler');
   set_exception_handler('exception_handler');
-  ini_set('display_errors', 'off');
+  ini_set('display_errors', 'on');
   error_reporting(E_ALL);
   spl_autoload_register('__include_file');
   settings_init();

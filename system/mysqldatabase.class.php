@@ -34,11 +34,11 @@ class MySqlDatabase {
 
   public static function instance($hostname, $database, $username, $password) {
     if (is_null(self::$instance)) self::$instance = new self(
-      $hostname,
-      $database,
-      $username,
+      $hostname, 
+      $database, 
+      $username, 
       $password);
-
+    
     return self::$instance;
   }
 

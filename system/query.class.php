@@ -24,4 +24,8 @@ class Query {
     return $this->statement;
   }
 
+  public function lastInsertId() {
+    return  $this->connection->lastInsertId();
+  }
+
 }
