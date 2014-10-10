@@ -1,0 +1,4 @@
+---
+name: page edit
+route: page/edit/%page
+access: authenticate
