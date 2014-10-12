@@ -1,6 +1,6 @@
 <?php
 
-class Page extends Model {
+class Page extends DataMapper {
 
   public function all() {
     $sql = 'SELECT id, title, content, created
