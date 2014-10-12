@@ -1,6 +1,6 @@
 <?php
 
-class Recipe extends Model {
+class Recipe extends DataMapper {
 
   public function find($id) {
     $sql = 'SELECT title

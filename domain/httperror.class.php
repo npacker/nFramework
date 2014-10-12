@@ -1,6 +1,6 @@
 <?php
 
-class HttpError extends Entity {
+class HttpError extends DomainObject {
 
   const HTTP_ERROR_NOT_FOUND = 404;
 
