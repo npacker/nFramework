@@ -3,23 +3,25 @@
 class Dispatcher {
 
   public function forward(Request $request, Response $response) {
-    $actionFactory = ActionFactory::instance();
+    $actionFactory = new ActionFactory();
     $context = new ActionContext($this->parseArguments($request));
 
     try {
       $action = $actionFactory->get($this->parseAction($request));
       $this->dispatch($action, $context, $response);
-    } catch (PDOException $e) {
-      $action = $actionFactory->get('HttpErrorView');
-      $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
-      $context->set('uri', $request->getUri());
-      $context->set('message', $e->getMessage());
-      $this->dispatch($action, $context, $response);
     } catch (Exception $e) {
       $action = $actionFactory->get('HttpErrorView');
-      $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
       $context->set('uri', $request->getUri());
       $context->set('message', $e->getMessage());
+
+      if ($e instanceof PDOException) {
+        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
+      } else if ($e instanceof ErrorException) {
+        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
+      } else {
+        $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
+      }
+
       $this->dispatch($action, $context, $response);
     }
   }
@@ -42,6 +44,7 @@ class Dispatcher {
       $templateData['header'] = new Template(
         'header',
         array('base_url' => base_url(),'base_path' => base_path()));
+      $templateData['navigation'] = '';
       $templateData['page_title'] = $data['title'];
       $templateData['page'] = $data['content'];
       $templateData['footer'] = new Template('footer');

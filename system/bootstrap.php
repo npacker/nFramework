@@ -27,8 +27,7 @@ function fatal_error_check() {
 }
 
 function error_handler($errno, $errstr, $errfile, $errline) {
-  echo "An error occured on line {$errline} of {$errfile} with the message \"{$errstr}\".";
-  exit();
+  throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
 function exception_handler($exception) {
