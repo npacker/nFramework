@@ -4,7 +4,7 @@ class User extends DataMapper {
 
   public function find($id) {
     $sql = 'SELECT id, username, password
-            FROM users';
+            FROM user';
 
     if (is_numeric($id)) {
       $sql .= ' WHERE id = ?';
