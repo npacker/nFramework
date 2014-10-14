@@ -9,6 +9,9 @@ class PageCreateAction extends Action implements iAction {
 
     if (isset($title) && isset($content)) {
       $id = $model->create($title, $content);
+
+      return array(
+        'location' => 'http://' . base_url() . base_path() . '/page/view/' . $id);
     }
 
     $action = 'http://' . base_url() . base_path() . '/page/create';
@@ -22,10 +25,6 @@ class PageCreateAction extends Action implements iAction {
       'title' => 'Create new page',
       'content' => $template,
       'template' => 'html');
-
-    if (isset($id)) {
-      $data['location header'] = 'Location: http://' . base_url() . base_path() . "/page/view/{$id}";
-    }
 
     return $data;
   }

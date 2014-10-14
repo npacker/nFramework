@@ -17,18 +17,18 @@ class HttpErrorViewAction extends Action implements iAction {
     switch ($code) {
       case HttpError::HTTP_ERROR_ACCESS_DENIED:
         $title = "403: Forbidden";
-        $realMessage = "Access denied.";
-        $header = "{$protocol} 403 Forbidden";
+        $realMessage = "Access denied. {$message}";
+        $response = "{$protocol} 403 Forbidden";
         break;
       case HttpError::HTTP_ERROR_SERVER_ERROR:
         $title = "500: Internal Server Error";
         $realMessage = "The server encountered an error: {$message}";
-        $header = "{$protocol} 500 Internal Server Error";
+        $response = "{$protocol} 500 Internal Server Error";
         break;
       default:
         $title = "404: Not Found";
         $realMessage = "The page {$uri} could not be found.";
-        $header = "{$protocol} 404 Not Found";
+        $response = "{$protocol} 404 Not Found";
     }
 
     if ($code < 500) {
@@ -37,13 +37,13 @@ class HttpErrorViewAction extends Action implements iAction {
       $level = 'critical';
     }
 
-    $httpError = new \HttpError($title, $code, $uri, $realMessage, $level);
+    $httpError = new HttpError($title, $code, $uri, $realMessage, $level);
 
     $data = array(
       'title' => $httpError->getTitle(),
       'content' => new Template('httperror/view', (array) $httpError),
       'template' => 'html',
-      'header' => $header);
+      'response' => $response);
 
     return $data;
   }

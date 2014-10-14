@@ -10,6 +10,7 @@
 	<div id="envelope">
 		<div id="header">
     <?php echo $header; ?>
+    <?php echo $navigation; ?>
     </div>
 		<div id="body">
 			<h1><?php echo $page_title; ?></h1>

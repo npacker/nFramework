@@ -1,9 +1,14 @@
 <?php
 
 function __include_file($class) {
-  $directories = array('system','domain','actions');
-  $parts = explode('\\', $class);
-  $filename = strtolower(end($parts));
+  $directories = array(
+    'system',
+    'system' . DS . 'exceptions',
+    'domain',
+    'actions',
+    'services');
+
+  $filename = str_replace('\\', DS, $class);
 
   foreach ($directories as $directory) {
     $file = ROOT . DS . $directory . DS . $filename . '.class.php';
@@ -27,12 +32,11 @@ function fatal_error_check() {
 }
 
 function error_handler($errno, $errstr, $errfile, $errline) {
-  echo "An error occured on line {$errline} of {$errfile} with the message \"{$errstr}\".";
-  exit();
+  throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
 }
 
-function exception_handler($exception) {
-  echo 'Uncaught exception: ' . $exception->getMessage();
+function exception_handler(Exception $exception) {
+  echo 'Uncaught exception: ' . $exception->getMessage() . ' on line ' . $exception->getLine() . ' of ' . $exception->getFile();
   exit();
 }
 

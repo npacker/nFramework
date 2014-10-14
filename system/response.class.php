@@ -12,7 +12,7 @@ class Response {
     ob_start();
 
     if (isset($this->locationHeader)) {
-      header($this->locationHeader);
+      header('Location: ' . $this->locationHeader);
       exit();
     }
 

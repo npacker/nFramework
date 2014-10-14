@@ -24,21 +24,17 @@ class MySqlDatabase {
     $this->dsn = "mysql:host={$this->hostname};dbname={$this->database}";
   }
 
-  public function __destruct() {
-    $this->close();
-  }
-
   final private function __clone() {}
 
   final private function __sleep() {}
 
   public static function instance($hostname, $database, $username, $password) {
     if (is_null(self::$instance)) self::$instance = new self(
-      $hostname, 
-      $database, 
-      $username, 
+      $hostname,
+      $database,
+      $username,
       $password);
-    
+
     return self::$instance;
   }
 

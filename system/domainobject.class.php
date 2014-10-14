@@ -1,6 +1,6 @@
 <?php
 
-class Entity {
+class DomainObject {
 
   protected $title;
 

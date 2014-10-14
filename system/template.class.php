@@ -4,7 +4,7 @@ class Template {
 
   protected $css = array();
 
-  protected $data;
+  protected $data = array();
 
   protected $js = array();
 

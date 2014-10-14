@@ -18,7 +18,7 @@ class Request {
     $this->setServer($server);
     $this->uri = $this->parseRequestUri(
       base_path(),
-      $this->server['REQUEST_URI']);
+      $this->getServer('REQUEST_URI'));
 
     if (!empty($this->uri)) {
       $this->path = $this->parsePath($this->uri);
