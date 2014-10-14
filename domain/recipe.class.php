@@ -1,10 +1,10 @@
 <?php
 
-class Recipe extends Model {
+class Recipe extends DataMapper {
 
   public function find($id) {
     $sql = 'SELECT title
-            FROM recipes
+            FROM recipe
             WHERE id = ?';
 
     $this->database->connect();
@@ -17,10 +17,10 @@ class Recipe extends Model {
   }
 
   public function all() {
-    $sql = "SELECT recipes.id, recipes.title AS title, GROUP_CONCAT(ingredients.title SEPARATOR ', ') AS ingredients
-            FROM recipes LEFT JOIN ingredients
-            ON recipes.id = ingredients.recipe_id
-            GROUP BY recipes.title";
+    $sql = "SELECT recipe.id, recipe.title AS title, GROUP_CONCAT(ingredient.title SEPARATOR ', ') AS ingredients
+            FROM recipe LEFT JOIN ingredient
+            ON recipe.id = ingredient.recipe_id
+            GROUP BY recipe.title";
 
     $this->database->connect();
     $result = $this->database->query($sql)

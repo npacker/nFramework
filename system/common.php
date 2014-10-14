@@ -1,14 +1,18 @@
 <?php
 
 function base_path() {
-  $filePath = $_SERVER['PHP_SELF'];
-  $documentRoot = realpath($_SERVER['DOCUMENT_ROOT']);
-  
-  $basePath = str_replace($documentRoot, '', $filePath);
-  $basePath = explode('/', $basePath);
-  array_pop($basePath);
-  $basePath = implode('/', $basePath);
-  
+  static $basePath;
+
+  if (!isset($basePath)) {
+    $filePath = $_SERVER['PHP_SELF'];
+    $documentRoot = realpath($_SERVER['DOCUMENT_ROOT']);
+
+    $basePath = str_replace($documentRoot, '', $filePath);
+    $basePath = explode('/', $basePath);
+    array_pop($basePath);
+    $basePath = implode('/', $basePath);
+  }
+
   return $basePath;
 }
 
