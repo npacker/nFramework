@@ -4,6 +4,7 @@ function __include_file($class) {
   $directories = array(
     'system',
     'system' . DS . 'exceptions',
+    'system' . DS . 'interfaces',
     'domain',
     'actions',
     'services');

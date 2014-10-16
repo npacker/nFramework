@@ -1,9 +1,9 @@
 <?php
 
-class PageCreateAction extends Action implements iAction {
+class PageCreateAction extends Action {
 
   public function execute(ActionContext $context) {
-    $model = new Page();
+    $model = new PageMapper();
     $title = $context->get('title');
     $content = $context->get('content');
 
