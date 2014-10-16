@@ -50,30 +50,54 @@ class HttpError extends DomainObject {
 
   protected $code;
 
-  protected $requestUrl;
+  protected $level;
 
   protected $message;
 
-  protected $level;
+  protected $requestUrl;
 
-  public function __construct($title, $code, $requestUrl, $message, $level) {
-    $this->title = $title;
-    $this->code = $code;
-    $this->requestUrl = $requestUrl;
-    $this->message = $message;
-    $this->level = $level;
+  protected $title;
+
+  public function __construct(array $data = array()) {
+    if (isset($data['title'])) {
+      $this->title = $data['title'];
+    }
+
+    if (isset($data['code'])) {
+      $this->code = $data['code'];
+    }
+
+    if (isset($data['requestUrl'])) {
+      $this->requestUrl = $data['requestUrl'];
+    }
+
+    if (isset($data['message'])) {
+      $this->message = $data['message'];
+    }
+
+    if (isset($data['level'])) {
+      $this->level = $data['level'];
+    }
   }
 
   public function getCode() {
     return $this->code;
   }
 
-  public function getRequestUrl() {
-    return $this->requestUrl;
+  public function getLevel() {
+    return $this->level;
   }
 
   public function getMessage() {
     return $this->message;
+  }
+
+  public function getRequestUrl() {
+    return $this->requestUrl;
+  }
+
+  public function getTitle() {
+    return $this->title;
   }
 
 }

@@ -15,14 +15,14 @@ class Dispatcher {
       $context->set('message', $e->getMessage());
       $action = $actionFactory->get('HttpErrorView');
 
-      if ($e instanceof PDOException) {
-        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
-      } else if ($e instanceof ErrorException) {
+      if ($e instanceof ResourceNotFoundException) {
+        $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
+      } else if ($e instanceof PDOException) {
         $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
       } else if ($e instanceof AccessDeniedException) {
         $context->set('code', HttpError::HTTP_ERROR_ACCESS_DENIED);
       } else {
-        $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
+        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
       }
 
       $this->dispatch($action, $context, $response);

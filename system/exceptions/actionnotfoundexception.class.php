@@ -1,3 +1,3 @@
 <?php
 
-class ActionNotFoundException extends Exception {}
+class ActionNotFoundException extends RuntimeException {}
