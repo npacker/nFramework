@@ -44,7 +44,7 @@ class Page extends DomainObject {
     return $this->title;
   }
 
-  public function setContent($contet) {
+  public function setContent($content) {
     $this->content = $content;
   }
 

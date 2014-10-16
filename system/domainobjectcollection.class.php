@@ -44,7 +44,7 @@ class DomainObjectCollection implements Iterator {
   }
 
   public function valid() {
-    return ($this->key > -1 && $this->key < $size);
+    return ($this->key > -1 && $this->key < $this->size);
   }
 
 }

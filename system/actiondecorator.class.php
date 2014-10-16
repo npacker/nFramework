@@ -1,13 +1,11 @@
 <?php
 
-abstract class ActionDecorator extends Action implements iAction {
+abstract class ActionDecorator extends Action {
 
   protected $action;
 
   public function __construct(Action $action) {
     $this->action = $action;
   }
-
-  abstract public function execute(ActionContext $context);
 
 }
