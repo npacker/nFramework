@@ -18,7 +18,12 @@ class Query {
   }
 
   public function execute(array $data = array(), $fetchMode = PDO::FETCH_ASSOC, DomainObject $object = null) {
-    $this->statement->setFetchMode($fetchMode, $object);
+    if (isset($object)) {
+      $this->statement->setFetchMode($fetchMode, $object);
+    } else {
+      $this->statement->setFetchMode($fetchMode);
+    }
+
     $this->statement->execute($data);
 
     return $this->statement;
