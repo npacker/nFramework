@@ -1,6 +1,6 @@
 <?php
 
-class DefaultViewAction extends Action implements iAction {
+class DefaultViewAction extends Action {
 
   public function execute(ActionContext $context) {
     $data = array();

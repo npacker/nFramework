@@ -1,15 +1,11 @@
 <?php
 
-class DomainObject {
+abstract class DomainObject {
 
-  protected $title;
+  abstract public function __construct(array $data = array());
 
   public function getProperites() {
     return get_object_vars($this);
-  }
-
-  public function getTitle() {
-    return $this->title;
   }
 
 }

@@ -1,9 +1,9 @@
 <?php
 
-class PageEditAction extends Action implements iAction {
+class PageEditAction extends Action {
 
   public function execute(ActionContext $context) {
-    $model = new Page();
+    $model = new PageMapper();
     $id = $context->get('path_argument');
     $title = $context->get('title');
     $content = $context->get('content');

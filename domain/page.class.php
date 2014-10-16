@@ -1,67 +1,69 @@
 <?php
 
-class Page extends DataMapper {
+class Page extends DomainObject {
 
-  public function all() {
-    $sql = 'SELECT id, title, content, created
-            FROM page';
+  public $content;
 
-    $this->database->connect();
-    $result = $this->database->query($sql)
-      ->execute()
-      ->fetchAll();
-    $this->database->close();
+  public $created;
 
-    return $result;
+  public $id;
+
+  public $title;
+
+  public function __construct(array $data = array()) {
+    if (isset($data['id'])) {
+      $this->id = $data['id'];
+    }
+
+    if (isset($data['title'])) {
+      $this->title = $data['title'];
+    }
+
+    if (isset($data['content'])) {
+      $this->content = $data['content'];
+    }
+
+    if (isset($data['created'])) {
+      $this->created = $data['created'];
+    }
   }
 
-  public function create($title, $content) {
-    $sql = 'INSERT INTO page
-              (title, content)
-            VALUES
-              (?, ?)';
-
-    $this->database->connect();
-    $query = $this->database->query($sql);
-    $query->execute(array($title, $content));
-    $this->database->close();
-
-    return $query->lastInsertId();
+  public function getContent() {
+    return $this->content;
   }
 
-  public function delete($id) {
-    $sql = 'DELETE FROM page
-            WHERE id = ?';
-
-    $this->database->connect();
-    $this->database->query($sql)
-      ->execute(array($id));
-    $this->database->close();
+  public function getCreated() {
+    return $this->created;
   }
 
-  public function find($id) {
-    $sql = 'SELECT id, title, content, created
-            FROM page
-            WHERE id = ?';
-
-    $this->database->connect();
-    $result = $this->database->query($sql)
-    ->execute(array($id))
-    ->fetch();
-    $this->database->close();
-
-    return $result;
+  public function getId() {
+    return $this->id;
   }
 
-  public function update($id, $title, $content) {
-    $sql = 'UPDATE page
-            SET title = ?, content = ?
-            WHERE id = ?';
+  public function getTitle() {
+    return $this->title;
+  }
 
-    $this->database->connect();
-    $this->database->query($sql)
-      ->execute(array($title,$content,$id));
-    $this->database->close();
+  public function setContent($contet) {
+    $this->content = $content;
+  }
+
+  public function setId($id) {
+    if (empty($id)) {
+      throw new InvalidInputException('Page id is required.');
+    } else if (!is_numeric($id)) {
+      throw new InvalidInputException('Page id must be numeric');
+    }
+
+    $this->id = $id;
+  }
+
+  public function setTitle($title) {
+    if (empty($title)) {
+      throw new InvalidInputException('Page title is required.');
+    }
+
+    $this->title = $title;
   }
 
 }

@@ -1,13 +1,13 @@
 <?php
 
-class PageViewAction extends Action implements iAction {
+class PageViewAction extends Action {
 
   public function execute(ActionContext $context) {
-    $model = new Page();
+    $mapper = new PageMapper();
     $id = $context->get('path_argument');
 
     if ($id == 'all') {
-      $pages = $model->all();
+      $pages = $mapper->findAll();
 
       $data = array(
         'title' => 'All Content',
@@ -19,15 +19,13 @@ class PageViewAction extends Action implements iAction {
             'base_path' => base_path())),
         'template' => 'html');
     } else {
-      $page = $model->find($id);
-
-      if (empty($page)) {
-        throw new Exception("The page could not be found.");
-      }
+      $page = new Page();
+      $page->setId($id);
+      $mapper->find($page);
 
       $data = array(
-        'title' => $page['title'],
-        'content' => new Template('page/view', $page),
+        'title' => $page->getTitle(),
+        'content' => new Template('page/view', (array) $page),
         'template' => 'html');
     }
 

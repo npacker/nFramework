@@ -1,11 +1,11 @@
 <?php
 
-class HttpErrorViewAction extends Action implements iAction {
+class HttpErrorViewAction extends Action {
 
   public function execute(ActionContext $context) {
-    $uri = $context->get('uri');
+    $requestUrl = $context->get('uri');
 
-    if ($uri == '/') {
+    if ($requestUrl == '/') {
       $defaults = new DefaultViewAction();
       return $defaults->execute($context);
     }
@@ -27,7 +27,7 @@ class HttpErrorViewAction extends Action implements iAction {
         break;
       default:
         $title = "404: Not Found";
-        $realMessage = "The page {$uri} could not be found.";
+        $realMessage = "The page {$requestUrl} could not be found.";
         $response = "{$protocol} 404 Not Found";
     }
 
@@ -37,7 +37,13 @@ class HttpErrorViewAction extends Action implements iAction {
       $level = 'critical';
     }
 
-    $httpError = new HttpError($title, $code, $uri, $realMessage, $level);
+    $httpError = new HttpError(
+      array(
+        'title' => $title,
+        'code' => $code,
+        'requestUrl' => $requestUrl,
+        'message' => $realMessage,
+        'level' => $level));
 
     $data = array(
       'title' => $httpError->getTitle(),
