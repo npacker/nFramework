@@ -1,6 +1,6 @@
 <?php
 
-class LogoutAction extends Action implements iAction {
+class LogoutAction extends Action {
 
   public function execute(ActionContext $context) {
 

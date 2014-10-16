@@ -1,6 +1,6 @@
 <?php
 
-abstract class DataMapper {
+abstract class DataMapper implements iDataMapper {
 
   protected $database;
 
@@ -18,5 +18,15 @@ abstract class DataMapper {
       $username,
       $password);
   }
+
+  abstract public function create(DomainObject $object);
+
+  abstract public function delete(DomainObject $object);
+
+  abstract public function find(DomainObject $object);
+
+  abstract public function findAll();
+
+  abstract public function update(DomainObject $object);
 
 }
