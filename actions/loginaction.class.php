@@ -7,10 +7,16 @@ class LoginAction extends Action {
     $password = $context->get('password');
 
     if (isset($username) && isset($password)) {
+      $user = new User();
+      $user->setUsername($username);
       $mapper = new UserMapper();
-      $user = $mapper->find($username);
+      $mapper->find($user);
 
-      if (hash('sha256', $password) == $user['password']) {
+      if (hash('sha256', $password) == $user->getPassword()) {
+        $session = new Session();
+        $session->start();
+        $session->validate();
+
         return array('location' => 'http://' . base_url() . base_path() . '/');
       }
 
