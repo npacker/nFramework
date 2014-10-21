@@ -12,19 +12,19 @@ class Page extends DomainObject {
 
   public function __construct(array $data = array()) {
     if (isset($data['id'])) {
-      $this->id = $data['id'];
+      $this->setId($data['id']);
     }
 
     if (isset($data['title'])) {
-      $this->title = $data['title'];
+      $this->setTitle($data['title']);
     }
 
     if (isset($data['content'])) {
-      $this->content = $data['content'];
+      $this->setContent($data['content']);
     }
 
     if (isset($data['created'])) {
-      $this->created = $data['created'];
+      $this->setCreated($data['created']);
     }
   }
 
@@ -46,6 +46,14 @@ class Page extends DomainObject {
 
   public function setContent($content) {
     $this->content = $content;
+  }
+
+  public function setCreated($created) {
+    if (empty($created)) {
+      throw new InvalidInputException('Page created timestamp is required.');
+    } else if (!preg_match("/^\d{4}-\d{2}-\d{2}\s\d{2}:\d{2}:\d{2}$/", $created)) {
+      throw new InvalidInputException('Page created timestamp is in an invalid format.');
+    }
   }
 
   public function setId($id) {

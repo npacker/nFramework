@@ -9,17 +9,35 @@ class UserMapper extends DataMapper {
     $sql = 'SELECT id, username, password
             FROM user';
 
-    if (!empty($id)) {
+    if ($id) {
       $sql .= ' WHERE id = ?';
-    } else if (!empty($username)) {
+      $parameters = array($id);
+    } else if ($username) {
       $sql .= ' WHERE username = ?';
+      $parameters = array($username);
     }
 
     $this->database->connect();
     $this->database->query($sql)
-      ->execute(array($id), PDO::FETCH_INTO, $user)
+      ->execute($parameters, PDO::FETCH_INTO, $user)
       ->fetch();
     $this->database->close();
+  }
+
+  public function findAll() {
+
+  }
+
+  public function create(DomainObject $object) {
+
+  }
+
+  public function delete(DomainObject $object) {
+
+  }
+
+  public function update(DomainObject $object) {
+
   }
 
 }

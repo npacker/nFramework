@@ -4,29 +4,33 @@ class PageEditAction extends Action {
 
   public function execute(ActionContext $context) {
     $model = new PageMapper();
+    $page = new Page();
     $id = $context->get('path_argument');
     $title = $context->get('title');
     $content = $context->get('content');
+    $page->setId($id);
 
     if (isset($title) && isset($content)) {
-      $model->update($id, $title, $content);
+      $page->setTitle($title);
+      $page->setContent($content);
+      $model->update($page);
+    } else {
+      $model->find($page);
     }
 
-    $page = $model->find($id);
-
-    if (empty($page)) {
-      throw new Exception("The page could not be found.");
+    if (!$page->getTitle()) {
+      throw new Exception('The page could not be found.');
     }
 
-    $page['action'] = 'http://' . base_url() . base_path() . '/page/edit/' . $id;
+    $variables = (array) $page;
+    $variables['action'] = 'http://' . base_url() . base_path() . '/page/edit/' . $id;
 
-    $template = new Template('page/edit', $page);
+    $template = new Template('page/edit', $variables);
     $template->addScript(array('jquery','ckeditor/ckeditor','editor'));
 
-    $data = array(
-      'title' => "Editing page <em>{$page['title']}</em>",
-      'content' => $template,
-      'template' => 'html');
+    $data['title'] = "Editing page <em>{$page->getTitle()}</em>";
+    $data['content'] = $template;
+    $data['template'] = 'html';
 
     return $data;
   }
