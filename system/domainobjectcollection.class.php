@@ -12,7 +12,7 @@ class DomainObjectCollection implements Iterator {
 
   private $objects = array();
 
-  public function __construct(array $data = array(), DomainObjectFactory $factory) {
+  public function __construct(array $data, DomainObjectFactory $factory) {
     $this->data = $data;
     $this->factory = $factory;
     $this->size = count($data);
