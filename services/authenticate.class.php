@@ -6,13 +6,13 @@ class Authenticate extends ActionDecorator {
     $session = new Session();
     $session->start();
 
-    if ($session->valid()) {
-      $session->revalidate();
-
-      return $this->action->execute($context);
+    if (!$session->valid()) {
+      throw new AccessDeniedException('You must be logged in to do that.');
     }
 
-    throw new AccessDeniedException('You must be logged in to do that.');
+    $session->revalidate();
+
+    return $this->action->execute($context);
   }
 
 }
