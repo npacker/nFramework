@@ -3,7 +3,7 @@
 class PageCreateAction extends Action {
 
   public function execute(ActionContext $context) {
-    $model = new PageMapper();
+    $mapper = new PageMapper();
     $page = new Page();
     $title = $context->get('title');
     $content = $context->get('content');
@@ -11,7 +11,7 @@ class PageCreateAction extends Action {
     if (isset($title) && isset($content)) {
       $page->setTitle($title);
       $page->setContent($content);
-      $model->create($page);
+      $mapper->create($page);
 
       return array(
         'location' => 'http://' . base_url() . base_path() . '/page/view/' . $page->getId());
