@@ -45,11 +45,10 @@ class HttpErrorViewAction extends Action {
         'message' => $realMessage,
         'level' => $level));
 
-    $data = array(
-      'title' => $httpError->getTitle(),
-      'content' => new Template('httperror/view', (array) $httpError),
-      'template' => 'html',
-      'response' => $response);
+    $data['title'] = $httpError->getTitle();
+    $data['content'] = new Template('httperror/view', (array) $httpError);
+    $data['template'] = 'html';
+    $data['response'] = $response;
 
     return $data;
   }
