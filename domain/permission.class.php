@@ -1,7 +1,3 @@
 <?php
 
-class Permission extends DomainObject {
-
-
-
-}
+class Permission extends DomainObject {}

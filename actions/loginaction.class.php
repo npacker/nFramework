@@ -3,19 +3,24 @@
 class LoginAction extends Action {
 
   public function execute(ActionContext $context) {
+    $session = new Session();
+    $session->start();
+
+    if ($session->valid()) {
+      return array('location' => 'http://' . base_url() . base_path() . '/');
+    }
+
     $username = $context->get('username');
     $password = $context->get('password');
 
     if (isset($username) && isset($password)) {
+      $mapper = new UserMapper();
       $user = new User();
       $user->setUsername($username);
-      $mapper = new UserMapper();
       $mapper->find($user);
 
       if (hash('sha256', $password) == $user->getPassword()) {
-        $session = new Session();
-        $session->start();
-        $session->validate();
+        $session->validate($context);
 
         return array('location' => 'http://' . base_url() . base_path() . '/');
       }

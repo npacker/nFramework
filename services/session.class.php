@@ -2,10 +2,6 @@
 
 class Session {
 
-  public function __construct() {
-
-  }
-
   public function start() {
     if (isset($_SESSION)) {
       return;
@@ -17,28 +13,25 @@ class Session {
   }
 
   public function valid() {
-    if (!empty($_SESSION['VALID'])) {
-      return $_SESSION['VALID'];
+    if (!empty($_SESSION['USERNAME'])) {
+      return true;
     }
 
     return false;
   }
 
-  public function validate() {
-    session_regenerate_id(TRUE);
-    $_SESSION['VALID'] = true;
+  public function validate(ActionContext $context) {
+    session_regenerate_id(true);
+    $_SESSION['USERNAME'] = $context->get('username');
   }
 
   public function revalidate() {
-    session_regenerate_id(TRUE);
+    session_regenerate_id(true);
   }
 
   public function destroy() {
-    session_regenerate_id(TRUE);
-    session_unset();
-    $_SESSION = array();
+    session_regenerate_id(true);
     session_destroy();
-    logout_redirect();
   }
 
 }
