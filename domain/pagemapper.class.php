@@ -44,7 +44,9 @@ class PageMapper extends DataMapper {
       ->fetch();
     $this->database->close();
 
-    if (empty($page->getTitle())) {
+    $title = $page->getTitle();
+
+    if (empty($title)) {
       throw new ResourceNotFoundException('The page could not be found.');
     }
   }
