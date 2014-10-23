@@ -16,7 +16,6 @@ class PageViewAction extends Action {
       $data['title'] = 'All Content';
       $data['content'] = new Template('page/index', $variables);
       $data['template'] = 'html';
-      ;
     } else {
       $page = new Page();
       $page->setId($id);
