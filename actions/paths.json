@@ -1,0 +1,27 @@
+{
+
+  "/%": {
+    "action": "",
+    "view": "Default",
+    "access": [ "authenticate" ]
+  },
+  
+  "/login": {
+    "action": "Login",
+    "view": "Login",
+    "access": []
+  },
+  
+  "/page/edit/%": {
+    "action": "PageEdit",
+    "view": "PageEdit",
+    "access": [ "authenticate" ]
+  },
+  
+  "/page/view/%": {
+    "action": "",
+    "view": "Page",
+    "access": []
+  }
+  
+}
