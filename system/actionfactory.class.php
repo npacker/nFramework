@@ -10,10 +10,9 @@ class ActionFactory {
     }
 
     $class = new $className();
+    $config = $this->loadConfig($action);
 
-    extract($this->loadConfig($action));
-
-    foreach ($preprocessors as $preprocessor) {
+    foreach ($config['preprocessors'] as $preprocessor) {
       $class = new $preprocessor($class);
     }
 
