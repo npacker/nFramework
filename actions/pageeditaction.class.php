@@ -21,7 +21,7 @@ class PageEditAction extends Action {
     $title = $page->getTitle();
 
     if (empty($title)) {
-      throw new Exception('The page could not be found.');
+      throw new ResourceNotFoundException('The page could not be found.');
     }
 
     $variables = (array) $page;
