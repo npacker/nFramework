@@ -171,13 +171,13 @@ a:hover {
 	text-transform: uppercase;
 }
 
-#body p, ul, ol, table, form, object, iframe {
+p, ul, ol, table, form, object, iframe {
 	font-size: 15px;
 	line-height: 25px;
 	margin: 10px 0 20px 0;
 }
 
-#body p.error {
+p.error {
 	height: 86px;
 	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
 	font-size: 18px;
@@ -186,17 +186,17 @@ a:hover {
 	border-bottom: 1px dashed #ccc;
 }
 
-#body p.warn {
+p.warn {
 	background: transparent url('../images/404.PNG') no-repeat 15px center;
 	padding-left: 101px;
 }
 
-#body p.critical {
+p.critical {
 	background: transparent url('../images/500.PNG') no-repeat 15px center;
 	padding-left: 111px;
 }
 
-#body img.inline {
+img.inline {
 	background-color: #ddd;
 	padding: 5px;
 	border: 1px solid #bbb;
@@ -204,13 +204,13 @@ a:hover {
 	box-shadow: 0 0 2px #aaa;
 }
 
-#body blockquote {
+blockquote {
 	padding-left: 12px;
 	border-left: 4px solid #369;
 	margin: 15px 45px 20px 30px;
 }
 
-#body blockquote p {
+blockquote p {
 	color: #1d1d1d;
 	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
 	font-size: 14px;
@@ -218,7 +218,7 @@ a:hover {
 }
 
 /* tables */
-#body table {
+table {
 	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
 	background-color: #000;
 	border-collapse: collapse;
@@ -226,7 +226,7 @@ a:hover {
 	box-shadow: 0 0 2px #aaa;
 }
 
-#body th {
+th {
 	color: #fff;
 	font-size: 14px;
 	line-height: 14px;
@@ -235,7 +235,7 @@ a:hover {
 	border: 2px solid #fff;
 }
 
-#body tfoot td {
+tfoot td {
 	color: #fff;
 	font-size: 12px;
 	line-height: 12px;
@@ -245,7 +245,7 @@ a:hover {
 	border: 2px solid #fff;
 }
 
-#body td {
+td {
 	color: #444;
 	font-size: 14px;
 	line-height: 14px;
@@ -255,7 +255,7 @@ a:hover {
 }
 
 /* forms */
-#body fieldset {
+fieldset {
 	background-color: #f6f6f6;
 	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
 	font-size: 14px;
@@ -265,43 +265,48 @@ a:hover {
 	box-shadow: 0 0 2px #aaa;
 }
 
-#body legend {
+.login fieldset {
+  display: table;
+}
+
+legend {
 	display: none;
 }
 
-#body textarea {
+textarea {
 	white-space: nowrap;
 	padding: 0;
 	margin: 10px 0 10px 0;
 }
 
-#body textarea#content {
+textarea#content {
 	width: 848px;
 	max-width: 848px;
 	min-width: 848px;
 }
 
-#body label,
-#body select,
-#body input {
+label,
+select,
+input {
 	margin: 0 6px 0 0;
 }
 
-#body td select {
+td select {
 	margin: 0;
 }
 
-#body label {
+label {
 	display: block;
 	font-weight: bold;
 }
 
-#body input[type="text"] {
+input[type="text"],
+input[type="password"] {
 	padding: 0.5em;
 	margin-bottom: 1em;
 }
 
-#body input.button {
+input.button {
 	font-size: 13px;
 	font-weight: bold;
 	text-shadow: 0 -1px 0 #27547F;
@@ -312,25 +317,25 @@ a:hover {
 	border-radius: 3px;
 }
 
-#body input.button:hover {
+input.button:hover {
 	box-shadow: 0 0 1px #888;
 }
 
-#body input.button:focus {
+input.button:focus {
 	box-shadow: 0 0 0 1px #fff inset;
 }
 
-#body input.button:active {
+input.button:active {
 	color: #eee;
 	text-shadow: 0 -1px 0 #1B476F;
 	background-color: #45729F;
 	box-shadow: 0 0 3px #0A2D4F inset;
 }
 
-#body input[disabled].button,
-#body input[disabled].button:hover,
-#body input[disabled].button:focus,
-#body input[disabled].button:active {
+input[disabled].button,
+input[disabled].button:hover,
+input[disabled].button:focus,
+input[disabled].button:active {
 	color: #bbb;
 	text-shadow: none;
 	background-color: #ddd;
@@ -338,7 +343,7 @@ a:hover {
 	box-shadow: none;
 }
 
-#body input.float {
+input.float {
 	float: right;
 }
 
