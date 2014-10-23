@@ -26,15 +26,11 @@ class Request {
   }
 
   public function getGet($key = null) {
-    if (!empty($key)) {
+    if ($key) {
       return $this->get[$key];
     }
 
     return $this->get;
-  }
-
-  public function getPath() {
-    return $this->path;
   }
 
   public function getPathComponents() {
@@ -42,7 +38,7 @@ class Request {
   }
 
   public function getPost($key = null) {
-    if (!empty($key)) {
+    if ($key) {
       return $this->post[$key];
     }
 
@@ -50,15 +46,15 @@ class Request {
   }
 
   public function getServer($key = null) {
-    if (!empty($key)) {
+    if ($key) {
       return $this->server[$key];
     }
 
     return $this->server;
   }
 
-  public function getUri() {
-    return $this->uri;
+  public function path() {
+    return $this->path;
   }
 
   public function setGet(array $get) {
@@ -71,6 +67,10 @@ class Request {
 
   public function setServer(array $server) {
     $this->server = $server;
+  }
+
+  public function uri() {
+    return $this->uri;
   }
 
   protected function parsePath($uri) {
