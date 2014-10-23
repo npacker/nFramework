@@ -1,8 +1,12 @@
 <?php
 
-class Dispatcher {
+class Application {
 
-  public function forward(Request $request, Response $response) {
+  protected $action;
+
+  protected $view;
+
+  public function serve(Request $request, Response $response) {
     $actionFactory = new ActionFactory();
 
     try {
@@ -11,7 +15,7 @@ class Dispatcher {
       $this->dispatch($action, $context, $response);
     } catch (Exception $e) {
       $context = new ActionContext();
-      $context->set('uri', $request->getUri());
+      $context->set('uri', $request->uri());
       $context->set('message', $e->getMessage());
       $action = $actionFactory->get('HttpErrorView');
 
@@ -42,17 +46,16 @@ class Dispatcher {
           "{$context->get('SERVER_PROTOCOL')} 200 OK");
       }
 
-      $templateData = array();
-      $templateData['title'] = strip_tags($data['title']);
-      $templateData['header'] = new Template(
+      $variables['title'] = strip_tags($data['title']);
+      $variables['header'] = new Template(
         'header',
-        array('base_url' => base_url(),'base_path' => base_path()));
-      $templateData['navigation'] = '';
-      $templateData['page_title'] = $data['title'];
-      $templateData['page'] = $data['content'];
-      $templateData['footer'] = new Template('footer');
+        array('base_url' => base_url(), 'base_path' => base_path()));
+      $variables['navigation'] = '';
+      $variables['page_title'] = $data['title'];
+      $variables['page'] = $data['content'];
+      $variables['footer'] = new Template('footer');
 
-      $template = new Template($data['template'], $templateData);
+      $template = new Template($data['template'], $variables);
       $template->addStyle('default');
       $template->addScript('default');
 
