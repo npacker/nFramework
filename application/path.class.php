@@ -24,12 +24,10 @@ class Path {
   }
 
   protected function parseRequest(Request $request) {
-    $requestUri = $request->server('REQUEST_URI');
-    $path = str_replace(base_path(), '', strstr($requestUri, '?', true));
+    $requestUri = str_replace(base_path(), '', $request->server('REQUEST_URI'));
+    $path = strstr($requestUri, '?', true);
 
-    if (!$path) {
-      $path = $requestUri;
-    }
+    if (!$path) $path = $requestUri;
 
     return $path;
   }
