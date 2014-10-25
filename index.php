@@ -3,7 +3,7 @@
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 
-require_once ROOT . DS . 'system' . DS . 'bootstrap.php';
+require_once ROOT . DS . 'application' . DS . 'bootstrap.php';
 
 bootstrap();
 $app = new Application();

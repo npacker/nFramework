@@ -2,7 +2,21 @@
 
 class ActionFactory {
 
-  public function get($action) {
+  public function build(Request $request) {
+    $patterns = $this->loadPatterns();
+
+    foreach ($patterns as $pattern => $config) {
+      $matcher = new PathMatcher($pattern);
+
+      if ($matcher->match($request->path())) {
+        $action = $config['action'];
+
+        break;
+      }
+    }
+  }
+
+  public function getAction($action) {
     $className = $action . 'Action';
 
     if ($className == 'Action' || !class_exists($className, true)) {
@@ -17,6 +31,20 @@ class ActionFactory {
     }
 
     return $class;
+  }
+
+  protected function loadPatterns() {
+    $path = ROOT . DS . 'config' . DS . 'paths.json';
+
+    if (!file_exists($path)) {
+      throw new FileNotFoundException('Paths configuration could not be loaded.');
+    } else if (!is_readable($path)) {
+      throw new RuntimeException('Path configuration file was not readable');
+    }
+
+    $json = file_get_contents($path);
+
+    return json_decode($json);
   }
 
   protected function loadConfig($action) {

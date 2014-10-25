@@ -2,9 +2,9 @@
 
 function __include_file($class) {
   $directories = array(
-    'system',
-    'system' . DS . 'exceptions',
-    'system' . DS . 'interfaces',
+    'application',
+    'application' . DS . 'exceptions',
+    'application' . DS . 'interfaces',
     'domain',
     'actions',
     'services');
@@ -55,5 +55,5 @@ function bootstrap() {
   error_reporting(E_ALL);
   spl_autoload_register('__include_file');
   settings_init();
-  require_once ROOT . DS . 'system' . DS . 'common.php';
+  require_once ROOT . DS . 'application' . DS . 'common.php';
 }

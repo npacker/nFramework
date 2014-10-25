@@ -11,13 +11,13 @@ class Application {
 
     try {
       $context = new ActionContext($this->parseArguments($request));
-      $action = $actionFactory->get($this->parseAction($request));
+      $action = $actionFactory->getAction($this->parseAction($request));
       $this->dispatch($action, $context, $response);
     } catch (Exception $e) {
       $context = new ActionContext();
-      $context->set('uri', $request->uri());
+      $context->set('uri', $request->path()->value());
       $context->set('message', $e->getMessage());
-      $action = $actionFactory->get('HttpErrorView');
+      $action = $actionFactory->getAction('HttpErrorView');
 
       if ($e instanceof ResourceNotFoundException) {
         $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
@@ -66,7 +66,7 @@ class Application {
   }
 
   protected function parseAction(Request $request) {
-    $path = $request->getPathComponents();
+    $path = $request->path()->components();
     $action = '';
 
     if (count($path) >= 2) {
@@ -79,7 +79,7 @@ class Application {
   }
 
   protected function parseArguments(Request $request) {
-    $path = $request->getPathComponents();
+    $path = $request->path()->components();
     $arguments = array();
 
     if (count($path) >= 3) {
@@ -90,9 +90,9 @@ class Application {
 
     $arguments = array_merge(
       $arguments,
-      $request->getGet(),
-      $request->getPost(),
-      $request->getServer());
+      $request->get(),
+      $request->post(),
+      $request->server());
 
     return $arguments;
   }
