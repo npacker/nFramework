@@ -1,0 +1,31 @@
+{
+
+  "/%": {
+    "name": "default",
+    "view": "Default",
+    "preprocessors": {
+      "authenticate": true
+    }
+  },
+  
+  "/login": {
+    "name": "log in",
+    "action": "Login",
+    "view": "Login"
+  },
+  
+  "/page/edit/%": {
+    "name": "page edit",
+    "action": "PageEdit",
+    "view": "PageEdit",
+    "preprocessors": {
+      "authenticate": true
+    }
+  },
+  
+  "/page/view/%": {
+    "name": "page view",
+    "view": "Page"
+  }
+  
+}
