@@ -1,5 +1,8 @@
 <?php
 
+use nFramework\Application\Model\DomainObject;
+use nFramework\Application\Exception\InvalidInputException;
+
 class User extends DomainObject {
 
   public $id;

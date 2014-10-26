@@ -2,10 +2,7 @@
 
   "/%": {
     "name": "default",
-    "view": "Default",
-    "preprocessors": {
-      "authenticate": true
-    }
+    "view": "Default"
   },
   
   "/login": {
@@ -18,9 +15,7 @@
     "name": "page edit",
     "action": "PageEdit",
     "view": "PageEdit",
-    "preprocessors": {
-      "authenticate": true
-    }
+    "preprocessors": [ "authenticate" ]
   },
   
   "/page/view/%": {

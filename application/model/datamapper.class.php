@@ -1,5 +1,10 @@
 <?php
 
+namespace nFramework\Application\Model;
+
+use nFramework\Application\Model\Interfaces\iDataMapper;
+use nFramework\Application\Database\MySqlDatabase;
+
 abstract class DataMapper implements iDataMapper {
 
   protected $database;

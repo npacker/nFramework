@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application\Model;
+
 class HttpError extends DomainObject {
 
   const HTTP_ERROR_BAD_REQUEST = 400;

@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application;
+
 abstract class ActionDecorator extends Action {
 
   protected $action;

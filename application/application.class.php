@@ -1,5 +1,14 @@
 <?php
 
+namespace nFramework\Application;
+
+use Exception;
+use nFramework\Application\Exception\AccessDeniedException;
+use nFramework\Application\Exception\ActionNotFoundException;
+use nFramework\Application\Exception\ResourceNotFoundException;
+use nFramework\Application\View\Template;
+use nFramework\Application\Model\HttpError;
+
 class Application {
 
   protected $action;
@@ -17,12 +26,10 @@ class Application {
       $context = new ActionContext();
       $context->set('uri', $request->path()->value());
       $context->set('message', $e->getMessage());
-      $action = $actionFactory->getAction('HttpErrorView');
+      $action = new \HttpErrorViewAction();
 
       if ($e instanceof ResourceNotFoundException) {
         $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
-      } else if ($e instanceof PDOException) {
-        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
       } else if ($e instanceof AccessDeniedException) {
         $context->set('code', HttpError::HTTP_ERROR_ACCESS_DENIED);
       } else {

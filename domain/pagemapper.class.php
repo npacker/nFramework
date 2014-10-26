@@ -1,5 +1,9 @@
 <?php
 
+use nFramework\Application\Model\DataMapper;
+use nFramework\Application\Model\DomainObject;
+use nFramework\Application\Model\DomainObjectCollection;
+
 class PageMapper extends DataMapper {
 
   public function create(DomainObject $page) {

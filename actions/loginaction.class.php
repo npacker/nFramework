@@ -1,5 +1,10 @@
 <?php
 
+use nFramework\Application\Action;
+use nFramework\Application\ActionContext;
+use nFramework\Application\View\Template;
+use nFramework\Application\Exception\AccessDeniedException;
+
 class LoginAction extends Action {
 
   public function execute(ActionContext $context) {

@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application;
+
 class Request {
 
   protected $get;

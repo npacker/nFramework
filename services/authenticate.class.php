@@ -1,5 +1,9 @@
 <?php
 
+use nFramework\Application\ActionDecorator;
+use nFramework\Application\ActionContext;
+use nFramework\Application\Exception\AccessDeniedException;
+
 class Authenticate extends ActionDecorator {
 
   public function execute(ActionContext $context) {
