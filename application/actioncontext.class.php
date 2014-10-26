@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application;
+
 class ActionContext {
 
   protected $params = array();

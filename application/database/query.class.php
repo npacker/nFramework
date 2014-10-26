@@ -1,5 +1,10 @@
 <?php
 
+namespace nFramework\Application\Database;
+
+use PDO;
+use nFramework\Application\Model\DomainObject;
+
 class Query {
 
   protected $connection;

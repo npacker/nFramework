@@ -1,5 +1,7 @@
 <?php
 
+use nFramework\Application\ActionContext;
+
 class Session {
 
   public function start() {

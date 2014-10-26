@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application\View;
+
 class Template {
 
   protected $css = array();

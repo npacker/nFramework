@@ -7,8 +7,8 @@ class PathMatcher {
   protected $pattern;
 
   public function __construct($pattern) {
-    preg_replace('%', $this->wildcard, $pattern);
-    $this->pattern = $pattern;
+    $pattern = preg_quote($pattern, '/');
+    $this->pattern = '/^' . preg_replace('/%/', $this->wildcard, $pattern) . '$/';
   }
 
   public function match(Path $path) {

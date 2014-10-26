@@ -1,5 +1,9 @@
 <?php
 
+namespace nFramework\Application\Model;
+
+use Iterator;
+
 class DomainObjectCollection implements Iterator {
 
   protected $data;

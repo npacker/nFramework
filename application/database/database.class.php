@@ -1,6 +1,10 @@
 <?php
 
-class MySqlDatabase {
+namespace nFramework\Application\Database;
+
+use PDO;
+
+abstract class Database {
 
   protected static $instance = null;
 
@@ -16,26 +20,27 @@ class MySqlDatabase {
 
   protected $password;
 
-  protected function __construct($hostname, $database, $username, $password) {
-    $this->hostname = $hostname;
-    $this->database = $database;
-    $this->username = $username;
-    $this->password = $password;
-    $this->dsn = "mysql:host={$this->hostname};dbname={$this->database}";
-  }
-
   final private function __clone() {}
 
   final private function __sleep() {}
 
-  public static function instance($hostname, $database, $username, $password) {
-    if (is_null(self::$instance)) self::$instance = new self(
-      $hostname,
-      $database,
-      $username,
-      $password);
+  final private function __construct($hostname, $database, $username, $password) {
+    $this->hostname = $hostname;
+    $this->database = $database;
+    $this->username = $username;
+    $this->password = $password;
+    $this->prefix = $this->prefix();
+    $this->dsn = "{$this->prefix}:host={$this->hostname};dbname={$this->database}";
+  }
 
-    return self::$instance;
+  public static function instance($hostname, $database, $username, $password) {
+    if (is_null(static::$instance)) static::$instance = new static(
+        $hostname,
+        $database,
+        $username,
+        $password);
+
+    return static::$instance;
   }
 
   public function connect() {
@@ -50,5 +55,7 @@ class MySqlDatabase {
   public function query($query) {
     return new Query($this->connection, $query);
   }
+
+  abstract protected function prefix();
 
 }

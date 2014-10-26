@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Application;
+
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 

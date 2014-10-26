@@ -1,5 +1,8 @@
 <?php
 
+use nFramework\Application\Model\DataMapper;
+use nFramework\Application\Model\DomainObject;
+
 class UserMapper extends DataMapper {
 
   public function find(DomainObject $user) {

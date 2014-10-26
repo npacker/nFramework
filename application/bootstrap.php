@@ -1,15 +1,24 @@
 <?php
 
+use nFramework\Application\Exception\FileNotFoundException;
+
 function __include_file($class) {
   $directories = array(
     'application',
     'application' . DS . 'exceptions',
     'application' . DS . 'interfaces',
+    'application' . DS . 'database',
+    'application' . DS . 'model',
+    'application' . DS . 'view',
     'domain',
     'actions',
     'services');
 
   $filename = str_replace('\\', DS, $class);
+  $filename = explode(DS, $filename);
+  $filename = end($filename);
+
+  var_dump($filename);
 
   foreach ($directories as $directory) {
     $file = ROOT . DS . $directory . DS . $filename . '.class.php';
@@ -17,7 +26,7 @@ function __include_file($class) {
     if (is_readable($file)) return require_once $file;
   }
 
-  throw new FileNotFoundException("Could not load {$file}.");
+  throw new FileNotFoundException("Could not load {$filename}.");
 }
 
 function fatal_error_check() {
