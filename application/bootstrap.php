@@ -10,7 +10,7 @@ function __include_file($class) {
     'application' . DS . 'database',
     'application' . DS . 'model',
     'application' . DS . 'view',
-    'domain',
+    'model',
     'actions',
     'services');
 
