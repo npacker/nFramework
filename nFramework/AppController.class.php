@@ -1,5 +1,11 @@
 <?php
 
+namespace nFramework;
+
+use RuntimeException;
+use nFramework\Exception\FileNotFoundException;
+use nFramework\Exception\ResourceNotFoundException;
+
 final class AppController {
 
   private $action;
