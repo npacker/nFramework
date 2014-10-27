@@ -4,6 +4,6 @@ namespace nFramework;
 
 abstract class Action {
 
-  abstract public function execute(ActionContext $context);
+  abstract public function execute(Context $context);
 
 }

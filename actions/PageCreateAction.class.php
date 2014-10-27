@@ -1,12 +1,12 @@
 <?php
 
 use nFramework\Action;
-use nFramework\ActionContext;
+use nFramework\Context;
 use nFramework\View\Template;
 
 class PageCreateAction extends Action {
 
-  public function execute(ActionContext $context) {
+  public function execute(Context $context) {
     $mapper = new PageMapper();
     $page = new Page();
     $title = $context->get('title');

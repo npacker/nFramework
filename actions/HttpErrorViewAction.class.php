@@ -1,13 +1,13 @@
 <?php
 
 use nFramework\Action;
-use nFramework\ActionContext;
+use nFramework\Context;
 use nFramework\View\Template;
 use nFramework\Model\HttpError;
 
 class HttpErrorViewAction extends Action {
 
-  public function execute(ActionContext $context) {
+  public function execute(Context $context) {
     $requestUrl = $context->get('uri');
 
     if ($requestUrl == '/') {
