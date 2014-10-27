@@ -1,6 +1,6 @@
 <?php
 
-use nFramework\ActionContext;
+use nFramework\Context;
 
 class Session {
 
@@ -22,7 +22,7 @@ class Session {
     return false;
   }
 
-  public function validate(ActionContext $context) {
+  public function validate(Context $context) {
     session_regenerate_id(true);
     $_SESSION['USERNAME'] = $context->get('username');
   }

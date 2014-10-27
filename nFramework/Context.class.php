@@ -2,7 +2,7 @@
 
 namespace nFramework;
 
-class ActionContext {
+class Context {
 
   protected $params = array();
 

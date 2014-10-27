@@ -1,13 +1,13 @@
 <?php
 
 use nFramework\Action;
-use nFramework\ActionContext;
+use nFramework\Context;
 use nFramework\View\Template;
 use nFramework\Exception\AccessDeniedException;
 
 class LoginAction extends Action {
 
-  public function execute(ActionContext $context) {
+  public function execute(Context $context) {
     $session = new Session();
     $session->start();
 

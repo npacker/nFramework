@@ -1,12 +1,12 @@
 <?php
 
 use nFramework\ActionDecorator;
-use nFramework\ActionContext;
+use nFramework\Context;
 use nFramework\Exception\AccessDeniedException;
 
 class Authenticate extends ActionDecorator {
 
-  public function execute(ActionContext $context) {
+  public function execute(Context $context) {
     $session = new Session();
     $session->start();
 

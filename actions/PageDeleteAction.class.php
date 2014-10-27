@@ -1,12 +1,12 @@
 <?php
 
 use nFramework\Action;
-use nFramework\ActionContext;
+use nFramework\Context;
 use nFramework\View\Template;
 
 class PageDeleteAction extends Action {
 
-  public function execute(ActionContext $context) {
+  public function execute(Context $context) {
 
   }
 

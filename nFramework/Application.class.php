@@ -19,11 +19,11 @@ class Application {
     $actionFactory = new ActionFactory();
 
     try {
-      $context = new ActionContext($this->parseArguments($request));
+      $context = new Context($this->parseArguments($request));
       $action = $actionFactory->getAction($this->parseAction($request));
       $this->dispatch($action, $context, $response);
     } catch (Exception $e) {
-      $context = new ActionContext();
+      $context = new Context();
       $context->set('uri', $request->path()->value());
       $context->set('message', $e->getMessage());
       $action = new \HttpErrorViewAction();
@@ -40,7 +40,7 @@ class Application {
     }
   }
 
-  protected function dispatch(Action $action, ActionContext $context, Response $response) {
+  protected function dispatch(Action $action, Context $context, Response $response) {
     $data = $action->execute($context);
 
     if (array_key_exists('location', $data)) {

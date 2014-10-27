@@ -2,11 +2,11 @@
 
 namespace nFramework\View;
 
-use nFramework\ActionContext;
+use nFramework\Context;
 
 class View {
 
-  public function __construct(ActionContext $context) {
+  public function __construct(Context $context) {
 
   }
 
