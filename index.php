@@ -1,13 +1,11 @@
 <?php
 
-namespace nFramework\Application;
+use nFramework\Application;
+use nFramework\Request;
+use nFramework\Response;
 
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', getcwd());
+require_once 'nFramework' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-require_once ROOT . DS . 'application' . DS . 'bootstrap.php';
-
-bootstrap();
 $app = new Application();
 $app->serve(
   new Request($_GET, $_POST, $_SERVER),
