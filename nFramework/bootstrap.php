@@ -1,6 +1,8 @@
 <?php
 namespace nFramework;
 
+use Exception;
+use ErrorException;
 use nFramework\Exception\FileNotFoundException;
 
 define('DS', DIRECTORY_SEPARATOR);
@@ -56,13 +58,16 @@ function settings_init() {
 }
 
 function bootstrap() {
+  ini_set('display_errors', 'on');
+  error_reporting(E_ALL & ~E_NOTICE);
+
   register_shutdown_function('nFramework\fatal_error_handler');
   set_error_handler('nFramework\error_handler');
   set_exception_handler('nFramework\exception_handler');
-  ini_set('display_errors', 'on');
-  error_reporting(E_ALL);
   spl_autoload_register('nFramework\autoload_class');
+
   settings_init();
+
   require_once ROOT . DS . 'nFramework' . DS . 'common.php';
 }
 
