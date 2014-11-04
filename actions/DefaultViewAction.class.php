@@ -1,19 +1,22 @@
 <?php
-
 use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
+use nFramework\Response;
 
 class DefaultViewAction extends Action {
 
   public function execute(Context $context) {
-    $data = array();
+    $template = new Template('html', array(
+     'title' => 'Welcome',
+     'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
+     'page' => new Template('default/page'),
+     'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default');
 
-    $data['title'] = 'Welcome';
-    $data['content'] = new Template('default/page');
-    $data['template'] = 'html';
-
-    return $data;
+    return new Response($template->parse());
   }
 
 }

@@ -1,8 +1,8 @@
 <?php
-
 use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
+use nFramework\Response;
 
 class PageViewAction extends Action {
 
@@ -30,14 +30,14 @@ class PageViewAction extends Action {
 
     $template = new Template('html', array(
       'title' => $title,
-      'header' => new Template('header', 'base_url' => base_url(), 'base_path' => base_path()),
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
       'content' => $content,
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
     $template->addScript('default');
 
-    return $template;
+    return new Response($template->parse());
   }
 
 }

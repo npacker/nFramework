@@ -1,5 +1,4 @@
 <?php
-
 namespace nFramework;
 
 use Exception;
@@ -15,13 +14,13 @@ class Application {
 
   protected $view;
 
-  public function serve(Request $request, Response $response) {
+  public function serve(Request $request) {
     $actionFactory = new ActionFactory();
 
     try {
       $context = new Context($this->parseArguments($request));
       $action = $actionFactory->getAction($this->parseAction($request));
-      $this->dispatch($action, $context, $response);
+      $this->dispatch($action, $context);
     } catch (Exception $e) {
       $context = new Context();
       $context->set('uri', $request->path()->value());
@@ -36,37 +35,15 @@ class Application {
         $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
       }
 
-      $this->dispatch($action, $context, $response);
+      $this->dispatch($action, $context);
     }
   }
 
-  protected function dispatch(Action $action, Context $context, Response $response) {
-    $data = $action->execute($context);
+  protected function dispatch(Action $action, Context $context) {
+    $response = $action->execute($context);
 
-    if (array_key_exists('location', $data)) {
-      $response->setLocationHeader($data['location']);
-    } else {
-      if (array_key_exists('response', $data)) {
-        $response->setResponseHeader($data['response']);
-      } else {
-        $response->setResponseHeader(
-          "{$context->get('SERVER_PROTOCOL')} 200 OK");
-      }
-
-      $variables['title'] = strip_tags($data['title']);
-      $variables['header'] = new Template(
-        'header',
-        array('base_url' => base_url(), 'base_path' => base_path()));
-      $variables['navigation'] = '';
-      $variables['page_title'] = $data['title'];
-      $variables['page'] = $data['content'];
-      $variables['footer'] = new Template('footer');
-
-      $template = new Template($data['template'], $variables);
-      $template->addStyle('default');
-      $template->addScript('default');
-
-      $response->setContent($template->parse());
+    if (!isset($response->status)) {
+      $response->status("{$context->get('SERVER_PROTOCOL')} 200 OK");
     }
 
     $response->send();

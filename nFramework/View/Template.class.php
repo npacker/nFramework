@@ -1,5 +1,4 @@
 <?php
-
 namespace nFramework\View;
 
 class Template {

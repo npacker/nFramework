@@ -4,6 +4,7 @@ use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
 use nFramework\Exception\AccessDeniedException;
+use nFramework\Response;
 
 class LoginAction extends Action {
 
@@ -32,17 +33,17 @@ class LoginAction extends Action {
 
       throw new AccessDeniedException('Incorrect username or password');
     }
-    
+
     $template = new Template('html', array(
       'title' => 'Login',
-      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path()),
-      'page' => new Template('login/login', array('action' => 'http://' . base_url() . base_path() . '/login'),
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
+      'page' => new Template('login/login', array('action' => 'http://' . base_url() . base_path() . '/login')),
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
     $template->addScript('default');
-    
-    return $template;
+
+    return new Response($template->parse());
   }
 
 }
