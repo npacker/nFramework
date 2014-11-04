@@ -10,7 +10,7 @@
   <div id="envelope">
     <div id="header">
       <?php echo $header; ?>
-      <?php echo $navigation; ?>
+      <?php // echo $navigation; ?>
     </div>
     <div id="body">
       <h1><?php echo $title; ?></h1>

@@ -3,6 +3,7 @@
 use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
+use nFramework\Response;
 
 class PageCreateAction extends Action {
 
@@ -16,20 +17,21 @@ class PageCreateAction extends Action {
       $page->setTitle($title);
       $page->setContent($content);
       $mapper->create($page);
+      $response = new Response();
 
-      return array('location' => 'http://' . base_url() . base_path() . '/page/view/' . $page->getId());
+      return $response->redirect('http://' . base_url() . base_path() . '/page/view/' . $page->getId());
     }
 
     $template = new Template('html', array(
       'title' => 'Create new page',
-      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path()),
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
       'page' => new Template('page/edit', array('title' => '', 'content' => '')),
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
     $template->addScript('default', 'jquery', 'ckeditor/ckeditor', 'editor');
-    
-    return $template;
+
+    return new Response($template->parse());
   }
 
 }

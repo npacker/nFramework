@@ -1,9 +1,9 @@
 <?php
-
 use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
 use nFramework\Model\HttpError;
+use nFramework\Response;
 
 class HttpErrorViewAction extends Action {
 
@@ -23,17 +23,17 @@ class HttpErrorViewAction extends Action {
       case HttpError::HTTP_ERROR_ACCESS_DENIED:
         $title = "403: Forbidden";
         $realMessage = "Access denied. {$message}";
-        $response = "{$protocol} 403 Forbidden";
+        $status = "{$protocol} 403 Forbidden";
         break;
       case HttpError::HTTP_ERROR_SERVER_ERROR:
         $title = "500: Internal Server Error";
         $realMessage = "The server encountered an error: {$message}";
-        $response = "{$protocol} 500 Internal Server Error";
+        $status = "{$protocol} 500 Internal Server Error";
         break;
       default:
         $title = "404: Not Found";
         $realMessage = "The page {$requestUrl} could not be found.";
-        $response = "{$protocol} 404 Not Found";
+        $status = "{$protocol} 404 Not Found";
     }
 
     if ($code < 500) {
@@ -48,14 +48,21 @@ class HttpErrorViewAction extends Action {
         'code' => $code,
         'requestUrl' => $requestUrl,
         'message' => $realMessage,
-        'level' => $level));
+        'level' => $level)
+      );
 
-    $data['title'] = $httpError->getTitle();
-    $data['content'] = new Template('httperror/view', (array) $httpError);
-    $data['template'] = 'html';
-    $data['response'] = $response;
+    $template = new Template('html', array(
+      'title' => $httpError->getTitle(),
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
+      'page' => new Template('httperror/view', (array) $httpError),
+      'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default');
 
-    return $data;
+    $response = new Response($template->parse());
+
+    return $response->status($status);
   }
 
 }
