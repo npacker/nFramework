@@ -18,6 +18,10 @@ class Template {
     $this->data = $data;
   }
 
+  public function __isset($key) {
+    return isset($this->data[$key]);
+  }
+
   public function addStyle($css) {
     if (is_array($css)) {
       $this->css = array_replace($this->css, $css);
