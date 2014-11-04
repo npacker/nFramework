@@ -30,15 +30,17 @@ class PageEditAction extends Action {
 
     $variables = (array) $page;
     $variables['action'] = 'http://' . base_url() . base_path() . '/page/edit/' . $id;
-
-    $template = new Template('page/edit', $variables);
-    $template->addScript(array('jquery', 'ckeditor/ckeditor', 'editor'));
-
-    $data['title'] = "Editing page <em>{$page->getTitle()}</em>";
-    $data['content'] = $template;
-    $data['template'] = 'html';
-
-    return $data;
+    
+    $template = new Template('html', array(
+      'title' => "Editing page <em>{$page->getTitle()}</em>",
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path()),
+      'page' => new Template('page/edit', $variables),
+      'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default', 'jquery', 'ckeditor/ckeditor', 'editor');
+    
+    return $template;
   }
 
 }
