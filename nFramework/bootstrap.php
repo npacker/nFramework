@@ -1,4 +1,5 @@
 <?php
+
 namespace nFramework;
 
 use Exception;
