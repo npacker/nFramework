@@ -6,21 +6,35 @@
   },
   
   "/login": {
-    "name": "log in",
+    "name": "log_in",
     "action": "Login",
     "view": "Login"
   },
   
-  "/page/edit/%": {
-    "name": "page edit",
+  "/page/edit/{id}": {
+    "name": "page_edit",
     "action": "PageEdit",
     "view": "PageEdit",
     "preprocessors": [ "authenticate" ]
   },
   
-  "/page/view/%": {
-    "name": "page view",
+  "/page/view/{id}": {
+    "name": "page_view",
     "view": "Page"
+  },
+  
+  "/page/create": {
+    "name": "page_create",
+    "action": "PageCreate",
+    "view": "PageCreate",
+    "preprocessors": [ "authenticate" ]  
+  },
+  
+  "/page/delete": {
+    "name": "page_delete",
+    "action": "PageDelete",
+    "view": "PageDelete",
+    "preprocessors": [ "authenticate" ]
   }
   
 }
