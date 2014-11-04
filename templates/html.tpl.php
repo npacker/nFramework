@@ -12,13 +12,13 @@
       <?php echo $header; ?>
       <?php echo $navigation; ?>
     </div>
-		<div id="body">
-			<h1><?php echo $title; ?></h1>
+    <div id="body">
+      <h1><?php echo $title; ?></h1>
       <?php echo $page; ?>
     </div>
-		<div id="footer">
+    <div id="footer">
       <?php echo $footer; ?>
     </div>
-	</div>
+  </div>
 </body>
 </html>
