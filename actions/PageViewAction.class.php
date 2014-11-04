@@ -17,20 +17,27 @@ class PageViewAction extends Action {
       $variables['base_url'] = base_url();
       $variables['base_path'] = base_path();
 
-      $data['title'] = 'All Content';
-      $data['content'] = new Template('page/index', $variables);
-      $data['template'] = 'html';
+      $title = 'All Content';
+      $content = new Template('page/index', $variables);
     } else {
       $page = new Page();
       $page->setId($id);
       $mapper->find($page);
 
-      $data['title'] = $page->getTitle();
-      $data['content'] = new Template('page/view', (array) $page);
-      $data['template'] = 'html';
+      $title = $page->getTitle();
+      $content = new Template('page/view', (array) $page);
     }
 
-    return $data;
+    $template = new Template('html', array(
+      'title' => $title,
+      'header' => new Template('header', 'base_url' => base_url(), 'base_path' => base_path()),
+      'content' => $content,
+      'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default');
+
+    return $template;
   }
 
 }
