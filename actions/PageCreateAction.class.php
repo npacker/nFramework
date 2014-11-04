@@ -17,22 +17,19 @@ class PageCreateAction extends Action {
       $page->setContent($content);
       $mapper->create($page);
 
-      return array(
-        'location' => 'http://' . base_url() . base_path() . '/page/view/' . $page->getId());
+      return array('location' => 'http://' . base_url() . base_path() . '/page/view/' . $page->getId());
     }
 
-    $variables['title'] = '';
-    $variables['content'] = '';
-    $variables['action'] = 'http://' . base_url() . base_path() . '/page/create';
-
-    $template = new Template('page/edit', $variables);
-    $template->addScript(array('jquery', 'ckeditor/ckeditor', 'editor'));
-
-    $data['title'] = 'Create new page';
-    $data['content'] = $template;
-    $data['template'] = 'html';
-
-    return $data;
+    $template = new Template('html', array(
+      'title' => 'Create new page',
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path()),
+      'page' => new Template('page/edit', array('title' => '', 'content' => '')),
+      'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default', 'jquery', 'ckeditor/ckeditor', 'editor');
+    
+    return $template;
   }
 
 }
