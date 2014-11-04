@@ -1,4 +1,5 @@
 <?php
+
 use nFramework\Action;
 use nFramework\Context;
 use nFramework\View\Template;
