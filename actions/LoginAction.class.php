@@ -32,14 +32,17 @@ class LoginAction extends Action {
 
       throw new AccessDeniedException('Incorrect username or password');
     }
-
-    $variables['action'] = 'http://' . base_url() . base_path() . '/login';
-
-    $data['title'] = 'Login';
-    $data['content'] = new Template('login/login', $variables);
-    $data['template'] = 'html';
-
-    return $data;
+    
+    $template = new Template('html', array(
+      'title' => 'Login',
+      'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path()),
+      'page' => new Template('login/login', array('action' => 'http://' . base_url() . base_path() . '/login'),
+      'footer' => new Template('footer')
+    ));
+    $template->addStyle('default');
+    $template->addScript('default');
+    
+    return $template;
   }
 
 }
