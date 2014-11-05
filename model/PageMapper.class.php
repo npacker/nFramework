@@ -3,6 +3,7 @@
 use nFramework\Model\DataMapper;
 use nFramework\Model\DomainObject;
 use nFramework\Model\DomainObjectCollection;
+use nFramework\Exception\ResourceNotFoundException;
 
 class PageMapper extends DataMapper {
 
