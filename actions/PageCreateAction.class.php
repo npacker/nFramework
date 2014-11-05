@@ -10,6 +10,7 @@ class PageCreateAction extends Action {
   public function execute(Context $context) {
     $mapper = new PageMapper();
     $page = new Page();
+    $response = new Response();
     $title = $context->get('title');
     $content = $context->get('content');
 
@@ -17,7 +18,6 @@ class PageCreateAction extends Action {
       $page->setTitle($title);
       $page->setContent($content);
       $mapper->create($page);
-      $response = new Response();
 
       return $response->redirect('http://' . base_url() . base_path() . '/page/view/' . $page->getId());
     }
@@ -25,13 +25,13 @@ class PageCreateAction extends Action {
     $template = new Template('html', array(
       'title' => 'Create new page',
       'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
-      'page' => new Template('page/edit', array('title' => '', 'content' => '')),
+      'page' => new Template('page/edit', array('title' => '', 'content' => '', 'action' => 'http://' . base_url() . base_path() . '/page/create')),
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
-    $template->addScript('default', 'jquery', 'ckeditor/ckeditor', 'editor');
+    $template->addScript(array('default', 'jquery', 'ckeditor/ckeditor', 'editor'));
 
-    return new Response($template->parse());
+    return $response->content($template->parse());
   }
 
 }
