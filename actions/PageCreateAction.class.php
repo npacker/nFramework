@@ -19,7 +19,7 @@ class PageCreateAction extends Action {
       $page->setContent($content);
       $mapper->create($page);
 
-      return $response->redirect('http://' . base_url() . base_path() . '/page/view/' . $page->getId());
+      return $response->redirect('http://' . base_url() . base_path() . '/page/' . $page->getId());
     }
 
     $template = new Template('html', array(
