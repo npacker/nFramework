@@ -10,7 +10,7 @@ class PageEditAction extends Action {
   public function execute(Context $context) {
     $mapper = new PageMapper();
     $page = new Page();
-    $id = $context->get('path_argument');
+    $id = $context->get('id');
     $title = $context->get('title');
     $content = $context->get('content');
     $page->setId($id);
@@ -30,7 +30,7 @@ class PageEditAction extends Action {
     }
 
     $variables = (array) $page;
-    $variables['action'] = 'http://' . base_url() . base_path() . '/page/edit/' . $id;
+    $variables['action'] = 'http://' . base_url() . base_path() . '/page/' . $id . '/edit';
 
     $template = new Template('html', array(
       'title' => "Editing page <em>{$page->getTitle()}</em>",
