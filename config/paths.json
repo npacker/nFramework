@@ -30,7 +30,7 @@
     "preprocessors": [ "authenticate" ]  
   },
   
-  "/page/delete": {
+  "/page/delete/{id}": {
     "name": "page_delete",
     "action": "PageDelete",
     "view": "PageDelete",
