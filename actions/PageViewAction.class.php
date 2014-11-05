@@ -32,7 +32,7 @@ class PageViewAction extends Action {
     $template = new Template('html', array(
       'title' => $title,
       'header' => new Template('header', array('base_url' => base_url(), 'base_path' => base_path())),
-      'content' => $content,
+      'page' => $content,
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
