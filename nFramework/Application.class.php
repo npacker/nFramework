@@ -6,8 +6,8 @@ use Exception;
 use nFramework\Exception\AccessDeniedException;
 use nFramework\Exception\ActionNotFoundException;
 use nFramework\Exception\ResourceNotFoundException;
-use nFramework\View\Template;
 use nFramework\Model\HttpError;
+use HttpErrorViewAction;
 
 class Application {
 
