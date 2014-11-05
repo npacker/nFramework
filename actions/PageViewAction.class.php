@@ -9,7 +9,7 @@ class PageViewAction extends Action {
 
   public function execute(Context $context) {
     $mapper = new PageMapper();
-    $id = $context->get('path_argument');
+    $id = $context->get('id');
 
     if ($id == 'all') {
       $pages = $mapper->findAll();

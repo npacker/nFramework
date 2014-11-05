@@ -1,40 +1,48 @@
 {
 
-  "/%": {
+  "/": {
     "name": "default",
     "view": "Default"
   },
-  
+
   "/login": {
     "name": "log_in",
     "action": "Login",
     "view": "Login"
   },
   
-  "/page/edit/{id}": {
+  "/logout": {
+    "name": "log_out",
+    "action": "Logout",
+    "view": "Logout",
+    "preprocessors": [ "authenticate" ]
+  },
+
+  "/page/{id}/edit": {
     "name": "page_edit",
     "action": "PageEdit",
     "view": "PageEdit",
     "preprocessors": [ "authenticate" ]
   },
-  
-  "/page/view/{id}": {
+
+  "/page/{id}": {
     "name": "page_view",
+    "action": "PageView",
     "view": "Page"
   },
-  
+
   "/page/create": {
     "name": "page_create",
     "action": "PageCreate",
     "view": "PageCreate",
-    "preprocessors": [ "authenticate" ]  
+    "preprocessors": [ "authenticate" ]
   },
-  
-  "/page/delete/{id}": {
+
+  "/page/{id}/delete": {
     "name": "page_delete",
     "action": "PageDelete",
     "view": "PageDelete",
     "preprocessors": [ "authenticate" ]
   }
-  
+
 }

@@ -10,6 +10,8 @@ final class AppController {
 
   private $action;
 
+  private $config;
+
   private $paths;
 
   private $view;
@@ -21,14 +23,11 @@ final class AppController {
   }
 
   public function build(Request $request) {
-    $paths = $this->loadPatterns();
-    $matched = false;
-
-    foreach ($paths as $pattern => $config) {
+    foreach ($this->paths as $pattern => $config) {
       $matcher = new PathMatcher($pattern);
 
       if ($matcher->match($request->path())) {
-        $matched = true;
+        $this->config = $config;
         $this->parameters = $matcher->parameters();
 
         if (property_exists($config, 'action')) {
@@ -38,18 +37,20 @@ final class AppController {
         if (property_exists($config, 'view')) {
           $this->view = $config->view . 'View';
         }
+
+        return $this;
       }
     }
 
-    if (!$matched) {
-      throw new ResourceNotFoundException();
-    }
+    throw new ResourceNotFoundException();
   }
 
   public function getAction() {
     if ($action = $this->instantiate($this->action)) {
-      foreach ($this->config->preprocessors as $preprocessor) {
-        $action = new $preprocessor($action);
+      if (isset($this->config->preprocessors)) {
+        foreach ($this->config->preprocessors as $preprocessor) {
+          $action = new $preprocessor($action);
+        }
       }
 
       return $action;
@@ -58,15 +59,21 @@ final class AppController {
     return null;
   }
 
+  public function getParameters() {
+    return $this->parameters;
+  }
+
   public function getView() {
     return $this->instantiate($this->view);
   }
 
   private function instantiate($classname) {
     if ($classname) {
-      $class = new $classname();
+      if (!class_exists($classname)) {
+        throw new RuntimeException('Class ' . $classname . ' is undefined.');
+      }
 
-      return $class;
+      return $class = new $classname();
     }
 
     return null;
@@ -81,7 +88,13 @@ final class AppController {
       throw new RuntimeException('Path configuration file was not readable');
     }
 
-    return json_decode(file_get_contents($path));
+    $json = json_decode(file_get_contents($path));
+
+    if (!$json) {
+      throw new RuntimeException(json_last_error_msg());
+    }
+
+    return $json;
   }
 
 }
