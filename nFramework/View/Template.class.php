@@ -19,8 +19,18 @@ class Template {
     $this->data = $data;
   }
 
+  public function __get($key) {
+    return (isset($this->data[$key])) ? $this->data[$key] : null;
+  }
+
   public function __isset($key) {
     return isset($this->data[$key]);
+  }
+
+  public function __set($key, $value) {
+    $this->data[$key] = $value;
+
+    return $this;
   }
 
   public function addStyle($css) {
@@ -29,6 +39,8 @@ class Template {
     } else {
       $this->css[$css] = $css;
     }
+
+    return $this;
   }
 
   public function addScript($js) {
@@ -37,10 +49,8 @@ class Template {
     } else {
       $this->js[$js] = $js;
     }
-  }
 
-  public function getData($key) {
-    return array_key_exists($key, $this->data) ? $this->data[$key] : null;
+    return $this;
   }
 
   public function getStyle() {
