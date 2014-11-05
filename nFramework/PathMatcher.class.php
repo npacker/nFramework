@@ -30,7 +30,11 @@ class PathMatcher {
   }
 
   public function parameters() {
-    return array_combine($this->parameterNames, $this->parameterValues);
+    if ($this->parameterNames && $this->parameterValues) {
+      return array_combine($this->parameterNames, $this->parameterValues);
+    }
+
+    return array();
   }
 
   protected function buildRegex($pattern) {
