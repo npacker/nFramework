@@ -39,7 +39,7 @@ class PageEditAction extends Action {
       'footer' => new Template('footer')
     ));
     $template->addStyle('default');
-    $template->addScript('default', 'jquery', 'ckeditor/ckeditor', 'editor');
+    $template->addScript(array('default', 'jquery', 'ckeditor/ckeditor', 'editor'));
 
     return new Response($template->parse());
   }
