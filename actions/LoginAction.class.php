@@ -5,15 +5,17 @@ use nFramework\Context;
 use nFramework\View\Template;
 use nFramework\Exception\AccessDeniedException;
 use nFramework\Response;
+use nFramework;
 
 class LoginAction extends Action {
 
   public function execute(Context $context) {
     $session = new Session();
+    $response = new Response();
     $session->start();
 
     if ($session->valid()) {
-      return array('location' => 'http://' . base_url() . base_path() . '/');
+      return $response->redirect('http://' . base_url() . base_path() . '/');
     }
 
     $username = $context->get('username');
@@ -28,7 +30,7 @@ class LoginAction extends Action {
       if (hash('sha256', $password) == $user->getPassword()) {
         $session->validate($context);
 
-        return array('location' => 'http://' . base_url() . base_path() . '/');
+        return $response->redirect('http://' . base_url() . base_path() . '/');
       }
 
       throw new AccessDeniedException('Incorrect username or password');
@@ -43,7 +45,7 @@ class LoginAction extends Action {
     $template->addStyle('default');
     $template->addScript('default');
 
-    return new Response($template->parse());
+    return $response->content($template->parse());
   }
 
 }
