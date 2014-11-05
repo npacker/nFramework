@@ -10,11 +10,11 @@ final class AppController {
 
   private $action;
 
-  private $config;
-
   private $paths;
 
   private $view;
+
+  private $parameters;
 
   public function __construct() {
     $this->paths = $this->loadPaths();
@@ -29,7 +29,7 @@ final class AppController {
 
       if ($matcher->match($request->path())) {
         $matched = true;
-        $this->config = $config;
+        $this->parameters = $matcher->parameters();
 
         if (property_exists($config, 'action')) {
           $this->action = $config->action . 'Action';
@@ -81,9 +81,7 @@ final class AppController {
       throw new RuntimeException('Path configuration file was not readable');
     }
 
-    $json = file_get_contents($path);
-
-    return json_decode($json);
+    return json_decode(file_get_contents($path));
   }
 
 }
