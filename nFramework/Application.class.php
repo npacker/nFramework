@@ -16,16 +16,21 @@ class Application {
   protected $view;
 
   public function serve(Request $request) {
-    $actionFactory = new AppController();
+    $controller = new AppController();
 
     try {
-      $actionFactory->build($request);
-      $action = $actionFactory->getAction();
-      $parameters = array_merge($actionFactory->getParameters(), $request->get(), $request->post(), $request->server());
-      $context = new Context($parameters);
+      $action = $controller->build($request)->getAction();
+
+      $context = new Context(array_merge(
+        $controller->getParameters(),
+        $request->get(),
+        $request->post(),
+        $request->server()
+      ));
+
       $this->dispatch($action, $context);
     } catch (Exception $e) {
-      $action = new \HttpErrorViewAction();
+      $action = new HttpErrorViewAction();
       $context = new Context();
       $context->set('uri', $request->path()->value());
       $context->set('message', $e->getMessage());
@@ -46,7 +51,7 @@ class Application {
     $response = $action->execute($context);
 
     if (!isset($response->status)) {
-      $response->status("{$context->get('SERVER_PROTOCOL')} 200 OK");
+      $response->status($context->get('SERVER_PROTOCOL') . ' 200 OK');
     }
 
     $response->send();
