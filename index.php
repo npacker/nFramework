@@ -1,13 +1,9 @@
 <?php
 
-define('DS', DIRECTORY_SEPARATOR);
-define('ROOT', getcwd());
+use nFramework\Application;
+use nFramework\Request;
 
-require_once ROOT . DS . 'system' . DS . 'bootstrap.php';
+require_once 'nFramework' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
-bootstrap();
 $app = new Application();
-$app->serve(
-  new Request($_GET, $_POST, $_SERVER),
-  new Response()
-);
+$app->serve(new Request($_GET, $_POST, $_SERVER));
