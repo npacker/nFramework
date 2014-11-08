@@ -66,7 +66,7 @@ function bootstrap() {
 
   settings_init();
 
-  require_once ROOT . DS . 'nFramework' . DS . 'common.php';
+  require_once ROOT . DS . 'application' . DS . 'common.php';
 }
 
 bootstrap();

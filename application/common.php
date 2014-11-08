@@ -27,7 +27,7 @@ function base_url() {
 }
 
 function is_secure() {
-  return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' || $_SERVER['SERVER_PORT'] == 443)
+  return (!empty($_SERVER['HTTPS']) && $_SERVER['HTTPS'] != 'off' || $_SERVER['SERVER_PORT'] == 443);
 }
 
 function protocol() {
