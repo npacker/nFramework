@@ -116,7 +116,10 @@ class Template {
   }
 
   protected function processIncludePath($template) {
-    $template = str_replace('/', DS, $template);
+    $template = str_replace(':', DS, $template);
+
+    $parts = explode(':', $template);
+
     $this->template = ROOT . DS . 'templates' . DS . $template . '.tpl.php';
   }
 
