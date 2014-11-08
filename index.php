@@ -1,9 +1,10 @@
 <?php
 
 use nFramework\Application;
+use nFramework\Package;
 use nFramework\Request;
 
-require_once 'nFramework' . DIRECTORY_SEPARATOR . 'bootstrap.php';
+require_once 'application' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 $app = new Application();
 
