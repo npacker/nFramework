@@ -8,9 +8,9 @@ function base_path() {
     $document_root = realpath($_SERVER['DOCUMENT_ROOT']);
 
     $base_path = str_replace($document_root, '', $file_path);
-    $base_path = explode('/', $base_path);
+    $base_path = explode(DIRECTORY_SEPARATOR, $base_path);
     array_pop($base_path);
-    $base_path = implode('/', $base_path);
+    $base_path = implode(DIRECTORY_SEPARATOR, $base_path);
   }
 
   return $base_path;
