@@ -15,6 +15,10 @@ class Application {
 
   protected $view;
 
+  public function packages(array $packages) {
+
+  }
+
   public function serve(Request $request) {
     $controller = new AppController();
 

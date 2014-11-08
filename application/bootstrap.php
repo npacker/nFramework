@@ -12,6 +12,7 @@ define('ROOT', getcwd());
 function autoload_class($class) {
   if (strpos($class, '\\')) {
     $filename = str_replace('\\', DS, $class);
+    $filename = str_replace('nFramework', 'application', $filename);
     $file = $filename . '.class.php';
 
     if (is_readable($file)) {
@@ -35,11 +36,7 @@ function fatal_error_handler() {
   $error = error_get_last();
 
   if ($error['type'] == E_ERROR) {
-    error_handler(
-      $error['type'],
-      $error['message'],
-      $error['file'],
-      $error['line']);
+    error_handler($error['type'], $error['message'], $error['file'], $error['line']);
   }
 }
 
