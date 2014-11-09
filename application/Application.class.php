@@ -20,7 +20,7 @@ final class Application {
     array_push($this->packages, $package);
   }
 
-  public function serve(Request $request) {
+  public function handle(Request $request) {
     $controller = new AppController($this->packages);
 
     try {
@@ -53,12 +53,18 @@ final class Application {
   }
 
   private function dispatch(Action $action, Context $context) {
+    ob_start();
     $response = $action->execute($context);
+    ob_end_clean();
 
     if (!isset($response->status)) {
       $response->status($context->get('SERVER_PROTOCOL') . ' 200 OK');
     }
 
+    $this->send($response);
+  }
+
+  private function send(Response $response) {
     $response->send();
   }
 
