@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Service;
+
 use nFramework\Context;
 
 class Session {
