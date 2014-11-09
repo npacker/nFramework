@@ -91,7 +91,7 @@ class Template {
     $basePath = base_path();
     $baseUrl = base_url();
     $style = '';
-    $format = "<link rel=\"stylesheet\" href=\"http://%s%s/css/%s.css\" type=\"text/css\" media=\"screen\">\n";
+    $format = "<link rel=\"stylesheet\" href=\"%s%s/public/css/%s.css\" type=\"text/css\" media=\"screen\">\n";
 
     foreach ($css as $stylesheet) {
       $stylesheet = str_replace('/', DS, $stylesheet);
@@ -105,7 +105,7 @@ class Template {
     $basePath = base_path();
     $baseUrl = base_url();
     $script = '';
-    $format = "<script type=\"text/javascript\" src=\"http://%s%s/js/%s.js\"></script>\n";
+    $format = "<script type=\"text/javascript\" src=\"%s%s/public/js/%s.js\"></script>\n";
 
     foreach ($js as $javascript) {
       $javascript = str_replace('/', DS, $javascript);
@@ -116,11 +116,11 @@ class Template {
   }
 
   protected function processIncludePath($template) {
-    $template = str_replace(':', DS, $template);
+    $file = explode(':', $template);
+    $namespace = implode(DS, array_splice($file, 0, 2));
+    $file = implode(DS, $file);
 
-    $parts = explode(':', $template);
-
-    $this->template = ROOT . DS . 'templates' . DS . $template . '.tpl.php';
+    $this->template = ROOT . DS . 'packages' . DS . $namespace . DS . 'templates' . DS . $file . '.tpl.php';
   }
 
   protected function setVariable($key, $value) {
