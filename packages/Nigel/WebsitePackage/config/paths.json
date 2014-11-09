@@ -1,0 +1,50 @@
+{
+
+  "/": {
+    "name": "default",
+    "action": "Nigel:WebsitePackage:DefaultView",
+    "view": "Nigel:WebsitePackage:Default"
+  },
+
+  "/login": {
+    "name": "log_in",
+    "action": "Nigel:WebsitePackage:Login",
+    "view": "Nigel:WebsitePackage:Login"
+  },
+  
+  "/logout": {
+    "name": "log_out",
+    "action": "Nigel:WebsitePackage:Logout",
+    "view": "Nigel:WebsitePackage:Logout",
+    "preprocessors": [ "Authenticate" ]
+  },
+
+  "/page/{id}/edit": {
+    "name": "page_edit",
+    "action": "Nigel:WebsitePackage:PageEdit",
+    "view": "Nigel:WebsitePackage:PageEdit",
+    "preprocessors": [ "Authenticate" ]
+  },
+  
+  
+  "/page/create": {
+    "name": "page_create",
+    "action": "Nigel:WebsitePackage:PageCreate",
+    "view": "Nigel:WebsitePackage:PageCreate",
+    "preprocessors": [ "Authenticate" ]
+  },
+
+  "/page/{id}": {
+    "name": "page_view",
+    "action": "Nigel:WebsitePackage:PageView",
+    "view": "Nigel:WebsitePackage:Page"
+  },
+
+  "/page/{id}/delete": {
+    "name": "page_delete",
+    "action": "Nigel:WebsitePackage:PageDelete",
+    "view": "Nigel:WebsitePackage:PageDelete",
+    "preprocessors": [ "Authenticate" ]
+  }
+
+}
