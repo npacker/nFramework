@@ -60,7 +60,7 @@ class HttpError extends DomainObject {
 
   protected $message;
 
-  protected $requestUrl;
+  protected $uri;
 
   protected $title;
 
@@ -83,8 +83,8 @@ class HttpError extends DomainObject {
       $this->code = $data['code'];
     }
 
-    if (isset($data['requestUrl'])) {
-      $this->requestUrl = $data['requestUrl'];
+    if (isset($data['uri'])) {
+      $this->uri = $data['uri'];
     }
 
     if (isset($data['message'])) {
@@ -108,8 +108,8 @@ class HttpError extends DomainObject {
     return $this->message;
   }
 
-  public function getRequestUrl() {
-    return $this->requestUrl;
+  public function getUri() {
+    return $this->uri;
   }
 
   public function getTitle() {
