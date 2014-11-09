@@ -7,9 +7,5 @@ use nFramework\Request;
 require_once 'application' . DIRECTORY_SEPARATOR . 'bootstrap.php';
 
 $app = new Application();
-
-$app->packages(array(
-  new Package('Nigel:WebsitePackage')
-));
-
+$app->registerPackage(new Package('Nigel:WebsitePackage'));
 $app->serve(new Request($_GET, $_POST, $_SERVER));
