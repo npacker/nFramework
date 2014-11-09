@@ -1,5 +1,7 @@
 <?php
 
+namespace nFramework\Service;
+
 use nFramework\ActionDecorator;
 use nFramework\Context;
 use nFramework\Exception\AccessDeniedException;
