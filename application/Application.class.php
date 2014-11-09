@@ -7,20 +7,21 @@ use nFramework\Exception\AccessDeniedException;
 use nFramework\Exception\ActionNotFoundException;
 use nFramework\Exception\ResourceNotFoundException;
 use nFramework\Model\HttpError;
-use HttpErrorViewAction;
 
-class Application {
+final class Application {
 
-  protected $action;
+  private $packages;
 
-  protected $view;
+  public function __construct() {
+    $this->packages = array();
+  }
 
-  public function packages(array $packages) {
-
+  public function registerPackage(Package $package) {
+    array_push($this->packages, $package);
   }
 
   public function serve(Request $request) {
-    $controller = new AppController();
+    $controller = new AppController($this->packages);
 
     try {
       $action = $controller->build($request)->getAction();
@@ -51,7 +52,7 @@ class Application {
     }
   }
 
-  protected function dispatch(Action $action, Context $context) {
+  private function dispatch(Action $action, Context $context) {
     $response = $action->execute($context);
 
     if (!isset($response->status)) {
