@@ -1,0 +1,362 @@
+@CHARSET "UTF-8";
+
+/* global page styles */
+body {
+	color: #474747;
+	background: #dedede url('../images/gradient.PNG') repeat-x left top;
+	font-family: Georgia, serif;
+	padding: 0;
+	border-top: #777 solid 5px;
+	border-bottom: #59768F solid 5px;
+	margin: 0;
+}
+
+h1, h2, h3, h4, h5, h6 {
+	text-shadow: 0 1px #fff;
+}
+
+a {
+	color: #369;
+	text-decoration: none;
+}
+
+a:hover {
+	color: #333;
+	text-decoration: underline;
+}
+
+/* main structure */
+#envelope {
+	width: 932px;
+	background-color: #efefef;
+	border-right: 1px solid #cecece;
+	border-left: 1px solid #cecece;
+	margin: 0 auto;
+	box-shadow: 0 0 3px #666;
+}
+
+#container {
+	width: 900px;
+	background: #efefef url('../images/container_bg.png') repeat;
+	padding: 0 10px;
+	border-right: 1px dotted #ddd;
+	border-left: 1px dotted #ddd;
+	margin: 0 5px;
+}
+
+/* header */
+#header {
+	position: relative;
+	height: 100px;
+	border-bottom: 6px solid #eaeaea;
+}
+
+#header h1 {
+	position: absolute;
+	top: 25px;
+	left: 0px;
+	height: 50px;
+	padding-left: 60px;
+	background: transparent url('../images/logo.PNG') no-repeat left center;
+	margin: 0 10px;
+}
+
+#header h1 a {
+	display: block;
+	height: 50px;
+	color: #444;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 39px;
+	letter-spacing: 0.2ex;
+	line-height: 50px;
+}
+
+#header h1 a:hover {
+	text-decoration: none;
+}
+
+/* main navigation menu */
+#header ul {
+	position: absolute;
+	top: 37px;
+	right: 0;
+	height: 25px;
+	padding: 0;
+	margin: 0 10px 0 0;
+}
+
+#header li {
+	display: block;
+	list-style: none;
+	float: left;
+}
+
+#header li a {
+	display: block;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 15px;
+	font-weight: bold;
+	letter-spacing: 0.2ex;
+	text-decoration: none;
+	text-transform: uppercase;
+	text-shadow: 0 1px #fff;
+	margin-right: 25px;
+}
+
+#header li:last-child a {
+	margin-right: 0;
+}
+
+/* footer */
+#footer {
+	color: #333;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 12px;
+	text-align: center;
+	text-shadow: 0 1px #fff;
+	padding: 35px;
+	border-top: 3px double #dfdfdf;
+}
+
+/* body */
+#body {
+	position: relative;
+	padding: 15px 10px 0 10px;
+	border-top: 1px solid #e0e0e0;
+}
+
+#body h1, #body h2, #body h3, #body h4, #body h5, #body h6 {
+	margin: 15px 0 10px 0;
+}
+
+#body h1 {
+	color: #bababa;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 29px;
+	margin-top: 0;
+}
+
+#body h2 {
+	color: #315e7a;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 22px;
+	letter-spacing: 0.1ex;
+}
+
+#body h3 {
+	color: #555;
+	font-family: Georgia, serif;
+	font-size: 18px;
+}
+
+#body h4 {
+	color: #6c87a3;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 17px;
+	font-variant: small-caps;
+	letter-spacing: 0.2ex;
+}
+
+#body h5 {
+	color: #666;
+	font-family: Georiga, serif;
+	font-size: 14px;
+}
+
+#body h6 {
+	color: #999;
+	font-family: Georgia, serif;
+	font-size: 11px;
+	letter-spacing: 1px;
+	text-transform: uppercase;
+}
+
+p, ul, ol, table, form, object, iframe {
+	font-size: 15px;
+	line-height: 25px;
+	margin: 10px 0 20px 0;
+}
+
+p.error {
+	height: 86px;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 18px;
+	padding: 15px;
+	border-top: 1px dashed #ccc;
+	border-bottom: 1px dashed #ccc;
+}
+
+p.warn {
+	background: transparent url('../images/404.PNG') no-repeat 15px center;
+	padding-left: 101px;
+}
+
+p.critical {
+	background: transparent url('../images/500.PNG') no-repeat 15px center;
+	padding-left: 111px;
+}
+
+img.inline {
+	background-color: #ddd;
+	padding: 5px;
+	border: 1px solid #bbb;
+	margin: 5px 0 5px 20px;
+	box-shadow: 0 0 2px #aaa;
+}
+
+blockquote {
+	padding-left: 12px;
+	border-left: 4px solid #369;
+	margin: 15px 45px 20px 30px;
+}
+
+blockquote p {
+	color: #1d1d1d;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 14px;
+	line-height: 20px;
+}
+
+/* tables */
+table {
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	background-color: #000;
+	border-collapse: collapse;
+	border: 2px solid #fff;
+	box-shadow: 0 0 2px #aaa;
+}
+
+th {
+	color: #fff;
+	font-size: 14px;
+	line-height: 14px;
+	background-color: #4A7096;
+	padding: 7px 9px;
+	border: 2px solid #fff;
+}
+
+tfoot td {
+	color: #fff;
+	font-size: 12px;
+	line-height: 12px;
+	text-align: center;
+	background-color: #bbb;
+	padding: 7px 9px;
+	border: 2px solid #fff;
+}
+
+td {
+	color: #444;
+	font-size: 14px;
+	line-height: 14px;
+	background-color: #E6E6E6;
+	padding: 7px 9px;
+	border: 2px solid #fff;
+}
+
+/* forms */
+fieldset {
+	background-color: #f6f6f6;
+	font-family: 'Trebuchet MS', Trebuchet, Helvetica, sans-serif;
+	font-size: 14px;
+	border: 1px solid #fff;
+	border-radius: 5px;
+	padding: 10px 5px 10px 10px;
+	box-shadow: 0 0 2px #aaa;
+}
+
+.login fieldset {
+  display: table;
+}
+
+legend {
+	display: none;
+}
+
+textarea {
+	white-space: nowrap;
+	padding: 0;
+	margin: 10px 0 10px 0;
+}
+
+textarea#content {
+	width: 848px;
+	max-width: 848px;
+	min-width: 848px;
+}
+
+label,
+select,
+input {
+	margin: 0 6px 0 0;
+}
+
+td select {
+	margin: 0;
+}
+
+label {
+	display: block;
+	font-weight: bold;
+}
+
+input[type="text"],
+input[type="password"] {
+	padding: 0.5em;
+	margin-bottom: 1em;
+}
+
+input.button {
+	font-size: 13px;
+	font-weight: bold;
+	text-shadow: 0 -1px 0 #27547F;
+	color: #fff;
+	background-color: #5783AF;
+	padding: 4px 5px;
+	border: 1px solid #35658F;
+	border-radius: 3px;
+}
+
+input.button:hover {
+	box-shadow: 0 0 1px #888;
+}
+
+input.button:focus {
+	box-shadow: 0 0 0 1px #fff inset;
+}
+
+input.button:active {
+	color: #eee;
+	text-shadow: 0 -1px 0 #1B476F;
+	background-color: #45729F;
+	box-shadow: 0 0 3px #0A2D4F inset;
+}
+
+input[disabled].button,
+input[disabled].button:hover,
+input[disabled].button:focus,
+input[disabled].button:active {
+	color: #bbb;
+	text-shadow: none;
+	background-color: #ddd;
+	border-color: #bbb;
+	box-shadow: none;
+}
+
+input.float {
+	float: right;
+}
+
+#loginError {
+	color: #F00;
+	font-size: 12px;
+	line-height: 20px;
+}
+
+.right {
+	float: right;
+}
+
+.left {
+	float: left;
+}
