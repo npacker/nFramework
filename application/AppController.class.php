@@ -10,7 +10,9 @@ final class AppController {
 
   private $action;
 
-  private $config;
+  private $packages;
+
+  private $path;
 
   private $paths;
 
@@ -18,24 +20,25 @@ final class AppController {
 
   private $parameters;
 
-  public function __construct() {
-    $this->paths = $this->loadPaths();
+  public function __construct(array $packages) {
+    $this->packages = $packages;
+    $this->paths = $this->loadPaths($packages);
   }
 
   public function build(Request $request) {
-    foreach ($this->paths as $pattern => $config) {
+    foreach ($this->paths as $pattern => $path) {
       $matcher = new PathMatcher($pattern);
 
       if ($matcher->match($request->path())) {
-        $this->config = $config;
-        $this->parameters = $matcher->parameters();
+        $this->path = $path;
+        $this->parameters = $matcher->getParameters();
 
-        if (property_exists($config, 'action')) {
-          $this->action = $config->action . 'Action';
+        if (property_exists($path, 'action')) {
+          $this->setAction($this->classname($path->action));
         }
 
-        if (property_exists($config, 'view')) {
-          $this->view = $config->view . 'View';
+        if (property_exists($path, 'view')) {
+          $this->setView($this->classname($path->view));
         }
 
         return $this;
@@ -47,9 +50,9 @@ final class AppController {
 
   public function getAction() {
     if ($action = $this->instantiate($this->action)) {
-      if (isset($this->config->preprocessors)) {
-        foreach ($this->config->preprocessors as $preprocessor) {
-          $action = new $preprocessor($action);
+      if (isset($this->path->preprocessors)) {
+        foreach ($this->path->preprocessors as $preprocessor) {
+          $action = $this->instantiate("nFramework\\Service\\" . $preprocessor, $action);
         }
       }
 
@@ -67,34 +70,38 @@ final class AppController {
     return $this->instantiate($this->view);
   }
 
-  private function instantiate($classname) {
+  public function setAction($action) {
+    $this->action = $action . 'Action';
+  }
+
+  public function setView($view) {
+    $this->view = $view . 'View';
+  }
+
+  private function classname($class) {
+    return str_replace(':', '\\', $class);
+  }
+
+  private function instantiate($classname, $parameter = null) {
     if ($classname) {
       if (!class_exists($classname)) {
         throw new RuntimeException('Class ' . $classname . ' is undefined.');
       }
 
-      return $class = new $classname();
+      return $class = new $classname($parameter);
     }
 
     return null;
   }
 
-  private function loadPaths() {
-    $path = ROOT . DS . 'config' . DS . 'paths.json';
+  private function loadPaths(array $packages) {
+    $paths = array();
 
-    if (!file_exists($path)) {
-      throw new FileNotFoundException('Paths configuration file could not be loaded.');
-    } else if (!is_readable($path)) {
-      throw new RuntimeException('Path configuration file was not readable');
+    foreach ($packages as $package) {
+      $paths = array_merge($paths, (array) $package->getConfig());
     }
 
-    $json = json_decode(file_get_contents($path));
-
-    if (!$json) {
-      throw new RuntimeException(json_last_error_msg());
-    }
-
-    return $json;
+    return $paths;
   }
 
 }
