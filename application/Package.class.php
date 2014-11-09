@@ -17,15 +17,15 @@ final class Package {
     $parts = explode(':', $name);
     $this->package = array_pop($parts);
     $this->vendor = array_pop($parts);
-    $this->config = $this->loadConfig();
+    $this->config = $this->loadConfig($this->vendor, $this->package);
   }
 
   public function getConfig() {
     return $this->config;
   }
 
-  private function loadConfig() {
-    $dir = $this->vendor . DS . $this->package;
+  private function loadConfig($vendor, $package) {
+    $dir = $vendor . DS . $package;
     $path = ROOT . DS . 'packages' . DS . $dir . DS . 'config' . DS . 'paths.json';
 
     if (!file_exists($path)) {
@@ -36,7 +36,7 @@ final class Package {
 
     $json = json_decode(file_get_contents($path));
 
-    if (!$json) {
+    if ($json == null) {
       throw new RuntimeException(json_last_error_msg());
     }
 
