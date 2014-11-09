@@ -10,7 +10,7 @@ class Context {
     $this->params = $params;
   }
 
-  function set($key, $value, $overwrite = true) {
+  function set($key, $value, $overwrite = false) {
     if ($overwrite || (!$overwrite && !array_key_exists($key, $this->params))) {
       $this->params[$key] = $value;
     }
