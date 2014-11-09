@@ -6,7 +6,7 @@ abstract class Action {
 
   private $application;
 
-  public function __construct(Application $application) {
+  public function __construct(Application $application = null) {
     $this->application = $application;
   }
 
