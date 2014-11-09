@@ -34,7 +34,7 @@ final class Application {
       $this->dispatch($action, $context);
     } catch (Exception $e) {
       $action = new HttpErrorViewAction();
-      $context = new Context();
+      $context = new Context($request->server());
 
       if ($e instanceof ResourceNotFoundException) {
         $code = HttpError::HTTP_ERROR_NOT_FOUND;
@@ -52,7 +52,7 @@ final class Application {
     }
   }
 
-  private function handleException(Exception $e) {
+  private function handleException(Exception $e, Request $request) {
 
   }
 
