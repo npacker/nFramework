@@ -3,4 +3,6 @@
 /.project
 /.DS_Store
 /.idea/
-/js/ckeditor
+/**/config.php
+ckeditor
+
