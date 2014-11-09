@@ -29,7 +29,7 @@ class PathMatcher {
     return false;
   }
 
-  public function parameters() {
+  public function getParameters() {
     if ($this->parameterNames && $this->parameterValues) {
       return array_combine($this->parameterNames, $this->parameterValues);
     }
