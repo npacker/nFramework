@@ -9,26 +9,34 @@ use nFramework\Exception\FileNotFoundException;
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
 
-function autoload_class($class) {
-  if (strpos($class, '\\')) {
-    $filename = str_replace('\\', DS, $class);
-    $filename = str_replace('nFramework', 'application', $filename);
-    $file = $filename . '.class.php';
+function autoload_action($class) {
+  $file = explode('\\', $class);
+  $namespace = implode(DS, array_splice($file, 0, 2));
+  $file = implode(DS, $file);
+  $file = 'packages' . DS . $namespace . DS . 'Controller' . DS . $file . '.class.php';
 
-    if (is_readable($file)) {
-      require_once $file;
-    }
-  } else {
-    $directories = array('actions', 'model', 'services');
+  if (is_readable($file)) {
+    require_once $file;
+  }
+}
 
-    foreach ($directories as $directory) {
-      $file = ROOT . DS . $directory . DS. $class . '.class.php';
+function autoload_model($class) {
+  $file = explode('\\', $class);
+  $namespace = implode(DS, array_splice($file, 0, 2));
+  $file = implode(DS, $file);
+  $file = 'packages' . DS . $namespace . DS . 'Model' . DS . $file . '.class.php';
 
-      if (is_readable($file)) {
-        require_once $file;
-        break;
-      }
-    }
+  if (is_readable($file)) {
+    require_once $file;
+  }
+}
+
+function autoload_core($class) {
+  $file = str_replace('\\', DS, $class);
+  $file = str_replace('nFramework', 'application', $file) . '.class.php';
+
+  if (is_readable($file)) {
+    require_once $file;
   }
 }
 
@@ -52,17 +60,20 @@ function exception_handler(Exception $exception) {
 function settings_init() {
   global $databases;
 
-  require_once ROOT . DS . 'config' . DS . 'config.php';
+  include ROOT . DS . 'config' . DS . 'config.php';
 }
 
 function bootstrap() {
-  ini_set('display_errors', 'on');
-  error_reporting(E_ALL & ~E_NOTICE);
+  ini_set('display_errors', 1);
+  ini_set('error_reporting', E_ALL & ~E_NOTICE);
 
   register_shutdown_function('nFramework\fatal_error_handler');
   set_error_handler('nFramework\error_handler');
   set_exception_handler('nFramework\exception_handler');
-  spl_autoload_register('nFramework\autoload_class');
+
+  spl_autoload_register('nFramework\autoload_action');
+  spl_autoload_register('nFramework\autoload_model');
+  spl_autoload_register('nFramework\autoload_core');
 
   settings_init();
 
