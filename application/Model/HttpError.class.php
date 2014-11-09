@@ -2,53 +2,57 @@
 
 namespace nFramework\Model;
 
+use Exception;
+use nFramework\Exception\AccessDeniedException;
+use nFramework\Exception\ResourceNotFoundException;
+
 class HttpError extends DomainObject {
 
-  const HTTP_ERROR_BAD_REQUEST = 400;
+  const BAD_REQUEST = 400;
 
-  const HTTP_ERROR_UNAUTHORIZED = 401;
+  const UNAUTHORIZED = 401;
 
-  const HTTP_ERROR_ACCESS_DENIED = 403;
+  const ACCESS_DENIED = 403;
 
-  const HTTP_ERROR_NOT_FOUND = 404;
+  const NOT_FOUND = 404;
 
-  const HTTP_ERROR_METHOD_NOT_ALLOWED = 405;
+  const METHOD_NOT_ALLOWED = 405;
 
-  const HTTP_ERROR_NOT_ACCEPTABLE = 406;
+  const NOT_ACCEPTABLE = 406;
 
-  const HTTP_ERROR_PROXY_AUTH_REQUIRED = 407;
+  const PROXY_AUTHENTICATION_REQUIRED = 407;
 
-  const HTTP_ERROR_REQUEST_TIMEOUT = 408;
+  const REQUEST_TIMEOUT = 408;
 
-  const HTTP_ERROR_CONFLICT = 409;
+  const CONFLICT = 409;
 
-  const HTTP_ERROR_GONE = 410;
+  const GONE = 410;
 
-  const HTTP_ERROR_LENGTH_REQUIRED = 411;
+  const LENGTH_REQUIRED = 411;
 
-  const HTTP_ERROR_PRECONDITION_FAILED = 412;
+  const PRECONDITION_FAILED = 412;
 
-  const HTTP_ERROR_REQUEST_ENTITY_TOO_LARGE = 413;
+  const REQUEST_ENTITY_TOO_LARGE = 413;
 
-  const HTTP_ERROR_REQUEST_URI_TOO_LONG = 414;
+  const REQUEST_URI_TOO_LONG = 414;
 
-  const HTTP_ERROR_UNSUPPORTED_MEDIA_TYPE = 415;
+  const UNSUPPORTED_MEDIA_TYPE = 415;
 
-  const HTTP_ERROR_REQUEST_RANGE_NOT_SATISFIABLE = 416;
+  const REQUEST_RANGE_NOT_SATISFIABLE = 416;
 
-  const HTTP_ERROR_EXPECTATION_FAILED = 417;
+  const EXPECTATION_FAILED = 417;
 
-  const HTTP_ERROR_SERVER_ERROR = 500;
+  const SERVER_ERROR = 500;
 
-  const HTTP_ERROR_NOT_IMPLEMENTED = 501;
+  const NOT_IMPLEMENTED = 501;
 
-  const HTTP_ERROR_BAD_GATEWAY = 502;
+  const BAD_GATEWAY = 502;
 
-  const HTTP_ERROR_SERVICE_UNAVAILABLE = 503;
+  const SERVICE_UNAVAILABLE = 503;
 
-  const HTTP_ERROR_GATEWAY_TIMEOUT = 504;
+  const GATEWAY_TIMEOUT = 504;
 
-  const HTTP_ERROR_HTTP_VERSION_NOT_SUPPORTED = 505;
+  const HTTP_VERSION_NOT_SUPPORTED = 505;
 
   protected $code;
 
@@ -59,6 +63,16 @@ class HttpError extends DomainObject {
   protected $requestUrl;
 
   protected $title;
+
+  public static function code(Exception $e) {
+    if ($e instanceof ResourceNotFoundException) {
+      return self::NOT_FOUND;
+    } else if ($e instanceof AccessDeniedException) {
+      return self::ACCESS_DENIED;
+    } else {
+      return self::SERVER_ERROR;
+    }
+  }
 
   public function __construct(array $data = array()) {
     if (isset($data['title'])) {

@@ -3,9 +3,6 @@
 namespace nFramework;
 
 use Exception;
-use nFramework\Exception\AccessDeniedException;
-use nFramework\Exception\ActionNotFoundException;
-use nFramework\Exception\ResourceNotFoundException;
 use nFramework\Model\HttpError;
 
 final class Application {
@@ -33,27 +30,18 @@ final class Application {
 
       $this->dispatch($action, $context);
     } catch (Exception $e) {
-      $action = new HttpErrorViewAction();
-      $context = new Context($request->server());
-
-      if ($e instanceof ResourceNotFoundException) {
-        $code = HttpError::HTTP_ERROR_NOT_FOUND;
-      } else if ($e instanceof AccessDeniedException) {
-        $code = HttpError::HTTP_ERROR_ACCESS_DENIED;
-      } else {
-        $code = HttpError::HTTP_ERROR_SERVER_ERROR;
-      }
-
-      $context->set('uri', $request->path()->value());
-      $context->set('message', $e->getMessage());
-      $context->set('code', $code);
-
-      $this->dispatch($action, $context);
+      $this->handleException($e, $request);
     }
   }
 
   private function handleException(Exception $e, Request $request) {
+    $action = new HttpErrorViewAction();
+    $context = new Context($request->server());
+    $context->set('uri', $request->path()->value());
+    $context->set('message', $e->getMessage());
+    $context->set('code', HttpError::code($e));
 
+    $this->dispatch($action, $context);
   }
 
   private function dispatch(Action $action, Context $context) {
