@@ -21,11 +21,9 @@ final class Application {
   }
 
   public function handle(Request $request) {
-    $controller = new AppController($this->packages);
-
     try {
+      $controller = new AppController($this->packages);
       $action = $controller->build($request)->getAction();
-
       $context = new Context(array_merge(
         $controller->getParameters(),
         $request->get(),
@@ -37,19 +35,25 @@ final class Application {
     } catch (Exception $e) {
       $action = new HttpErrorViewAction();
       $context = new Context();
-      $context->set('uri', $request->path()->value());
-      $context->set('message', $e->getMessage());
 
       if ($e instanceof ResourceNotFoundException) {
-        $context->set('code', HttpError::HTTP_ERROR_NOT_FOUND);
+        $code = HttpError::HTTP_ERROR_NOT_FOUND;
       } else if ($e instanceof AccessDeniedException) {
-        $context->set('code', HttpError::HTTP_ERROR_ACCESS_DENIED);
+        $code = HttpError::HTTP_ERROR_ACCESS_DENIED;
       } else {
-        $context->set('code', HttpError::HTTP_ERROR_SERVER_ERROR);
+        $code = HttpError::HTTP_ERROR_SERVER_ERROR;
       }
+
+      $context->set('uri', $request->path()->value());
+      $context->set('message', $e->getMessage());
+      $context->set('code', $code);
 
       $this->dispatch($action, $context);
     }
+  }
+
+  private function handleException(Exception $e) {
+
   }
 
   private function dispatch(Action $action, Context $context) {
@@ -57,15 +61,16 @@ final class Application {
     $response = $action->execute($context);
     ob_end_clean();
 
+    $this->send($response, $context);
+  }
+
+  private function send(Response $response, Context $context) {
     if (!isset($response->status)) {
       $response->status($context->get('SERVER_PROTOCOL') . ' 200 OK');
     }
 
-    $this->send($response);
-  }
-
-  private function send(Response $response) {
     $response->send();
+    exit();
   }
 
 }

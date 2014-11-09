@@ -25,7 +25,6 @@ class Response {
     header($this->status);
     echo $this->content;
     ob_end_flush();
-    exit();
   }
 
   public function content($content) {
