@@ -6,14 +6,20 @@ class Context {
 
   protected $params = array();
 
-  public function __construct(array $params = array()) {
-    $this->params = $params;
+  public function __construct() {
+    $args = func_get_args();
+
+    foreach ($args as $arg) {
+      $this->params = array_merge($this->params, $arg);
+    }
   }
 
   function set($key, $value, $overwrite = false) {
     if ($overwrite || (!$overwrite && !array_key_exists($key, $this->params))) {
       $this->params[$key] = $value;
     }
+
+    return $this;
   }
 
   function get($key) {

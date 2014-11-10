@@ -21,12 +21,12 @@ final class Application {
     try {
       $controller = new AppController($this->packages);
       $action = $controller->build($request)->getAction();
-      $context = new Context(array_merge(
+      $context = new Context(
         $controller->getParameters(),
         $request->get(),
         $request->post(),
         $request->server()
-      ));
+      );
 
       $this->dispatch($action, $context);
     } catch (Exception $e) {
@@ -35,13 +35,13 @@ final class Application {
   }
 
   private function handleException(Exception $e, Request $request) {
-    $action = new HttpErrorViewAction();
     $context = new Context($request->server());
-    $context->set('uri', $request->path()->value());
-    $context->set('message', $e->getMessage());
-    $context->set('code', HttpError::code($e));
+    $context
+      ->set('uri', $request->path()->value())
+      ->set('message', $e->getMessage())
+      ->set('code', HttpError::code($e));
 
-    $this->dispatch($action, $context);
+    $this->dispatch(new HttpErrorViewAction(), $context);
   }
 
   private function dispatch(Action $action, Context $context) {
