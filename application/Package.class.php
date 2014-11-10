@@ -17,10 +17,13 @@ final class Package {
     $parts = explode(':', $name);
     $this->package = array_pop($parts);
     $this->vendor = array_pop($parts);
-    $this->config = $this->loadConfig($this->vendor, $this->package);
   }
 
   public function getConfig() {
+    if (empty($this->config)) {
+      $this->config = $this->loadConfig($this->vendor, $this->package);
+    }
+
     return $this->config;
   }
 
@@ -34,7 +37,8 @@ final class Package {
       throw new RuntimeException('Paths configuration file was not readable');
     }
 
-    $json = json_decode(file_get_contents($path));
+    $contents = file_get_contents($path);
+    $json = json_decode($contents);
 
     if ($json == null) {
       throw new RuntimeException(json_last_error_msg());
