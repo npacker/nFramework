@@ -13,7 +13,7 @@ function autoload_action($class) {
   $file = explode('\\', $class);
   $namespace = implode(DS, array_splice($file, 0, 2));
   $file = implode(DS, $file);
-  $file = 'packages' . DS . $namespace . DS . 'Controller' . DS . $file . '.class.php';
+  $file = ROOT . DS . 'packages' . DS . $namespace . DS . 'Controller' . DS . $file . '.class.php';
 
   if (is_readable($file)) {
     require_once $file;
@@ -24,7 +24,7 @@ function autoload_model($class) {
   $file = explode('\\', $class);
   $namespace = implode(DS, array_splice($file, 0, 2));
   $file = implode(DS, $file);
-  $file = 'packages' . DS . $namespace . DS . 'Model' . DS . $file . '.class.php';
+  $file = ROOT . DS . 'packages' . DS . $namespace . DS . 'Model' . DS . $file . '.class.php';
 
   if (is_readable($file)) {
     require_once $file;
@@ -33,7 +33,7 @@ function autoload_model($class) {
 
 function autoload_core($class) {
   $file = str_replace('\\', DS, $class);
-  $file = str_replace('nFramework', 'application', $file) . '.class.php';
+  $file = ROOT . DS . str_replace('nFramework', 'application', $file) . '.class.php';
 
   if (is_readable($file)) {
     require_once $file;
@@ -67,6 +67,7 @@ function settings_init() {
 function bootstrap() {
   ini_set('display_errors', 1);
   ini_set('error_reporting', E_ALL & ~E_NOTICE);
+  ini_set('include_path', ROOT);
 
   register_shutdown_function('nFramework\fatal_error_handler');
   set_error_handler('nFramework\error_handler');
