@@ -1,8 +1,8 @@
 /.settings
 /.buildpath
 /.project
-/.DS_Store
+.DS_Store
 /.idea/
-/**/config.php
+config.php
 ckeditor
 
