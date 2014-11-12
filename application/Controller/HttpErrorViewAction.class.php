@@ -51,8 +51,8 @@ class HttpErrorViewAction extends Action {
       'title' => $httpError->getTitle(),
       'page' => new Template('Nigel:WebsitePackage:httperror:view', (array) $httpError)
     ));
-    $template->addStyle('default');
-    $template->addScript('default');
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript('Nigel:WebsitePackage:default');
 
     $response = new Response($template->parse());
 

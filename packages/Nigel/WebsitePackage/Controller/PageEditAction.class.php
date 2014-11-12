@@ -38,8 +38,8 @@ class PageEditAction extends Action {
       'title' => "Editing page <em>{$page->getTitle()}</em>",
       'page' => new Template('Nigel:WebsitePackage:page:edit', $variables)
     ));
-    $template->addStyle('default');
-    $template->addScript(array('default', 'jquery', 'ckeditor/ckeditor', 'editor'));
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript(array('Nigel:WebsitePackage:default', 'Nigel:WebsitePackage:jquery', 'Nigel:WebsitePackage:ckeditor:ckeditor', 'Nigel:WebsitePackage:editor'));
 
     return new Response($template->parse());
   }

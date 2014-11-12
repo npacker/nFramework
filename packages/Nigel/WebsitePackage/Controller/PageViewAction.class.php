@@ -35,8 +35,8 @@ class PageViewAction extends Action {
       'title' => $title,
       'page' => $content
     ));
-    $template->addStyle('default');
-    $template->addScript('default');
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript('Nigel:WebsitePackage:default');
 
     return new Response($template->parse());
   }

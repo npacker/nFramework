@@ -14,8 +14,8 @@ class DefaultViewAction extends Action {
      'title' => 'Welcome',
      'page' => '<p>No homepage has been set.</p>'
     ));
-    $template->addStyle('default');
-    $template->addScript('default');
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript('Nigel:WebsitePackage:default');
 
     return new Response($template->parse());
   }

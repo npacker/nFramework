@@ -44,8 +44,8 @@ class LoginAction extends Action {
         'action' => base_url() . base_path() . '/login'
       ))
     ));
-    $template->addStyle('default');
-    $template->addScript('default');
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript('Nigel:WebsitePackage:default');
 
     return $response->content($template->parse());
   }

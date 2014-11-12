@@ -32,8 +32,8 @@ class PageCreateAction extends Action {
         'action' => base_url() . base_path() . '/page/create'
       ))
     ));
-    $template->addStyle('default');
-    $template->addScript(array('default', 'jquery', 'ckeditor/ckeditor', 'editor'));
+    $template->addStyle('Nigel:WebsitePackage:default');
+    $template->addScript(array('Nigel:WebsitePackage:default', 'Nigel:WebsitePackage:jquery', 'Nigel:WebsitePackage:ckeditor:ckeditor', 'Nigel:WebsitePackage:editor'));
 
     return $response->content($template->parse());
   }
