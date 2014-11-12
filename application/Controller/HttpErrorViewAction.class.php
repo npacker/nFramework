@@ -11,9 +11,10 @@ use nFramework\Response;
 class HttpErrorViewAction extends Action {
 
   public function execute(Context $context) {
-    $uri = $context->get('uri');
     $code = $context->get('code');
+    $uri = $context->get('uri');
     $message = $context->get('message');
+    $level = ($code < 500) ? 'warning' : 'error';
     $protocol = $context->get('SERVER_PROTOCOL');
 
     switch ($code) {
@@ -33,12 +34,6 @@ class HttpErrorViewAction extends Action {
         $status = "{$protocol} 500 Internal Server Error";
     }
 
-    if ($code < 500) {
-      $level = 'warning';
-    } else {
-      $level = 'error';
-    }
-
     $httpError = new HttpError(array(
       'title' => $title,
       'code' => $code,
@@ -52,10 +47,11 @@ class HttpErrorViewAction extends Action {
       'content' => new Template('::HttpError:View', (array) $httpError),
       'level' => $httpError->getLevel()
     ));
-    $template->addStyle('::normalize');
-    $template->addStyle('::layout');
-    $template->addStyle('::typography');
-    $template->addStyle('::color');
+    $template
+      ->addStyle('::normalize')
+      ->addStyle('::layout')
+      ->addStyle('::typography')
+      ->addStyle('::color');
 
     $response = new Response($template->parse());
 
