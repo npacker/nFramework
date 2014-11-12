@@ -2,17 +2,17 @@
 
 namespace nFramework\View;
 
-class Template {
+final class Template {
 
-  protected $css = array();
+  private $css = array();
 
-  protected $data = array();
+  private $data = array();
 
-  protected $js = array();
+  private $js = array();
 
-  protected $template;
+  private $template;
 
-  protected $variables = array();
+  private $variables = array();
 
   public function __construct($template, array $data = array()) {
     $this->processIncludePath($template);
@@ -71,7 +71,23 @@ class Template {
     return ob_get_clean();
   }
 
-  protected function parseData($data) {
+  private function linkAsset($asset) {
+    if (preg_match('/^http:\/\/.+$/', $assert)) {
+      return $asset;
+    }
+
+    $parts = explode(':', $asset);
+    $namespace = implode(DS, array_splice($parts, 0, 2));
+    $filename = implode(DS, $parts);
+
+    if (strpos($asset, '::') === 0) {
+      return '/application/resources/' . $filename;
+    } else {
+      return '/public/' . $filename;
+    }
+  }
+
+  private function parseData($data) {
     foreach ($data as $key => $value) {
       $processedKey = trim($key, "*\0");
 
@@ -87,43 +103,60 @@ class Template {
     }
   }
 
-  protected function parseStyles($css) {
+  private function parseStyles($css) {
     $basePath = base_path();
     $baseUrl = base_url();
     $style = '';
     $format = "<link rel=\"stylesheet\" href=\"%s%s/public/css/%s.css\" type=\"text/css\" media=\"screen\">\n";
 
     foreach ($css as $stylesheet) {
-      $stylesheet = str_replace('/', DS, $stylesheet);
+      $parts = exlode(':', $stylesheet);
+      $namespace = implode('/', array_splice($parts, 0, 2));
+      $filename = implode('/', $parts);
+
       $style .= sprintf($format, $baseUrl, $basePath, $stylesheet);
     }
 
     $this->setVariable('style', $style);
   }
 
-  protected function parseScripts($js) {
+  private function parseScripts($js) {
     $basePath = base_path();
     $baseUrl = base_url();
     $script = '';
     $format = "<script type=\"text/javascript\" src=\"%s%s/public/js/%s.js\"></script>\n";
 
     foreach ($js as $javascript) {
-      $javascript = str_replace('/', DS, $javascript);
+      $parts = exlode(':', $javascript);
+      $namespace = implode('/', array_splice($parts, 0, 2));
+      $filename = implode('/', $parts);
+
       $script .= sprintf($format, $baseUrl, $basePath, $javascript);
     }
 
     $this->setVariable('script', $script);
   }
 
-  protected function processIncludePath($template) {
-    $file = explode(':', $template);
-    $namespace = implode(DS, array_splice($file, 0, 2));
-    $file = implode(DS, $file);
+  private function processIncludePath($template) {
+    $parts = explode(':', $template);
+    $namespace = implode(DS, array_splice($parts, 0, 2));
+    $filename = implode(DS, $parts);
 
-    $this->template = ROOT . DS . 'packages' . DS . $namespace . DS . 'templates' . DS . $file . '.tpl.php';
+    if (strpos($template, '::') === 0) {
+      $file = ROOT . DS . 'application' . DS . 'templates' . DS . $filename . '.tpl.php';
+    } else {
+      $file = ROOT . DS . 'packages' . DS . $namespace . DS . 'templates' . DS . $filename . '.tpl.php';
+    }
+
+    $this->template = $file;
   }
 
-  protected function setVariable($key, $value) {
+  private function extractNamespace(&$token) {
+    $parts = explode(':', $token);
+    $namespace = implode(DS, array_splice($parts, 0, 2));
+  }
+
+  private function setVariable($key, $value) {
     $this->variables[$key] = $value;
   }
 

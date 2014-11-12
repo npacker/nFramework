@@ -1,6 +1,6 @@
 <?php
 
-namespace nFramework;
+namespace nFramework\Controller;
 
 use nFramework\Action;
 use nFramework\Context;
