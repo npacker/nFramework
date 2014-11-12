@@ -1,3 +1,30 @@
 @CHARSET "UTF-8";
 
-@import url('font.css');
+@font-face {
+  font-family: 'Open Sans';
+  font-weight: normal;
+  font-style: normal;
+  src: url('../fonts/open_sans/OpenSans-Light-webfont.eot');
+  src: url('../fonts/open_sans/OpenSans-Light-webfont.eot?#iefix') format('embedded-opentype'),
+       url('../fonts/open_sans/OpenSans-Light-webfont.woff') format('woff'),
+       url('../fonts/open_sans/OpenSans-Light-webfont.ttf') format('truetype'),
+       url('../fonts/open_sans/OpenSans-Light-webfont.svg#open_sanslight') format('svg');
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  font-size: 100%;
+  line-height: 1.5;
+}
+
+h1 {
+  font-size: 350%;
+}
+
+h2 {
+  font-size: 250%;
+}
+
+.message article {
+  font-size: 125%;
+}

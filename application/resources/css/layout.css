@@ -1,1 +1,35 @@
 @CHARSET "UTF-8";
+
+body {
+  padding: 3em 15%;
+}
+
+header h1:before {
+  content: ' ';
+  width: 50px;
+  height: 1.5em;
+  float: left;
+  margin-right: 0.25em;
+}
+
+.content {
+  padding: 3em;
+}
+
+.message .content h2:before {
+  content: ' ';
+  float: left;
+  margin-right: 0.5em;
+}
+
+.error h2:before, .warning h2:before {
+  width: 86px;
+  height: 86px;
+}
+
+@media all and (min-width:1366px) {
+  
+body {
+  padding-left: 25%;
+  padding-right: 25%;
+}

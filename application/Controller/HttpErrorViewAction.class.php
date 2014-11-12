@@ -34,9 +34,9 @@ class HttpErrorViewAction extends Action {
     }
 
     if ($code < 500) {
-      $level = 'warn';
+      $level = 'warning';
     } else {
-      $level = 'critical';
+      $level = 'error';
     }
 
     $httpError = new HttpError(array(
@@ -47,12 +47,15 @@ class HttpErrorViewAction extends Action {
       'level' => $level
     ));
 
-    $template = new Template('Nigel:WebsitePackage:html', array(
+    $template = new Template('::base', array(
       'title' => $httpError->getTitle(),
-      'page' => new Template('Nigel:WebsitePackage:httperror:view', (array) $httpError)
+      'content' => new Template('::HttpError:View', (array) $httpError),
+      'level' => $httpError->getLevel()
     ));
-    $template->addStyle('Nigel:WebsitePackage:default');
-    $template->addScript('Nigel:WebsitePackage:default');
+    $template->addStyle('::normalize');
+    $template->addStyle('::layout');
+    $template->addStyle('::typography');
+    $template->addStyle('::color');
 
     $response = new Response($template->parse());
 
