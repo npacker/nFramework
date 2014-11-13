@@ -20,7 +20,6 @@ class PathMatcher {
 
     if (preg_match($this->regex, $path->value(), $values) == 1) {
       array_shift($values);
-
       $this->parameterValues = $values;
 
       return true;
@@ -30,11 +29,13 @@ class PathMatcher {
   }
 
   public function getParameters() {
+    $parameters = array();
+
     if ($this->parameterNames && $this->parameterValues) {
-      return array_combine($this->parameterNames, $this->parameterValues);
+      $parameters = array_combine($this->parameterNames, $this->parameterValues);
     }
 
-    return array();
+    return $parameters;
   }
 
   protected function buildRegex($pattern) {
