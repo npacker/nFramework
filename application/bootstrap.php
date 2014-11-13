@@ -4,7 +4,6 @@ namespace nFramework;
 
 use Exception;
 use ErrorException;
-use nFramework\Exception\FileNotFoundException;
 
 define('DS', DIRECTORY_SEPARATOR);
 define('ROOT', getcwd());
