@@ -11,16 +11,12 @@ abstract class DataMapper implements iDataMapper {
   public function __construct() {
     global $databases;
 
-    $hostname = $databases['default']['hostname'];
-    $database = $databases['default']['database'];
-    $username = $databases['default']['username'];
-    $password = $databases['default']['password'];
-
     $this->database = MySqlDatabase::instance(
-      $hostname,
-      $database,
-      $username,
-      $password);
+      $databases['default']['hostname'],
+      $databases['default']['database'],
+      $databases['default']['username'],
+      $databases['default']['password']
+    );
   }
 
   abstract public function create(DomainObject $object);
