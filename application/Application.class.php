@@ -3,8 +3,8 @@
 namespace nFramework;
 
 use Exception;
-use nFramework\Controller\HttpErrorViewAction;
 use nFramework\Model\HttpError;
+use nFramework\Controller\HttpErrorViewAction;
 
 final class Application {
 
