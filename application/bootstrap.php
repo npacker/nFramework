@@ -49,11 +49,11 @@ function fatal_error_handler() {
 
 function error_handler($errno, $errstr, $errfile, $errline) {
   ob_end_clean();
-  throw new ErrorException($errstr, 0, $errno, $errfile, $errline);
+  throw new ErrorException(sprintf('%s in %s on line %d', $errstr, $errfile, $errline), 0, $errno, $errfile, $errline);
 }
 
 function exception_handler(Exception $exception) {
-  echo 'Uncaught exception: ' . $exception->getMessage() . ' on line ' . $exception->getLine() . ' of ' . $exception->getFile();
+  echo sprintf('Uncaught exception: %s on line %d of %s', $exception->getMessage(), $exception->getLine(), $exception->getFile());
   exit();
 }
 
