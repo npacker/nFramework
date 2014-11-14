@@ -79,20 +79,21 @@ final class Template {
     }
 
     $filename = $asset;
-    $namespace = null;
-    $this->extractAssetNamespace($filename, $namespace, '/');
+    $namespace = $this->extractAssetNamespace($filename, '/');
 
-    if (strpos($asset, '::') === 0) {
-      return '/application/resources/' . $type . '/' . $filename . '.' . $type;
+    if ($namespace == '/') {
+      return sprintf('%s%s/application/resources/%s/%s.%s', base_url(), base_path(), $type, $filename
     } else {
-      return '/public/' . $type . '/' . $filename . '.' . $type;
+      return sprintf('%s%s/public/%s/%s.%s', base_url(), base_path(), $type, $filename, $type);
     }
   }
 
-  private function extractAssetNamespace(&$asset, &$namespace, $separator = DS) {
+  private function extractAssetNamespace(&$asset, $separator = DS) {
     $parts = explode(':', $asset);
     $namespace = implode($separator, array_splice($parts, 0, 2));
     $asset = implode($separator, $parts);
+
+    return $namespace;
   }
 
   private function parseData($data) {
@@ -112,28 +113,24 @@ final class Template {
   }
 
   private function parseStyles($css) {
-    $basePath = base_path();
-    $baseUrl = base_url();
     $style = '';
-    $format = "<link rel=\"stylesheet\" href=\"%s%s%s\" type=\"text/css\" media=\"screen\">\n";
+    $format = "<link rel=\"stylesheet\" href=\"%s\" type=\"text/css\" media=\"screen\">\n";
 
     foreach ($css as $stylesheet) {
       $stylesheet = $this->createAssetPath($stylesheet, 'css');
-      $style .= sprintf($format, $baseUrl, $basePath, $stylesheet);
+      $style .= sprintf($format, $stylesheet);
     }
 
     $this->setVariable('style', $style);
   }
 
   private function parseScripts($js) {
-    $basePath = base_path();
-    $baseUrl = base_url();
     $script = '';
-    $format = "<script type=\"text/javascript\" src=\"%s%s%s\"></script>\n";
+    $format = "<script type=\"text/javascript\" src=\"%s\"></script>\n";
 
     foreach ($js as $javascript) {
       $javascript = $this->createAssetPath($javascript, 'js');
-      $script .= sprintf($format, $baseUrl, $basePath, $javascript);
+      $script .= sprintf($format, $javascript);
     }
 
     $this->setVariable('script', $script);
@@ -141,10 +138,9 @@ final class Template {
 
   private function processIncludePath($template) {
     $filename = $template;
-    $namespace = null;
-    $this->extractAssetNamespace($filename, $namespace);
+    $namespace = $this->extractAssetNamespace($filename);
 
-    if (strpos($template, '::') === 0) {
+    if ($namespace == '/') {
       $file = ROOT . DS . 'application' . DS . 'templates' . DS . $filename . '.tpl.php';
     } else {
       $file = ROOT . DS . 'packages' . DS . $namespace . DS . 'templates' . DS . $filename . '.tpl.php';
