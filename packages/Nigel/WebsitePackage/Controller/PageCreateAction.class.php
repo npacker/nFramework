@@ -40,7 +40,7 @@ class PageCreateAction extends Action {
       'Nigel:WebsitePackage:editor'
     ));
 
-    return $response->content($template->parse());
+    return $response->content($template->render());
   }
 
 }

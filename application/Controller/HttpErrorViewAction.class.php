@@ -53,7 +53,7 @@ class HttpErrorViewAction extends Action {
       ->addStyle('::typography')
       ->addStyle('::color');
 
-    $response = new Response($template->parse());
+    $response = new Response($template->render());
 
     return $response->status($status);
   }

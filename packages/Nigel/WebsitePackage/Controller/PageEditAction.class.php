@@ -41,7 +41,7 @@ class PageEditAction extends Action {
     $template->addStyle('Nigel:WebsitePackage:default');
     $template->addScript(array('Nigel:WebsitePackage:default', 'Nigel:WebsitePackage:jquery', 'Nigel:WebsitePackage:ckeditor:ckeditor', 'Nigel:WebsitePackage:editor'));
 
-    return new Response($template->parse());
+    return new Response($template->render());
   }
 
 }

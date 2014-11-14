@@ -17,7 +17,7 @@ class DefaultViewAction extends Action {
     $template->addStyle('Nigel:WebsitePackage:default');
     $template->addScript('Nigel:WebsitePackage:default');
 
-    return new Response($template->parse());
+    return new Response($template->render());
   }
 
 }

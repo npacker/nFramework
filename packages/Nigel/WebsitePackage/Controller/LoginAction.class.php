@@ -47,7 +47,7 @@ class LoginAction extends Action {
     $template->addStyle('Nigel:WebsitePackage:default');
     $template->addScript('Nigel:WebsitePackage:default');
 
-    return $response->content($template->parse());
+    return $response->content($template->render());
   }
 
 }

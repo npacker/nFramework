@@ -61,7 +61,7 @@ final class Template {
     return $this->js;
   }
 
-  public function parse() {
+  public function render() {
     $this->parseData($this->data);
     $this->parseStyles($this->css);
     $this->parseScripts($this->js);
@@ -100,7 +100,7 @@ final class Template {
       $processedKey = trim($key, "*\0");
 
       if ($value instanceof Template) {
-        $processedValue = $value->parse();
+        $processedValue = $value->render();
         $this->addStyle($value->getStyle());
         $this->addScript($value->getScript());
       } else {
