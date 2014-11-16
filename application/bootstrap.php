@@ -43,7 +43,8 @@ function fatal_error_handler() {
   $error = error_get_last();
 
   if ($error['type'] == E_ERROR) {
-    error_handler($error['type'], $error['message'], $error['file'], $error['line']);
+    echo sprintf('Fatal error: %s in %s on line %d', $error['message'], $error['file'], $error['line']);
+    exit();
   }
 }
 
@@ -64,8 +65,8 @@ function settings_init() {
 }
 
 function bootstrap() {
-  ini_set('display_errors', 1);
-  ini_set('error_reporting', E_ALL & ~E_NOTICE);
+  ini_set('display_errors', 0);
+  ini_set('error_reporting', E_ALL);
   ini_set('include_path', ROOT);
 
   register_shutdown_function('nFramework\fatal_error_handler');

@@ -82,7 +82,7 @@ final class Template {
     $namespace = $this->extractAssetNamespace($filename, '/');
 
     if ($namespace == '/') {
-      return sprintf('%s%s/application/resources/%s/%s.%s', base_url(), base_path(), $type, $filename
+      return sprintf('%s%s/application/resources/%s/%s.%s', base_url(), base_path(), $type, $filename, $type);
     } else {
       return sprintf('%s%s/public/%s/%s.%s', base_url(), base_path(), $type, $filename, $type);
     }
