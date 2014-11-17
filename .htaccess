@@ -1,9 +1,13 @@
 Options -Indexes
 Options +FollowSymLinks
 
-ErrorDocument 404 /index.php
+ErrorDocument 404 index.php
 
 DirectoryIndex index.php
+
+<FilesMatch "\.((class|tpl)\.php|json)$">
+  Order allow,deny
+</FilesMatch>
 
 <IfModule mod_rewrite.c>
   RewriteEngine on
