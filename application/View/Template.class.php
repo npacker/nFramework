@@ -140,7 +140,7 @@ final class Template {
     $filename = $template;
     $namespace = $this->extractAssetNamespace($filename);
 
-    if ($namespace == '/') {
+    if ($namespace == DS) {
       $file = ROOT . DS . 'application' . DS . 'templates' . DS . $filename . '.tpl.php';
     } else {
       $file = ROOT . DS . 'packages' . DS . $namespace . DS . 'templates' . DS . $filename . '.tpl.php';
