@@ -24,6 +24,7 @@ final class Application {
       $action = $controller->build($request)->getAction();
       $context = new Context(
         $controller->getParameters(),
+        $request->cookie(),
         $request->get(),
         $request->post(),
         $request->server()

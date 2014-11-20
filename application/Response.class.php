@@ -10,6 +10,8 @@ class Response {
 
   protected $content;
 
+  protected $cookies = array();
+
   public function __construct($content = null) {
    $this->content = $content;
   }
@@ -22,6 +24,10 @@ class Response {
       exit();
     }
 
+    foreach ($this->cookies as $cookieName => $cookieValue) {
+      setcookie($cookieName, $cookieValue);
+    }
+
     header($this->status);
     echo $this->content;
     ob_end_flush();
@@ -29,6 +35,12 @@ class Response {
 
   public function content($content) {
     $this->content= $content;
+
+    return $this;
+  }
+
+  public function cookie($name, $value = "") {
+    $this->cookies[$name] = $value;
 
     return $this;
   }
