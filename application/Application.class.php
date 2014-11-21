@@ -31,6 +31,7 @@ final class Application {
 
       $this->dispatch($action, $context);
     } catch (Exception $e) {
+      ob_end_clean();
       $this->handleException($e, $request);
     }
   }
