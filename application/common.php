@@ -30,3 +30,7 @@ function is_secure() {
 function protocol() {
   return (is_secure()) ? 'https' : 'http';
 }
+
+function url() {
+  return base_url() . base_path() . '/';
+}
