@@ -4,7 +4,7 @@ namespace nFramework\Model\Validator;
 
 use nFramework\Exception\InvalidInputException;
 
-class ValidOption extends ValidationStrategy {
+class Option extends ValidationStrategy {
 
   private $options;
 

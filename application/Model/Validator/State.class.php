@@ -4,7 +4,7 @@ namespace nFramework\Model\Validator;
 
 use nFramework\Exception\InvalidInputException;
 
-class ValidState extends ValidOption {
+class State extends ValidOption {
 
   public function __construct() {
     parent::__construct('State', array(

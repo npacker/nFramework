@@ -4,7 +4,7 @@ namespace nFramework\Model\Validator;
 
 use nFramework\Exception\InvalidInputException;
 
-class ValidNumber extends ValidationStrategy {
+class Number extends ValidationStrategy {
 
   private $max;
 

@@ -4,7 +4,7 @@ namespace nFramework\Model\Validator;
 
 use nFramework\Exception\InvalidInputException;
 
-class ValidEmail extends ValidationStrategy {
+class Email extends ValidationStrategy {
 
   public function __construct() {
     parent::__construct('Email');

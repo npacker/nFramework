@@ -4,7 +4,7 @@ namespace nFramework\Model\Validator;
 
 use nFramework\Exception\InvalidInputException;
 
-class ValidString extends ValidationStrategy {
+class String extends ValidationStrategy {
 
   private $regex;
 
