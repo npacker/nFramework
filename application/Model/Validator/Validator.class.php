@@ -2,8 +2,6 @@
 
 namespace nFramework\Model\Validator;
 
-use nFramework\Exception\InvalidInputException;
-
 class Validator {
 
   private $data;
