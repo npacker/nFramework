@@ -15,12 +15,18 @@ function base_path() {
 
 function base_url() {
   static $base_url;
-  
+
   if (!isset($base_url)) {
     $base_url = protocol() . '://' . $_SERVER['HTTP_HOST'];
   }
-  
+
   return $base_url;
+}
+
+function clean_all_buffers() {
+  while (ob_get_level() != 0) {
+    ob_end_clean();
+  }
 }
 
 function is_secure() {

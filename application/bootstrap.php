@@ -49,7 +49,7 @@ function fatal_error_handler() {
 }
 
 function error_handler($errno, $errstr, $errfile, $errline) {
-  ob_end_clean();
+  clean_all_buffers();
   throw new ErrorException(sprintf('%s in %s on line %d', $errstr, $errfile, $errline), 0, $errno, $errfile, $errline);
 }
 

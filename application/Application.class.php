@@ -32,7 +32,7 @@ final class Application {
 
       $this->dispatch($action, $context);
     } catch (Exception $e) {
-      ob_end_clean();
+      clean_all_buffers();
       $this->handleException($e, $request);
     }
   }
