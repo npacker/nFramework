@@ -42,7 +42,10 @@ function autoload_core($class) {
 function fatal_error_handler() {
   $error = error_get_last();
 
-  if ($error['type'] == E_ERROR) {
+  switch ($error['type']) {
+    case E_ERROR:
+    case E_PARSE:
+    case E_COMPILE_ERROR:
     echo sprintf('Fatal error: %s in %s on line %d', $error['message'], $error['file'], $error['line']);
     exit();
   }
@@ -67,6 +70,7 @@ function settings_init() {
 function bootstrap() {
   ini_set('display_errors', 0);
   ini_set('error_reporting', E_ALL);
+  ini_set('session.cookie_httponly', 1);
   ini_set('include_path', ROOT);
 
   register_shutdown_function('nFramework\fatal_error_handler');
