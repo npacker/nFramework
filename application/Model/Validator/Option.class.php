@@ -19,7 +19,7 @@ class Option extends ValidationStrategy {
     }
   }
 
-  protected function getOptions() {
+  final protected function getOptions() {
     return $this->options;
   }
 

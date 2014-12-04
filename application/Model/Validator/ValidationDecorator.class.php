@@ -15,10 +15,10 @@ abstract class ValidationDecorator extends ValidationStrategy {
   }
 
   final public function validate($input) {
-    $this->preValidate($input);
+    $this->prevalidate($input);
     $this->validationStrategy->validate($input);
   }
 
-  abstract protected function preValidate($input);
+  abstract protected function prevalidate($input);
 
 }
