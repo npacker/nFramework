@@ -28,8 +28,7 @@ final class Package {
   }
 
   private function loadConfig($vendor, $package) {
-    $dir = $vendor . DS . $package;
-    $path = ROOT . DS . 'packages' . DS . $dir . DS . 'config' . DS . 'paths.json';
+    $path = ROOT . DS . 'packages' . DS . $vendor . DS . $package . DS . 'config' . DS . 'paths.json';
 
     if (!file_exists($path)) {
       throw new FileNotFoundException('Paths configuration file could not be loaded.');

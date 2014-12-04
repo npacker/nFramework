@@ -16,6 +16,10 @@ class Response {
    $this->content = $content;
   }
 
+  public function __isset($field) {
+   return isset($this->$field);
+  }
+
   public function send() {
     ob_start();
 
@@ -39,7 +43,7 @@ class Response {
     return $this;
   }
 
-  public function cookie($name, $value = "") {
+  public function cookie($name, $value = '') {
     $this->cookies[$name] = $value;
 
     return $this;
@@ -55,10 +59,6 @@ class Response {
     $this->status = $status;
 
     return $this;
-  }
-
-  public function __isset($field) {
-   return isset($this->$field);
   }
 
 }

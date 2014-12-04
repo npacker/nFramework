@@ -11,13 +11,13 @@ final class AppController {
 
   private $packages;
 
+  private $parameters;
+
   private $path;
 
   private $paths;
 
   private $view;
-
-  private $parameters;
 
   public function __construct(array $packages) {
     $this->packages = $packages;
