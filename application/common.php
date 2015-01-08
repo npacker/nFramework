@@ -38,5 +38,12 @@ function protocol() {
 }
 
 function url() {
-  return base_url() . base_path() . '/';
+  $argv = func_get_args();
+  $url = base_url() . base_path();
+
+  foreach ($argv as $arg) {
+    $url .= '/' . $arg;
+  }
+
+  return $url;
 }

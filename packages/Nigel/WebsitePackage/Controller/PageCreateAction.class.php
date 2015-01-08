@@ -21,7 +21,7 @@ class PageCreateAction extends Action {
       $page->setContent($content);
       $mapper->create($page);
 
-      return $response->redirect(base_url() . base_path() . '/page/' . $page->getId());
+      return $response->redirect(url('page', $page->getId()));
     }
 
     $template = new Template('Nigel:WebsitePackage:html', array(
@@ -29,7 +29,7 @@ class PageCreateAction extends Action {
       'page' => new Template('Nigel:WebsitePackage:page:edit', array(
         'title' => '',
         'content' => '',
-        'action' => base_url() . base_path() . '/page/create'
+        'action' => url('page', 'create'),
       ))
     ));
     $template->addStyle('Nigel:WebsitePackage:default');

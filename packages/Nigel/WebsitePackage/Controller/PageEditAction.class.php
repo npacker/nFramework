@@ -32,14 +32,19 @@ class PageEditAction extends Action {
     }
 
     $variables = (array) $page;
-    $variables['action'] = base_url() . base_path() . '/page/' . $id . '/edit';
+    $variables['action'] = url('page', $id, 'edit');
 
     $template = new Template('Nigel:WebsitePackage:html', array(
       'title' => "Editing page <em>{$page->getTitle()}</em>",
       'page' => new Template('Nigel:WebsitePackage:page:edit', $variables)
     ));
     $template->addStyle('Nigel:WebsitePackage:default');
-    $template->addScript(array('Nigel:WebsitePackage:default', 'Nigel:WebsitePackage:jquery', 'Nigel:WebsitePackage:ckeditor:ckeditor', 'Nigel:WebsitePackage:editor'));
+    $template->addScript(array(
+      'Nigel:WebsitePackage:default',
+      'Nigel:WebsitePackage:jquery',
+      'Nigel:WebsitePackage:ckeditor:ckeditor',
+      'Nigel:WebsitePackage:editor',
+    ));
 
     return new Response($template->render());
   }

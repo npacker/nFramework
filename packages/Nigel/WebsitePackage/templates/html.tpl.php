@@ -9,7 +9,7 @@
 <body>
   <div id="envelope">
     <div id="header">
-      <h1><a href="<?php echo base_url(), base_path() ?>/">Nigel Packer</a></h1>
+      <h1><a href="<?php echo url() ?>">Nigel Packer</a></h1>
       <?php // echo $navigation; ?>
     </div>
     <div id="body">

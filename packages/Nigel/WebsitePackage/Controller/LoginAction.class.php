@@ -17,7 +17,7 @@ class LoginAction extends Action {
     $session->start();
 
     if ($session->valid()) {
-      return $response->redirect(base_url() . base_path() . '/');
+      return $response->redirect(url());
     }
 
     $username = $context->get('username');
@@ -32,7 +32,7 @@ class LoginAction extends Action {
       if (hash('sha256', $password) == $user->getPassword()) {
         $session->validate($context);
 
-        return $response->redirect(base_url() . base_path() . '/');
+        return $response->redirect(url());
       }
 
       throw new AccessDeniedException('Incorrect username or password');
@@ -41,7 +41,7 @@ class LoginAction extends Action {
     $template = new Template('Nigel:WebsitePackage:html', array(
       'title' => 'Login',
       'page' => new Template('Nigel:WebsitePackage:login:login', array(
-        'action' => base_url() . base_path() . '/login'
+        'action' => url('login')
       ))
     ));
     $template->addStyle('Nigel:WebsitePackage:default');

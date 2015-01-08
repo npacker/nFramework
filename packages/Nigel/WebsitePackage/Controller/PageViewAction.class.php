@@ -19,8 +19,6 @@ class PageViewAction extends Action {
       $title = 'All Content';
       $content = new Template('Nigel:WebsitePackage:page:index', array(
         'pages' => $pages,
-        'base_url' => base_url(),
-        'base_path' => base_path()
       ));
     } else {
       $page = new Page();

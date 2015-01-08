@@ -15,7 +15,7 @@ class LogoutAction extends Action {
     $session->destroy();
     $response = new Response();
 
-    return $response->redirect(base_url() . base_path() . '/');
+    return $response->redirect(url());
   }
 
 }
