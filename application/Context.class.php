@@ -4,7 +4,7 @@ namespace nFramework;
 
 class Context {
 
-  protected $params = array();
+  private $params = array();
 
   public function __construct() {
     $args = func_get_args();
@@ -14,7 +14,7 @@ class Context {
     }
   }
 
-  function set($key, $value, $overwrite = false) {
+  public function set($key, $value, $overwrite = false) {
     if ($overwrite || (!$overwrite && !array_key_exists($key, $this->params))) {
       $this->params[$key] = $value;
     }
@@ -22,7 +22,7 @@ class Context {
     return $this;
   }
 
-  function get($key) {
+  public function get($key) {
     return array_key_exists($key, $this->params) ? $this->params[$key] : null;
   }
 
