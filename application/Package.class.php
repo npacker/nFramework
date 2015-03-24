@@ -2,8 +2,8 @@
 
 namespace nFramework;
 
-use RuntimeException;
-use nFramework\Exception\FileNotFoundException;
+use nFramework\IO\File\FileReader;
+use nFramework\IO\File\JsonParser;
 
 final class Package {
 
@@ -29,21 +29,10 @@ final class Package {
 
   private function loadConfig($vendor, $package) {
     $path = ROOT . DS . 'packages' . DS . $vendor . DS . $package . DS . 'config' . DS . 'paths.json';
+    $fileReader = new FileReader($path);
+    $jsonParser = new JsonParser($fileReader->read());
 
-    if (!file_exists($path)) {
-      throw new FileNotFoundException('Paths configuration file could not be loaded.');
-    } else if (!is_readable($path)) {
-      throw new RuntimeException('Paths configuration file was not readable');
-    }
-
-    $contents = file_get_contents($path);
-    $json = json_decode($contents);
-
-    if ($json == null) {
-      throw new RuntimeException(json_last_error_msg());
-    }
-
-    return $json;
+    return $jsonParser->readObject();
   }
 
 }
