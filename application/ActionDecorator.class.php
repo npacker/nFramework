@@ -6,7 +6,7 @@ abstract class ActionDecorator extends Action {
 
   protected $action;
 
-  public function __construct(Action $action) {
+  final public function __construct(Action $action) {
     $this->action = $action;
   }
 

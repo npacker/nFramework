@@ -9,24 +9,31 @@ use nFramework\Response;
 
 class PageViewAction extends Action {
 
+  private $page;
+
+  private $pageMapper;
+
+  public function __construct(Page $page, PageMapper $pageMapper) {
+    $this->page = $page;
+    $this->pageMapper = $pageMapper;
+  }
+
   public function execute(Context $context) {
-    $mapper = new PageMapper();
     $id = $context->get('id');
 
     if ($id == 'all') {
-      $pages = $mapper->findAll();
+      $pages = $this->pageMapper->findAll();
 
       $title = 'All Content';
       $content = new Template('Nigel:WebsitePackage:page:index', array(
         'pages' => $pages,
       ));
     } else {
-      $page = new Page();
-      $page->setId($id);
-      $mapper->find($page);
+      $this->page->setId($id);
+      $this->pageMapper->find($this->page);
 
-      $title = $page->getTitle();
-      $content = new Template('Nigel:WebsitePackage:page:view', (array) $page);
+      $title = $this->page->getTitle();
+      $content = new Template('Nigel:WebsitePackage:page:view', (array) $this->page);
     }
 
     $template = new Template('Nigel:WebsitePackage:html', array(

@@ -9,33 +9,40 @@ use nFramework\Response;
 
 class PageEditAction extends Action {
 
+  private $page;
+
+  private $pageMapper;
+
+  public function __construct(Page $page, PageMapper $pageMapper) {
+    $this->page = $page;
+    $this->pageMapper = $pageMapper;
+  }
+
   public function execute(Context $context) {
-    $mapper = new PageMapper();
-    $page = new Page();
     $id = $context->get('id');
     $title = $context->get('title');
     $content = $context->get('content');
-    $page->setId($id);
+    $this->page->setId($id);
 
     if (isset($title) && isset($content)) {
-      $page->setTitle($title);
-      $page->setContent($content);
-      $mapper->update($page);
+      $this->page->setTitle($title);
+      $this->page->setContent($content);
+      $this->pageMapper->update($this->page);
     } else {
-      $mapper->find($page);
+      $this->pageMapper->find($this->page);
     }
 
-    $title = $page->getTitle();
+    $title = $this->page->getTitle();
 
     if (empty($title)) {
       throw new ResourceNotFoundException('The page could not be found.');
     }
 
-    $variables = (array) $page;
+    $variables = (array) $this->page;
     $variables['action'] = url('page', $id, 'edit');
 
     $template = new Template('Nigel:WebsitePackage:html', array(
-      'title' => "Editing page <em>{$page->getTitle()}</em>",
+      'title' => "Editing page <em>{$this->page->getTitle()}</em>",
       'page' => new Template('Nigel:WebsitePackage:page:edit', $variables)
     ));
     $template->addStyle('Nigel:WebsitePackage:default');

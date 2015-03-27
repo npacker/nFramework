@@ -1,0 +1,13 @@
+{
+
+  "database": {
+    "default": {
+      "hostname": "localhost",
+      "port": 3306,
+      "database": "mvc",
+      "username": "php",
+      "password": "password"
+    }
+  }
+
+}

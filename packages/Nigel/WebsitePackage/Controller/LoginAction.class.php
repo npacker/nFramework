@@ -11,12 +11,23 @@ use nFramework\Service\Session;
 
 class LoginAction extends Action {
 
-  public function execute(Context $context) {
-    $session = new Session();
-    $response = new Response();
-    $session->start();
+  private $session;
 
-    if ($session->valid()) {
+  private $user;
+
+  private $userMapper;
+
+  public function __construct(Session $session, User $user, UserMapper $userMapper) {
+    $this->session = $session;
+    $this->user = $user;
+    $this->userMapper = $userMapper;
+  }
+
+  public function execute(Context $context) {
+    $response = new Response();
+    $this->session->start();
+
+    if ($this->session->valid()) {
       return $response->redirect(url());
     }
 
@@ -24,13 +35,11 @@ class LoginAction extends Action {
     $password = $context->get('password');
 
     if (isset($username) && isset($password)) {
-      $mapper = new UserMapper();
-      $user = new User();
-      $user->setUsername($username);
-      $mapper->find($user);
+      $this->user->setUsername($username);
+      $this->userMapper->find($this->user);
 
-      if (hash('sha256', $password) == $user->getPassword()) {
-        $session->validate($context);
+      if (hash('sha256', $password) == $this->user->getPassword()) {
+        $this->session->validate($context);
 
         return $response->redirect(url());
       }

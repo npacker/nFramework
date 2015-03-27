@@ -9,6 +9,8 @@ final class AppController {
 
   private $action;
 
+  private $container;
+
   private $packages;
 
   private $parameters;
@@ -17,9 +19,8 @@ final class AppController {
 
   private $paths;
 
-  private $view;
-
   public function __construct(array $packages) {
+    $this->container = new DependencyContainer();
     $this->packages = $packages;
     $this->paths = $this->loadPaths($packages);
   }
@@ -31,14 +32,7 @@ final class AppController {
       if ($matcher->match($request->path())) {
         $this->path = $path;
         $this->parameters = $matcher->getParameters();
-
-        if (property_exists($path, 'action')) {
-          $this->setAction($this->classname($path->action));
-        }
-
-        if (property_exists($path, 'view')) {
-          $this->setView($this->classname($path->view));
-        }
+        $this->setAction(str_replace(':', '\\', $this->path->action));
 
         return $this;
       }
@@ -48,49 +42,24 @@ final class AppController {
   }
 
   public function getAction() {
-    if ($action = $this->instantiate($this->action)) {
-      if (isset($this->path->preprocessors)) {
-        foreach ($this->path->preprocessors as $preprocessor) {
-          $action = $this->instantiate("nFramework\\Service\\" . $preprocessor, $action);
-        }
-      }
+    $action = $this->container->build($this->action);
 
-      return $action;
+    if (isset($this->path->preprocessors)) {
+      foreach ($this->path->preprocessors as $preprocessor) {
+        $concrete = "nFramework\\Service\\" . $preprocessor;
+        $action = new $concrete($action);
+      }
     }
 
-    return null;
+    return $action;
   }
 
   public function getParameters() {
     return $this->parameters;
   }
 
-  public function getView() {
-    return $this->instantiate($this->view);
-  }
-
   public function setAction($action) {
     $this->action = $action . 'Action';
-  }
-
-  public function setView($view) {
-    $this->view = $view . 'View';
-  }
-
-  private function classname($class) {
-    return str_replace(':', '\\', $class);
-  }
-
-  private function instantiate($classname, $parameter = null) {
-    if ($classname) {
-      if (!class_exists($classname)) {
-        throw new RuntimeException('Class ' . $classname . ' is undefined.');
-      }
-
-      return $class = new $classname($parameter);
-    }
-
-    return null;
   }
 
   private function loadPaths(array $packages) {
