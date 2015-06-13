@@ -10,7 +10,7 @@ abstract class ValidationStrategy {
     $this->name = $name;
   }
 
-  final public function name() {
+  public function name() {
     return $this->name;
   }
 
