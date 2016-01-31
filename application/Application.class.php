@@ -20,7 +20,7 @@ final class Application {
 
   public function handle(Request $request) {
     try {
-      $controller = new AppController($this->packages);
+      $controller = new Dispatcher($this->packages);
       $action = $controller->build($request)->getAction();
       $context = new Context(
         $controller->getParameters(),
@@ -42,7 +42,7 @@ final class Application {
     $context
       ->set('uri', $request->path()->value())
       ->set('message', $e->getMessage())
-      ->set('code', HttpError::code($e));
+      ->set('code', $e->getCode());
 
     $this->dispatch(new HttpErrorViewAction(), $context);
   }

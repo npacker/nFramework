@@ -2,10 +2,6 @@
 
 namespace nFramework\Model;
 
-use Exception;
-use nFramework\Exception\AccessDeniedException;
-use nFramework\Exception\ResourceNotFoundException;
-
 class HttpError extends DomainObject {
 
   const BAD_REQUEST = 400;
@@ -63,16 +59,6 @@ class HttpError extends DomainObject {
   protected $uri;
 
   protected $title;
-
-  public static function code(Exception $e) {
-    if ($e instanceof ResourceNotFoundException) {
-      return self::NOT_FOUND;
-    } else if ($e instanceof AccessDeniedException) {
-      return self::ACCESS_DENIED;
-    } else {
-      return self::SERVER_ERROR;
-    }
-  }
 
   public function __construct(array $data = array()) {
     if (isset($data['title'])) {

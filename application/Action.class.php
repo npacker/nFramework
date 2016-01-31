@@ -2,8 +2,8 @@
 
 namespace nFramework;
 
-abstract class Action {
+interface Action {
 
-  abstract public function execute(Context $context);
+  public function execute(Context $context);
 
 }

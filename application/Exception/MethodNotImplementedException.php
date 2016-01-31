@@ -2,10 +2,9 @@
 
 namespace nFramework\Exception;
 
-use RuntimeException;
-use nFramework\Model\HttpError;
+use BadMethodCallException;
 
-class FileNotFoundException extends RuntimeException {
+class MethodNotImplementedException extends BadMethodCallException {
 
   public function __construct($message, Exception $previous = null) {
     parent::__construct($message, HttpError::SERVER_ERROR, $previous);

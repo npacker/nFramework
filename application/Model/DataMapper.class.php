@@ -2,31 +2,20 @@
 
 namespace nFramework\Model;
 
-use nFramework\Database\MySqlDatabase;
+interface DataMapper {
 
-abstract class DataMapper implements iDataMapper {
+  public function attributes();
 
-  protected $database;
+  public function create(DomainObject $object);
 
-  public function __construct() {
-    global $databases;
+  public function delete(DomainObject $object);
 
-    $this->database = MySqlDatabase::instance(
-      $databases['default']['hostname'],
-      $databases['default']['database'],
-      $databases['default']['username'],
-      $databases['default']['password']
-    );
-  }
+  public function find(DomainObject $object);
 
-  abstract public function create(DomainObject $object);
+  public function findAll();
 
-  abstract public function delete(DomainObject $object);
+  public function relation();
 
-  abstract public function find(DomainObject $object);
-
-  abstract public function findAll();
-
-  abstract public function update(DomainObject $object);
+  public function update(DomainObject $object);
 
 }

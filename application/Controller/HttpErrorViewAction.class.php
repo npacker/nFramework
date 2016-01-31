@@ -8,7 +8,7 @@ use nFramework\View\Template;
 use nFramework\Model\HttpError;
 use nFramework\Response;
 
-class HttpErrorViewAction extends Action {
+class HttpErrorViewAction implements Action {
 
   public function execute(Context $context) {
     $code = $context->get('code');

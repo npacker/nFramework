@@ -2,8 +2,8 @@
 
 namespace nFramework\Model;
 
-abstract class DomainObjectFactory implements iDomainObjectFactory {
+interface DomainObjectFactory {
 
-  abstract public function create(array $data);
+  public function create(array $data);
 
 }

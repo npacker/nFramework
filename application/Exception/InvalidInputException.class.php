@@ -2,8 +2,12 @@
 
 namespace nFramework\Exception;
 
-use RuntimeException;
+use DomainException;
 
-class InvalidInputException extends RuntimeException {
+class InvalidInputException extends DomainException {
+
+  public function __construct($message, Exception $previous = null) {
+    parent::__construct($message, HttpError::SERVER_ERROR, $previous);
+  }
 
 }

@@ -17,12 +17,22 @@ class Number extends ValidationStrategy {
   }
 
   public function validate($input) {
+    $valid = true;
+    $message = $this->name();
+
     if (!is_numeric($input)) {
-      throw new InvalidInputException($this->name() . ' was in an invalid format');
+      $valid = false;
+      $message .= ' was in an invalid format';
     } else if (isset($this->min) && $input < $this->min) {
-      throw new InvalidInputException($this->name() . ' must be greater than ' . $this->min);
+      $valid = false;
+      $message .= ' must be greater than ' . $this->min;
     } else if (isset($this->max) && $input > $this->max) {
-      throw new InvalidInputException($this->name() . ' must be less than ' . $this->max);
+      $valid = false;
+      $message .= ' must be less than ' . $this->max;
+    }
+
+    if (!$valid) {
+      throw new InvalidInputException($message);
     }
   }
 
